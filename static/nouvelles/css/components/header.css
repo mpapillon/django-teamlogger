@@ -1,0 +1,54 @@
+.nouvelles-header {
+  background-color: #246f99;
+  color: #ffffff;
+  box-shadow: 0 2px 0 0 #2c87bb;
+}
+.nouvelles-header .nouvelles-auth {
+  font-size: 0.9rem;
+  margin: 0.25rem 1rem 0 0;
+  float: right;
+}
+.nouvelles-header .nouvelles-auth a {
+  color: inherit;
+}
+.nouvelles-header .nouvelles-auth a:hover {
+  text-decoration: underline;
+}
+.nouvelles-header .nouvelles-title {
+  margin: 0;
+  padding: 1rem;
+  font-weight: 200;
+}
+.nouvelles-header .nouvelles-title a {
+  color: inherit;
+}
+.nouvelles-header .nouvelles-header-bottom {
+  background-color: #6fb6dd;
+  box-shadow: inset 0 2px 0 0 #1a5170;
+}
+.nouvelles-header .nouvelles-header-bottom .nouvelles-nav {
+  padding: 0 1rem;
+  margin: 0;
+  display: flex;
+  list-style: none;
+  font-size: 0.95rem;
+}
+.nouvelles-header .nouvelles-header-bottom .nouvelles-nav .nouvelles-nav-item {
+  margin: 0 0.3rem 0 0;
+  font-size: 0.9rem;
+}
+.nouvelles-header .nouvelles-header-bottom .nouvelles-nav .nouvelles-nav-item a {
+  padding: 0.4rem 0.7rem 0.3rem 0.7rem;
+  display: block;
+  color: inherit;
+  text-decoration: none;
+}
+.nouvelles-header .nouvelles-header-bottom .nouvelles-nav .nouvelles-nav-item:hover {
+  box-shadow: inset 0 2px 0 0 #1a5170;
+  background-color: #99cbe7;
+}
+.nouvelles-header .nouvelles-header-bottom .nouvelles-nav .nouvelles-nav-item.active {
+  background-color: #246f99;
+  color: #ffffff;
+  box-shadow: 0 2px 0 0 #1a5170;
+}

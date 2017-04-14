@@ -1,0 +1,142 @@
+{% extends "base.html" %}
+{% load nouvelles %}
+
+{% block title %}{% site_title title %}{% endblock %}
+{% load static %}
+
+{% block content %}
+    <div class="content-wrapper">
+        <div class="shadowed-box content-title">
+            <h2 class="title">{{ title }}</h2>
+        </div>
+        <div class="content">
+            <div class="shadowed-box content-box">
+                <form name="form_article" class="article-form" method="post">
+                    {% csrf_token %}
+
+                    <div class="field-wrapper large">
+                        {{ form.title.errors }}
+                        {{ form.title.label_tag }}
+                        {{ form.title }}
+                    </div>
+
+                    <div class="field-wrapper">
+                        {{ form.criticality.errors }}
+                        {{ form.criticality.label_tag }}
+                        {{ form.criticality }}
+                    </div>
+
+                    <div class="field-wrapper">
+                        {{ form.effective_date.errors }}
+                        {{ form.effective_date.label_tag }}
+                        {{ form.effective_date }}
+                    </div>
+
+                    <div class="field-wrapper large">
+                        {{ form.tags.errors }}
+                        {{ form.tags.label_tag }}
+                        {{ form.tags }}
+                    </div>
+
+                    <div class="field-wrapper large">
+                        {{ form.description.errors }}
+                        {{ form.description.label_tag }}
+                        <div class="tabs-container" id="editor-tabs">
+                            <ul class="tab-list">
+                                <li class="tab active"><a data-target="editor" href="#editor">Editor</a></li>
+                                <li class="tab"><a data-target="preview" href="#preview">Preview</a></li>
+                            </ul>
+                            <div id="editor" class="tab-content active">
+                                {{ form.description }}
+                                <p class="help-text">You can use <a
+                                        href="https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet"
+                                        target="_blank">Markdown
+                                    syntax</a>.</p>
+                            </div>
+                            <div id="preview" class="tab-content" style="max-height: 30rem; overflow: auto">
+                                <div id="md_preview" class="markdown-body">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="field-wrapper" style="display: none;">
+                        {{ form.attachments.errors }}
+                        {{ form.attachments.label_tag }}
+                        {{ form.attachments }}
+                    </div>
+
+                    <div class="field-wrapper large">
+                        {{ form.attachments.label_tag }}
+                        <ul id="js-attachments" class="attachments-list">
+                            {% for attach in attachment_list %}
+                                <li id="attach_{{ attach.id }}">
+                                    <p>
+                                        <a href="{% url 'download_attachment' attach.id %}"
+                                           class="i-attach">{{ attach.file_name }}</a> -
+                                        <small>[<a href="javascript:removeAttachment({{ attach.id }})">remove</a>]
+                                        </small>
+                                    </p>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </form>
+            </div>
+
+            <div class="content-box">
+                <div class="shadowed-box">
+
+                    <a title="Save and publish the article" class="button success"
+                       href="javascript:form_article.submit()"><span class="i-disk">Publish</span></a>
+
+                    <form name="attachment_form" enctype="multipart/form-data" style="display: inline-block">
+                        <label class="button file-upload" title="Upload and add attachment to this article"> <span
+                                class="i-attach">{{ attachment_form.file.label }}</span>
+                            {{ attachment_form.file }}
+                        </label>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {% if article.parent_article %}
+        {% article article.parent_article %}
+    {% elif parent_article %}
+        {% article parent_article %}
+    {% endif %}
+{% endblock %}
+
+{% block scripts %}
+    <script>
+        var upload_url = "{% url 'upload_attachment' %}";
+        var download_url = "{% url 'download_attachment' '0000' %}";
+        var preview_url = "{% url 'preview' %}";
+    </script>
+
+    <script src="{% static 'nouvelles/js/tabs.js' %}"></script>
+    <script src="{% static 'nouvelles/js/attachment-upload.js' %}"></script>
+
+    <script>
+        $('#id_tags').select2({width: '100%'});
+    </script>
+
+    <script>
+        var $editorTabs = $('#editor-tabs');
+
+        $editorTabs.tabs(function (tabName) {
+            if (tabName === 'preview') {
+                $.ajax({
+                    url: preview_url,
+                    type: 'post',
+                    data: {"text": $('#id_description').val()},
+                    success: function(data) {
+                        $('#md_preview').html(data);
+                        $('#preview').height($('#editor').height());
+                    }
+                });
+            }
+        });
+    </script>
+{% endblock %}

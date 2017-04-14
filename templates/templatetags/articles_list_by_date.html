@@ -1,0 +1,49 @@
+{% load markdown_deux_tags %}
+
+{% for key, values in articles.items %}
+    <div class="">
+        <h4 class="title">
+            {{ key }}
+        </h4>
+    </div>
+    <ul class="article-list">
+        {% for article in values %}
+            <li class="shadowed-box" style="display: flex;flex-wrap: wrap;">
+                <h5 class="title" style="flex: 1 100%;">
+                    <a href="{% url 'detail' article.slug %}">
+                    <span class="{% if article.criticality == 'L' %}
+                    i-information
+                {% elif article.criticality == 'M' %}
+                    i-error
+                {% elif article.criticality == 'H' %}
+                    i-exclamation
+                {% endif %}"></span>{{ article.title }}
+                    </a>
+                </h5>
+                <p class="description" style="flex: 1 0 100%;">{{ article.description|markdown|striptags|truncatewords:45 }}</p>
+                <small title="Publication date" class="i-date" style="flex: 1 1 25%;">
+                    {{ article.effective_date|date }}
+                </small>
+                {% if article.article_set.count %}
+                    <small title="Replies" class="i-note-go" style="flex: 1 1 25%;">{{ article.article_set.count }}
+                        {% if article.article_set.count > 1 %}replies{% else %}reply{% endif %}</small>
+                {% endif %}
+                <a title="Author" href="{% url 'archives' %}?author={{ article.author.username }}"
+                   style="flex: 0 1 25%;">
+                    <small class="i-user">{{ article.author }}</small>
+                </a>
+
+                <small class="i-tag-blue" style="flex: 1 100%;">
+                    {% if article.tags.all|length > 0 %}
+                        {% for tag in article.tags.all %}
+                            <a href="{% url 'archives' %}?tag={{ tag.slug }}">{{ tag.name }}</a>
+                            {% if forloop.last is not True %}, {% endif %}
+                        {% endfor %}
+                    {% else %}
+                        No tags
+                    {% endif %}
+                </small>
+            </li>
+        {% endfor %}
+    </ul>
+{% endfor %}

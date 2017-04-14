@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% load markdown_deux_tags %}
+{% load nouvelles %}
+
+{% block title %}{% site_title 'Login' %}{% endblock %}
+
+{% block content %}
+    <div class="shadowed-box centered">
+        <h3 class="title">Login</h3>
+        {% if form.errors %}
+            <div class="message danger">Your username and password didn't match. Please try again.</div>
+        {% endif %}
+        {% if next %}
+            <div class="message warning">
+                {% if user.is_authenticated %}
+                    Your account doesn't have access to this page. To proceed,
+                    please login with an account that has access.
+                {% else %}
+                    Please login to see this page.
+                {% endif %}
+            </div>
+        {% endif %}
+        <form method="post" action="{% url 'login' %}">
+            {% csrf_token %}
+            <div class="field-wrapper">
+                {{ form.username.label_tag }}
+                {{ form.username }}
+            </div>
+            <div class="field-wrapper">
+                {{ form.password.label_tag }}
+                {{ form.password }}
+            </div>
+
+            <input type="submit" class="button" value="Login"/>
+            <input type="hidden" name="next" value="{{ next }}"/>
+        </form>
+    </div>
+{% endblock %}

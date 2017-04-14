@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+{% load static %}
+{% load nouvelles %}
+{% load markdown_deux_tags %}
+
+{% block title %}{% site_title article.title %}{% endblock %}
+
+{% block styles %}
+    <link rel="stylesheet" type="text/css" href="{% static 'nouvelles/css/code-colors/vs.css' %}"/>{% endblock %}
+{% block content %}
+
+    <div class="content-wrapper">
+        <div class="shadowed-box content-title">
+            <h2 class="title">{{ article.title }}</h2>
+        </div>
+        <div class="content">
+            {% article article %}
+        </div>
+        <div class="shadowed-box content-sidebar">
+            <p><a class="button large" href="{% url 'create_reply' article.slug %}"><span class="i-note-go"></span>Reply</a>
+            </p>
+            {% if article.parent_article %}
+                <p><a class="button large" href="{% url 'create_reply' article.parent_article.slug %}"><span
+                        class="i-note-go"></span>Reply from parent</a></p>
+            {% endif %}
+            {% if user.is_authenticated %}
+                <hr/>
+                <p><a class="button large" href="{% url 'edit' article.slug %}"><span class="i-note-edit"></span>Edit
+                    this
+                    article</a></p>
+                <p><a class="button large danger" href="{% url 'delete' article.slug %}"><span
+                        class="i-note-delete"></span>Delete this article</a></p>
+            {% endif %}
+        </div>
+    </div>
+
+    {% if article.article_set.count %}
+        <div class="content-wrapper">
+            <div class="shadowed-box content-title">
+                <h4 class="title">Replies</h4>
+            </div>
+            <div class="content">
+                <div class="content-box">
+                    {% articles_list article.article_set.all %}
+                </div>
+            </div>
+        </div>
+    {% endif %}
+{% endblock %}

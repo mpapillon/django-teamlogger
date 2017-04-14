@@ -1,0 +1,111 @@
+form .field-wrapper {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 1rem;
+}
+form .field-wrapper .help-text {
+  margin-top: 0;
+  font-size: 0.8rem;
+  font-style: italic;
+}
+form .field-wrapper:last-child {
+  margin-bottom: 0;
+}
+form .field-wrapper .errorlist {
+  order: 3;
+  color: #a74542;
+  list-style: none;
+  margin: 0.3rem 0 0 0;
+  padding: 0;
+  font-size: 0.8rem;
+  font-style: italic;
+}
+form .field-wrapper .errorlist + label {
+  color: #a74542;
+}
+form .field-wrapper .errorlist + label + input {
+  box-shadow: inset 0 -1px 0 0 #a74542;
+  transition: box-shadow 0.2s ease-in-out;
+}
+form .field-wrapper .errorlist + label + input:focus,
+form .field-wrapper .errorlist + label + input:active {
+  box-shadow: inset 0 -2px 0 0 #823634;
+  outline: none;
+}
+fieldset {
+  border: 1px solid rgba(0, 0, 0, 0.4);
+  padding: 0.5rem;
+  margin-bottom: 1rem;
+}
+label {
+  font-size: 0.8rem;
+  padding-left: 0.2rem;
+  margin-bottom: 0.1rem;
+  color: rgba(0, 0, 0, 0.4);
+}
+textarea {
+  min-height: 9.5rem;
+  font-family: Consolas, "Liberation Mono", Menlo, Courier, monospace;
+  resize: vertical;
+}
+input[type=text],
+input[type=password],
+textarea,
+.form-elm {
+  min-width: 11.55rem;
+}
+input[type=text],
+input[type=password],
+select,
+textarea,
+.select2-selection,
+.form-elm {
+  background: none;
+  box-sizing: content-box;
+  border: none;
+  box-shadow: inset 0 -1px 0 0 rgba(0, 0, 0, 0.4);
+  font-size: 0.9rem;
+  height: 2rem;
+  border-radius: 0;
+  padding: 0.2rem;
+  -moz-appearance: none;
+  -webkit-appearance: none;
+  transition: box-shadow 0.2s ease-in-out;
+}
+input[type=text]:focus,
+input[type=password]:focus,
+select:focus,
+textarea:focus,
+.select2-selection:focus,
+.form-elm:focus,
+input[type=text]:active,
+input[type=password]:active,
+select:active,
+textarea:active,
+.select2-selection:active,
+.form-elm:active {
+  box-shadow: inset 0 -2px 0 0 #1a5170;
+  outline: none;
+}
+/*textarea {
+  border: 1px solid rgba(0, 0, 0, 0.4);
+  transition: border-color 0.2s ease-in-out;
+
+  &:focus, &:active {
+    border-color: @darken-accent-color;
+  }
+}*/
+select {
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' version='1.1' width='32' height='24' viewBox='0 0 32 24'><polygon points='0,0 32,0 16,24' style='fill: rgb%28138, 138, 138%29'></polygon></svg>");
+  background-origin: content-box;
+  background-position: right -1rem center;
+  background-repeat: no-repeat;
+  background-size: 9px 6px;
+  padding-right: 1.55rem;
+  min-width: 10.2rem;
+}
+select[multiple],
+.select2-selection {
+  min-height: 5rem;
+  background-image: none;
+}

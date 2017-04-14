@@ -1,0 +1,30 @@
+@import "colors";
+
+.message {
+  padding: 0.7rem;
+  box-shadow: inset 0 2px 0 0 rgba(0, 0, 0, 0.4);
+  margin-bottom: 1rem;
+  color: lighten(rgb(0, 0, 0), 10%);
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+
+  &.warning {
+    background-color: @warning-color;
+  }
+
+  &.success {
+    background-color: @success-color;
+    color: @default-white;
+  }
+
+  &.danger {
+    background-color: @danger-color;
+    color: @default-white;
+  }
+
+  &.secondary {
+    background-color: @secondary-color;
+  }
+}

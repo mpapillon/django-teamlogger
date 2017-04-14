@@ -1,0 +1,35 @@
+{% load static %}
+{% load nouvelles %}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{% block title %}{% endblock %}</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'nouvelles/css/icons.css' %}"/>
+    <link rel="stylesheet" type="text/css" href="{% static 'nouvelles/css/github-markdown.css' %}"/>
+    <link rel="stylesheet" type="text/css" href="{% static 'nouvelles/css/select2.min.css' %}"/>
+    <link rel="stylesheet" type="text/css" href="{% static 'nouvelles/css/style.css' %}"/>
+    {% block styles %}{% endblock %}
+</head>
+<body>
+{% nouvelles_header %}
+<div class="row main-content">
+    {% if messages %}
+        <div class="shadowed-box messages">
+            {% for message in messages %}
+                <div class="message {% if message.tags %}{{ message.tags }}{% endif %}">{{ message }}</div>
+            {% endfor %}
+        </div>
+    {% endif %}
+    {% block content %}{% endblock %}
+    <hr/>
+    {% nouvelles_footer %}
+</div>
+
+<script src="https://code.jquery.com/jquery-3.1.1.min.js"
+        integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
+        crossorigin="anonymous"></script>
+<script src="{% static 'nouvelles/js/select2.full.min.js' %}"></script>
+{% block scripts %}{% endblock %}
+</body>
+</html>

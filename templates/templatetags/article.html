@@ -1,0 +1,44 @@
+{% load markdown_deux_tags %}
+{% load nouvelles %}
+
+<div class="shadowed-box content-box article">
+    <div class="article-header">
+        <div class="article-header-row">
+            <div class="article-header-title"><p>Title: </p></div>
+            <div class="article-header-content"><p>{% article_name article %}</p></div>
+        </div>
+        <div class="article-header-row">
+            <div class="article-header-title"><p>Date: </p></div>
+            <div class="article-header-content">
+                <p><span class="i-date">{{ article.creation_date|date }}</span></p>
+            </div>
+        </div>
+        <div class="article-header-row">
+            <div class="article-header-title"><p>Author: </p></div>
+            <div class="article-header-content">
+                <p><a href="{% url 'archives' %}?author={{ article.author.username }}"
+                      class="i-user">{{ article.author }}</a></p>
+            </div>
+        </div>
+        {% if article.attachments.count %}
+            <div class="article-header-row">
+                <div class="article-header-title">Attachments:</div>
+                <div class="article-header-content">
+                    <ul class="no-bullet">
+                        {% for attach in article.attachments.all %}
+                            <li><a href="{% url 'download_attachment' attach.id %}"
+                                   class="i-attach">{{ attach.file_name }}</a></li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+        {% endif %}
+    </div>
+    <div class="markdown-body">
+        {{ article.description|markdown }}
+    </div>
+</div>
+
+{% if show_parents and article.parent_article %}
+    {% article article.parent_article %}
+{% endif %}
