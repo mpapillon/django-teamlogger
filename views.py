@@ -19,6 +19,7 @@ from django.contrib.messages.views import SuccessMessageMixin
 
 from nouvelles.forms import ArchiveFiltersForm, UploadAttachmentForm, ArticleForm
 from nouvelles.models import Article, Attachment
+from nouvelles.settings import HEADLINES_DAYS
 
 # ----------------
 #      Mixins
@@ -83,7 +84,7 @@ class FormFilterMixin(FormMixin, FilterMixin):
 
 
 class ArticleNewsListView(ViewTitleMixin, FilterMixin, ListView):
-    query_date = (timezone.now() - timedelta(3)).date()
+    query_date = (timezone.now() - timedelta(HEADLINES_DAYS)).date()
 
     title = 'Headlines'
     context_object_name = 'article_list'
