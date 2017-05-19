@@ -1,6 +1,7 @@
 from django.conf.urls import url
 
 from . import views
+from . import feeds
 
 urlpatterns = [
     # ex: /nouvelles/
@@ -24,4 +25,7 @@ urlpatterns = [
     url(r'^attachment/upload/$', views.AttachmentUploadAjaxView.as_view(), name='upload_attachment'),
     # ex: /nouvelles/attachment/download/12
     url(r'^attachment/download/(?P<pk>[0-9]+)/$', views.AttachmentDownloadView.as_view(), name='download_attachment'),
+
+    # ex: /nouvelles/feeds/headlines
+    url(r'^feeds/headlines/$', feeds.HeadlinesFeed(), name='headlines_feed'),
 ]

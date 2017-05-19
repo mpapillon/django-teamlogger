@@ -3,6 +3,10 @@
 
 {% block title %}{% site_title title %}{% endblock %}
 
+{% block head_links %}
+    <link href="{% url 'headlines_feed' %}" rel="alternate" type="application/rss+xml" title="Headlines" />
+{% endblock %}
+
 {% block content %}
     <div class="content-wrapper">
         <div class="shadowed-box content-title">
@@ -49,6 +53,9 @@
                     </ul>
                     <a class="button large secondary" href="{% url 'index' %}"><span class="i-bin"></span>Clear
                         filters</a>
+                </div>
+                <div class="shadowed-box">
+                    <a class="button large syndication" href="{% url 'headlines_feed' %}"><span class="i-feed"></span>Subscribe to headlines</a>
                 </div>
             </div>
         {% else %}

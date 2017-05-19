@@ -112,3 +112,9 @@
     padding-left: 22px;
 }
 
+.i-feed {
+    background: url(../icons/feed.png) no-repeat 0 50%;
+    image-rendering: pixelated;
+    padding-left: 22px;
+}
+

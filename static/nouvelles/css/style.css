@@ -274,6 +274,12 @@ select[multiple],
 .button.secondary:focus {
   background-color: #989898;
 }
+.button.syndication {
+  background-color: #ff961f;
+}
+.button.syndication:focus {
+  background-color: #eb7d00;
+}
 .button.large {
   display: block;
   margin-right: 0;
