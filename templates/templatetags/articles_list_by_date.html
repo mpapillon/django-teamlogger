@@ -30,7 +30,13 @@
                 {% endif %}
                 <a title="Author" href="{% url 'archives' %}?author={{ article.author.username }}"
                    style="flex: 0 1 25%;">
-                    <small class="i-user">{{ article.author }}</small>
+                    <small class="i-user">
+                        {% if article.author.get_full_name %}
+                            {{ article.author.get_full_name }}
+                        {%  else %}
+                            {{ article.author }}
+                        {% endif %}
+                    </small>
                 </a>
 
                 <small class="i-tag-blue" style="flex: 1 100%;">

@@ -144,9 +144,15 @@ class ArticleNewsListView(ViewTitleMixin, FilterMixin, ListView):
                     'url': self.url('criticality', criticality_id)}
 
         # Gets articles authors
-        for author_username in self.queryset.values_list('author__username', flat=True):
-            if not any(d['username'] == author_username for d in authors):
-                authors.append({'username': author_username, 'url': self.url('author', author_username)})
+        from django.contrib.auth.models import User
+
+        for author in User.objects.filter(id__in=self.queryset.values('author')):
+            if not any(d['username'] == author.username for d in authors):
+                full_name = author.get_full_name()
+                authors.append({
+                    'username': author.username,
+                    'full_name': full_name if len(full_name) > 0 else author.username,
+                    'url': self.url('author', author.username)})
 
         # Gets articles tags
         for (tag_slug, tag_name) in self.queryset.values_list('tags__slug', 'tags__name'):

@@ -16,8 +16,15 @@
         <div class="article-header-row">
             <div class="article-header-title"><p>Author: </p></div>
             <div class="article-header-content">
-                <p><a href="{% url 'archives' %}?author={{ article.author.username }}"
-                      class="i-user">{{ article.author }}</a></p>
+                <p>
+                    <a href="{% url 'archives' %}?author={{ article.author.username }}" class="i-user">
+                        {% if article.author.get_full_name %}
+                            {{ article.author.get_full_name }}
+                        {%  else %}
+                            {{ article.author }}
+                        {% endif %}
+                    </a>
+                </p>
             </div>
         </div>
         {% if article.attachments.count %}

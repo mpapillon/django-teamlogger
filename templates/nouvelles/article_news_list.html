@@ -35,7 +35,7 @@
                     <ul class="no-bullet nouvelles-filter">
                         {% for a in author_filters %}
                             <li {% if request.GET.author == a.username %}class="active"{% endif %}>
-                                <a class="i-user" href="{{ a.url }}">{{ a.username }}</a>
+                                <a class="i-user" href="{{ a.url }}">{{ a.full_name }}</a>
                             </li>
                         {% endfor %}
                     </ul>

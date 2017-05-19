@@ -8,6 +8,11 @@ from nouvelles.models import Attachment, Article, Tag
 
 
 class ArchiveFiltersForm(forms.Form):
+    class UserModelChoiceField(forms.ModelChoiceField):
+        def label_from_instance(self, obj):
+            full_name = obj.get_full_name()
+            return full_name if len(full_name) > 0 else obj.username
+
     criticality_choices = [
         (None, "-- All criticalities --")
     ]
@@ -15,7 +20,7 @@ class ArchiveFiltersForm(forms.Form):
     criticality_choices += list(Article.CRITICALITY_CHOICES)
 
     title = forms.CharField(label='Title', required=False)
-    author = forms.ModelChoiceField(
+    author = UserModelChoiceField(
         label='Author',
         queryset=User.objects.all().order_by('username'),
         to_field_name='username',
