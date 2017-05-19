@@ -27,6 +27,19 @@
                 </p>
             </div>
         </div>
+        {% if article.tags.count %}
+        <div class="article-header-row">
+            <div class="article-header-title"><p>Tags: </p></div>
+            <div class="article-header-content">
+                <p>
+                    {% for tag in article.tags.all %}
+                        <a class="i-tag-blue" href="{% url 'archives' %}?tag={{ tag.slug }}">{{ tag.name }}</a>
+                        {% if forloop.last is not True %}, {% endif %}
+                    {% endfor %}
+                </p>
+            </div>
+        </div>
+        {% endif %}
         {% if article.attachments.count %}
             <div class="article-header-row">
                 <div class="article-header-title">Attachments:</div>
