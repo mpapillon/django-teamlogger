@@ -19,10 +19,6 @@
         <div class="shadowed-box content-sidebar">
             <p><a class="button large" href="{% url 'create_reply' article.slug %}"><span class="i-note-go"></span>Reply</a>
             </p>
-            {% if article.parent_article %}
-                <p><a class="button large" href="{% url 'create_reply' article.parent_article.slug %}"><span
-                        class="i-note-go"></span>Reply from parent</a></p>
-            {% endif %}
             {% if user.is_authenticated %}
                 <hr/>
                 <p><a class="button large" href="{% url 'edit' article.slug %}"><span class="i-note-edit"></span>Edit
