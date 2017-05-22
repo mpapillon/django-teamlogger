@@ -10,7 +10,7 @@
         <div class="article-header-row">
             <div class="article-header-title"><p>Date: </p></div>
             <div class="article-header-content">
-                <p><span class="i-date">{{ article.creation_date|date }}</span></p>
+                <p><a href="{% url 'archives' %}?date={{ article.effective_date|date:"o-m-d" }}" class="i-date">{{ article.creation_date|date }}</a></p>
             </div>
         </div>
         <div class="article-header-row">
