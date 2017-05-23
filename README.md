@@ -65,8 +65,8 @@ You can add the following settings into your `<myapp>/settings.py` to customize 
 
 ## Todo
 
- - [ ] Email sending : new article, weekly news
- - [ ] Add permissions
+ - [ ] Email sending : weekly news
+ - [X] Add permissions
  - [ ] Use Bower or something else for dependencies (select2, github-mardown.css, etc...)
  - [ ] Add tests
  - [X] Better README with installation instructions and avalaible settings
