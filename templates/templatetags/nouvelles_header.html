@@ -10,16 +10,18 @@
     <div class="nouvelles-header-bottom">
         <div class="row">
             <ul class="nouvelles-nav">
-                <li class="nouvelles-nav-item {% if url_name == 'index' %}active{% endif %}">
+                <li class="nouvelles-nav-item {% if path_name == 'index' %}active{% endif %}">
                     <a href="{% url 'index' %}"><span class="i-newspaper">News</span></a>
                 </li>
-                <li class="nouvelles-nav-item {% if url_name == 'create' or url_name == 'create_reply' %}active{% endif %}">
+                {% if perms.nouvelles.add_article %}
+                <li class="nouvelles-nav-item {% if path_name == 'create' or path_name == 'create_reply' %}active{% endif %}">
                     <a href="{% url 'create' %}"><span class="i-note-add">New article</span></a>
                 </li>
-                <li class="nouvelles-nav-item {% if url_name == 'archives' %}active{% endif %}">
+                {% endif %}
+                <li class="nouvelles-nav-item {% if path_name == 'archives' %}active{% endif %}">
                     <a href="{% url 'archives' %}"><span class="i-box">Archives</span></a>
                 </li>
-                {% if user.is_staff or user.is_superuser %}
+                {% if user.is_staff %}
                     <li class="nouvelles-nav-item">
                         <a href="{% url 'admin:index' %}"><span class="i-wrench">Administration</span></a>
                     </li>

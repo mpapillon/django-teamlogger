@@ -1,5 +1,7 @@
 from datetime import timedelta
 
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import PermissionRequiredMixin, UserPassesTestMixin
 from django.http import HttpResponse, JsonResponse, Http404
 from django.shortcuts import get_object_or_404
 from django.urls import reverse, reverse_lazy
@@ -13,7 +15,6 @@ from django.views.generic.detail import SingleObjectMixin
 from django.views.generic.list import MultipleObjectMixin
 from django.views.generic.edit import FormMixin
 
-from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.views import redirect_to_login
 from django.contrib.messages.views import SuccessMessageMixin
 
@@ -197,10 +198,13 @@ class ArticleDetailView(DetailView):
     model = Article
 
 
-class ArticleCreateView(LoginRequiredMixin, ViewTitleMixin, CreateView):
+@method_decorator(login_required, name="dispatch")
+class ArticleCreateView(PermissionRequiredMixin, ViewTitleMixin, CreateView):
     title = "New article"
     model = Article
     form_class = ArticleForm
+
+    permission_required = 'nouvelles.add_article'
 
     def form_valid(self, form):
         # Add connected user as author
@@ -213,6 +217,7 @@ class ArticleCreateView(LoginRequiredMixin, ViewTitleMixin, CreateView):
         return context
 
 
+@method_decorator(login_required, name="dispatch")
 class ArticleReplyView(ArticleCreateView):
     title = 'New reply'
     parent_article = None
@@ -243,10 +248,16 @@ class ArticleReplyView(ArticleCreateView):
         return super(ArticleReplyView, self).form_valid(form)
 
 
-class ArticleEditView(LoginRequiredMixin, ViewTitleMixin, UpdateView):
+@method_decorator(login_required, name="dispatch")
+class ArticleEditView(UserPassesTestMixin, ViewTitleMixin, UpdateView):
     title = "Edit article"
     model = Article
     form_class = ArticleForm
+
+    def test_func(self):
+        user = self.request.user
+        article = self.get_object()
+        return user.has_perm('nouvelles.change_article') or article.author == user
 
     def form_valid(self, form):
         form.instance.editor = self.request.user
@@ -259,11 +270,14 @@ class ArticleEditView(LoginRequiredMixin, ViewTitleMixin, UpdateView):
         return context
 
 
-class ArticleDeleteView(LoginRequiredMixin, ViewTitleMixin, SuccessMessageMixin, DeleteView):
+@method_decorator(login_required, name="dispatch")
+class ArticleDeleteView(PermissionRequiredMixin, ViewTitleMixin, SuccessMessageMixin, DeleteView):
     model = Article
     success_url = reverse_lazy('index')
     title = 'Delete confirmation'
     success_message = 'The article "%(title)s" has been deleted.'
+
+    permission_required = 'nouvelles.delete_article'
 
     def delete(self, request, *args, **kwargs):
         from django.contrib import messages
@@ -293,9 +307,12 @@ class AttachmentDownloadView(SingleObjectMixin, View):
             raise Http404('Attachment not found')
 
 
-class AttachmentUploadAjaxView(LoginRequiredMixin, CreateView):
+@method_decorator(login_required, name="dispatch")
+class AttachmentUploadAjaxView(PermissionRequiredMixin, CreateView):
     model = Attachment
     form_class = UploadAttachmentForm
+
+    permission_required = 'nouvelles.add_attachment'
 
     def form_invalid(self, form):
         response = super(AttachmentUploadAjaxView, self).form_invalid(form)
@@ -322,6 +339,7 @@ class AttachmentUploadAjaxView(LoginRequiredMixin, CreateView):
 
 
 @method_decorator(csrf_exempt, name='dispatch')
+@method_decorator(login_required, name="dispatch")
 class PreviewMarkdownAjaxView(View):
     def post(self, request, *args, **kwargs):
         from markdown_deux.templatetags.markdown_deux_tags import markdown_filter

@@ -12,8 +12,19 @@ register = template.Library()
 def nouvelles_header(context):
     """Build a navigation bar"""
     request = context['request']
-    url_name = resolve(request.path_info).url_name
-    return {'url_name': url_name, 'user': request.user, 'site_name': settings.SITE_NAME}
+    path_name = resolve(request.path_info).url_name
+    redirect_path = request.path
+
+    if path_name == 'login':
+        redirect_path = None
+
+    return {
+        'path_name': path_name,
+        'redirect_path': redirect_path,
+        'user': request.user,
+        'perms': context.get('perms', None),
+        'site_name': settings.SITE_NAME
+    }
 
 
 @register.inclusion_tag('templatetags/nouvelles_footer.html')

@@ -90,12 +90,14 @@
                     <a title="Save and publish the article" class="button success"
                        href="javascript:form_article.submit()"><span class="i-disk">Publish</span></a>
 
+                    {% if perms.nouvelles.add_attachment %}
                     <form name="attachment_form" enctype="multipart/form-data" style="display: inline-block">
                         <label class="button file-upload" title="Upload and add attachment to this article"> <span
                                 class="i-attach">{{ attachment_form.file.label }}</span>
                             {{ attachment_form.file }}
                         </label>
                     </form>
+                    {% endif %}
                 </div>
             </div>
         </div>
@@ -110,13 +112,13 @@
 
 {% block scripts %}
     <script>
-        var upload_url = "{% url 'upload_attachment' %}";
+        {% if perms.nouvelles.add_attachment %}var upload_url = "{% url 'upload_attachment' %}";{% endif %}
         var download_url = "{% url 'download_attachment' '0000' %}";
         var preview_url = "{% url 'preview' %}";
     </script>
 
     <script src="{% static 'nouvelles/js/tabs.js' %}"></script>
-    <script src="{% static 'nouvelles/js/attachment-upload.js' %}"></script>
+    {% if perms.nouvelles.add_attachment %}<script src="{% static 'nouvelles/js/attachment-upload.js' %}"></script>{% endif %}
 
     <script>
         $('#id_tags').select2({width: '100%'});
