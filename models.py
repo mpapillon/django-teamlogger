@@ -73,17 +73,19 @@ class Article(models.Model):
     )
 
     # Fields definition
-    title = models.CharField(max_length=50)
+    title = models.CharField(max_length=90)
     creation_date = models.DateTimeField(auto_now_add=True)
     effective_date = models.DateField(default=timezone.now)
     description = models.TextField(default=None, blank=True, null=True)
     slug = models.SlugField(editable=False)
     criticality = models.CharField(max_length=1, choices=CRITICALITY_CHOICES, default=CRITICALITY_LOW)
+    edition_date = models.DateTimeField(blank=True, default=timezone.now)
+
+    # Foreign keys
     author = models.ForeignKey(User, on_delete=models.PROTECT, related_name='articles')
+    editor = models.ForeignKey(User, on_delete=models.PROTECT, default=None, blank=True, null=True, related_name='editions')
     parent_article = models.ForeignKey("self", on_delete=models.CASCADE, default=None, blank=True, null=True)
     tags = models.ManyToManyField(Tag, blank=True)
-    edition_date = models.DateTimeField(blank=True, default=timezone.now)
-    editor = models.ForeignKey(User, on_delete=models.PROTECT, default=None, blank=True, null=True, related_name='editions')
     attachments = models.ManyToManyField(Attachment, blank=True)
 
     def save(self, *args, **kwargs):
