@@ -9,7 +9,9 @@ def compute_file_md5(file):
 
 
 def get_parents(article, parents_list):
-    """Return all parents from article"""
+    """
+    Return all parents from article
+    """
     if article.parent_article:
         parents_list.insert(len(parents_list), article.parent_article)
         get_parents(article.parent_article, parents_list)

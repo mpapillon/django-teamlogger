@@ -1,0 +1,96 @@
+{% load markdown_deux_tags %}
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <style type="text/css">
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-size: 13px;
+            background-color: #f1f1f1;
+        }
+
+        .mail-article-header {
+            background-color: rgb(247, 247, 247);
+            border-bottom: 2px solid rgb(223, 223, 223);
+        }
+
+        .mail-content {
+            background-color: rgb(255, 255, 255);
+            border-bottom: 2px solid rgb(204, 204, 204);
+            padding: 4px;
+        }
+
+        a {
+            text-decoration: none;
+            color: #246f99;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        p {
+            margin-top: 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <table width="100%" class="mail-content">
+        <tr>
+            <td>
+                <table width="100%" class="mail-article-header">
+                    <tr>
+                        <td>Title: </td>
+                        <td>
+                            <a href="{{ domain }}{% url 'detail' article.slug %}">{{ article.title }}</a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Date: </td>
+                        <td>
+                            <a href="{{ domain }}{% url 'archives' %}?date={{ article.effective_date|date:"o-m-d" }}">
+                                {{ article.creation_date|date }}
+                            </a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Author: </td>
+                        <td>
+                            <a href="{{ domain }}{% url 'archives' %}?author={{ article.author.username }}">
+                                {% if article.author.get_full_name %}
+                                    {{ article.author.get_full_name }}
+                                {%  else %}
+                                    {{ article.author }}
+                                {% endif %}
+                            </a>
+                        </td>
+                    </tr>
+                    {% comment %}<tr>
+                        <td>Tags: </td>
+                        <td>
+                            {% for tag in article.tags.all %}
+                                <a href="{{ domain }}{% url 'archives' %}?tag={{ tag.slug }}">{{ tag.name }}</a>
+                                {% if forloop.last is not True %}, {% endif %}
+                            {% endfor %}
+                        </td>
+                    </tr>{% endcomment %}
+                </table>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                {{ article.description|markdown }}
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <a href="{{ domain }}{% url 'detail' article.slug %}">View article online...</a>
+            </td>
+        </tr>
+    </table>
+</body>
+
+</html>

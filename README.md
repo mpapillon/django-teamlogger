@@ -56,11 +56,12 @@ information within a team.
 
 You can add the following settings into your `<myapp>/settings.py` to customize some features :
 
-| Setting name   | Detail                               | Default                   |
-| -------------- | ------------------------------------ | ------------------------- |
-| HEADLINES_DAYS | Number of days of the Headlines view | 7                         |
-| SITE_NAME      | Name shown in the header             | Nouvelles                 |
-| SITE_FOOTER    | Text shown in the footer             | A newspaper for your team |
+| Setting name   | Detail                                                        | Default                   |
+| -------------- | ------------------------------------------------------------- | ------------------------- |
+| HEADLINES_DAYS | Number of days of the Headlines view                          | 7                         |
+| SITE_URL       | Domain like `http://mysite.com` (Required for emails sending) |                           |
+| SITE_NAME      | Name shown in the header                                      | Nouvelles                 |
+| SITE_FOOTER    | Text shown in the footer                                      | A newspaper for your team |
 
 ## Todo
 
