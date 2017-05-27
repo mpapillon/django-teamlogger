@@ -1,0 +1,5 @@
+Django==1.11.1
+django-markdown-deux==1.0.5
+psycopg2==2.7
+pytz==2017.2
+Pygments==2.2.0
