@@ -2,86 +2,17 @@ from datetime import timedelta
 
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import PermissionRequiredMixin, UserPassesTestMixin
-from django.http import HttpResponse, JsonResponse, Http404
+from django.contrib.messages.views import SuccessMessageMixin
 from django.shortcuts import get_object_or_404
-from django.urls import reverse, reverse_lazy
+from django.urls import reverse_lazy, reverse
 from django.utils import timezone
 from django.utils.decorators import method_decorator
-from django.views.decorators.csrf import csrf_exempt
+from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 
-from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView, View
-from django.views.generic.base import ContextMixin
-from django.views.generic.detail import SingleObjectMixin
-from django.views.generic.list import MultipleObjectMixin
-from django.views.generic.edit import FormMixin
-
-from django.contrib.auth.views import redirect_to_login
-from django.contrib.messages.views import SuccessMessageMixin
-
-from nouvelles.forms import ArchiveFiltersForm, UploadAttachmentForm, ArticleForm
-from nouvelles.models import Article, Attachment
+from nouvelles.forms import ArticleForm, UploadAttachmentForm, ArchiveFiltersForm
+from nouvelles.models import Article
+from nouvelles.views.mixins import ViewTitleMixin, FilterMixin, FormFilterMixin
 from nouvelles.settings import HEADLINES_DAYS
-
-# ----------------
-#      Mixins
-# ----------------
-
-
-class ViewTitleMixin(ContextMixin):
-    """
-    Mixin that add a title context variable
-    """
-    title = None
-    context_title_name = 'title'
-
-    def get_page_title(self):
-        import re
-        if self.title:
-            return self.title
-        else:
-            return re.sub(r"(?<=\w)([A-Z])", r" \1", self.__class__.__name__)
-
-    def get_context_data(self, **kwargs):
-        context = super(ViewTitleMixin, self).get_context_data(**kwargs)
-        context[self.context_title_name] = self.get_page_title()
-        return context
-
-
-class FilterMixin(MultipleObjectMixin, View):
-    allowed_filters = {}
-
-    def get_queryset_filters(self):
-        filters = {}
-        for item in self.allowed_filters:
-            if item in self.request.GET:
-                filters[self.allowed_filters[item]] = self.request.GET[item]
-        return filters
-
-    def get_queryset(self):
-        return super(FilterMixin, self).get_queryset().filter(**self.get_queryset_filters())
-
-
-class FormFilterMixin(FormMixin, FilterMixin):
-    def get_form_kwargs(self):
-        kwargs = super(FormFilterMixin, self).get_form_kwargs()
-
-        if self.request.method == 'GET':
-            kwargs.update({'data': self.request.GET})
-
-        return kwargs
-
-    def get_queryset(self):
-        queryset = super(FilterMixin, self).get_queryset()
-        form = self.get_form()
-
-        if form.is_valid():
-            return queryset.filter(**self.get_queryset_filters())
-        else:
-            return queryset
-
-# ----------------
-#      CBVs
-# ----------------
 
 
 class ArticleNewsListView(ViewTitleMixin, FilterMixin, ListView):
@@ -90,8 +21,8 @@ class ArticleNewsListView(ViewTitleMixin, FilterMixin, ListView):
     title = 'Headlines'
     context_object_name = 'article_list'
     template_name = 'nouvelles/article_news_list.html'
-    queryset = Article.objects\
-        .filter(effective_date__gte=query_date)\
+    queryset = Article.objects \
+        .filter(effective_date__gte=query_date) \
         .order_by('-effective_date', '-creation_date')
     allowed_filters = {
         'criticality': 'criticality',
@@ -221,7 +152,7 @@ class ArticleCreateView(PermissionRequiredMixin, ViewTitleMixin, CreateView):
 class ArticleReplyView(ArticleCreateView):
     title = 'New reply'
     parent_article = None
-    
+
     def dispatch(self, request, *args, **kwargs):
         self.parent_article = get_object_or_404(Article, slug=kwargs['slug'])
         return super(ArticleReplyView, self).dispatch(request, *args, **kwargs)
@@ -290,58 +221,3 @@ class ArticleDeleteView(PermissionRequiredMixin, ViewTitleMixin, SuccessMessageM
     def get_success_message(self, instance):
         from django.forms.models import model_to_dict
         return super(ArticleDeleteView, self).get_success_message(model_to_dict(instance))
-
-
-class AttachmentDownloadView(SingleObjectMixin, View):
-    model = Attachment
-
-    def get(self, request, *args, **kwargs):
-        attach = self.get_object()
-
-        try:
-            response = HttpResponse(attach.file, content_type=attach.content_type)
-            response['Content-Disposition'] = 'attachment; filename="%s"' % attach.file_name
-
-            return response
-        except FileNotFoundError:
-            raise Http404('Attachment not found')
-
-
-@method_decorator(login_required, name="dispatch")
-class AttachmentUploadAjaxView(PermissionRequiredMixin, CreateView):
-    model = Attachment
-    form_class = UploadAttachmentForm
-
-    permission_required = 'nouvelles.add_attachment'
-
-    def form_invalid(self, form):
-        response = super(AttachmentUploadAjaxView, self).form_invalid(form)
-        return JsonResponse(form.errors, status=400)
-
-    def form_valid(self, form):
-        from django.db import IntegrityError
-        form.instance.upload_by = self.request.user
-
-        try:
-            # Try to save the attachment
-            super(AttachmentUploadAjaxView, self).form_valid(form)
-        except IntegrityError as e:
-            # The file already exists in database, we get it
-            self.object = Attachment.objects.get(file_md5=form.instance.get_or_compute_file_md5())
-
-        data = {
-            'id': self.object.pk,
-            'file_name': self.object.file_name,
-            'file_md5': self.object.file_md5,
-            'file_size': self.object.file.size
-        }
-        return JsonResponse(data)
-
-
-@method_decorator(csrf_exempt, name='dispatch')
-@method_decorator(login_required, name="dispatch")
-class PreviewMarkdownAjaxView(View):
-    def post(self, request, *args, **kwargs):
-        from markdown_deux.templatetags.markdown_deux_tags import markdown_filter
-        return HttpResponse(markdown_filter(request.POST['text']))
-
