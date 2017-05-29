@@ -12,6 +12,10 @@ https://docs.djangoproject.com/en/1.11/ref/settings/
 
 import os
 
+
+TRUE_VALUES = ['true', 'y', 'yes']
+
+
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -22,15 +26,15 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # SECURITY WARNING: keep the secret key used in production secret!
 
 def get_or_create_secret_key():
-	"""
-	Get the secret from environement varaibles or create it if not exists.
-	"""
-	import random
-	import string
-	
-	secret_key = "".join( [random.choice(string.printable) for i in range(60)] )
-	return os.getenv('APP_SECRET', secret_key)
-	
+    """
+    Get the secret from environement varaibles or create it if not exists.
+    """
+    import random
+    import string
+
+    secret_key = "".join( [random.choice(string.printable) for i in range(60)] )
+    return os.getenv('APP_SECRET', secret_key)
+
 
 SECRET_KEY = get_or_create_secret_key()
 
@@ -51,6 +55,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django_python3_ldap',
 ]
 
 MIDDLEWARE = [
@@ -141,6 +146,54 @@ def get_database_settings():
 DATABASES = get_database_settings()
 
 
+# django-python3-ldap configuration
+# https://github.com/etianen/django-python3-ldap
+
+# The URL of the LDAP server.
+LDAP_AUTH_URL = os.getenv("LDAP_AUTH_URL")  # "ldap://localhost:10389"
+
+if LDAP_AUTH_URL:
+    # Turning on LDAP backend (Authentication backend)
+    # https://docs.djangoproject.com/en/1.11/ref/settings/#authentication-backends
+
+    AUTHENTICATION_BACKENDS = (
+        'django_python3_ldap.auth.LDAPBackend',
+        'django.contrib.auth.backends.ModelBackend',
+    )
+
+    def get_user_fields_mapping():
+        """
+        Get LDAP_AUTH_USER_FIELDS from environment variable or return default.
+        """
+        import json
+        auth_user_fields_str = os.getenv("LDAP_AUTH_USER_FIELDS")
+
+        if auth_user_fields_str:
+            return json.load(auth_user_fields_str)
+        else:
+            return {
+                "username": "uid",
+                "first_name": "cn",
+                "last_name": "sn",
+                "email": "mail",
+            }
+
+    # Initiate TLS on connection.
+    LDAP_AUTH_USE_TLS = os.getenv("LDAP_AUTH_USE_TLS") in TRUE_VALUES
+
+    # The LDAP search base for looking up users.
+    LDAP_AUTH_SEARCH_BASE = os.getenv("LDAP_AUTH_SEARCH_BASE", "ou=people,dc=example,dc=com")
+
+    # User model fields mapped to the LDAP
+    # attributes that represent them.
+    LDAP_AUTH_USER_FIELDS = get_user_fields_mapping()
+
+    # The LDAP username and password of a user for querying the LDAP database for user
+    # details. If None, then the authenticated user will be used for querying, and
+    # the `ldap_sync_users` command will perform an anonymous query.
+    LDAP_AUTH_CONNECTION_USERNAME = os.getenv("LDAP_AUTH_CONNECTION_USERNAME", "admin")
+    LDAP_AUTH_CONNECTION_PASSWORD = os.getenv("LDAP_AUTH_CONNECTION_PASSWORD", "secret")
+
 # Password validation
 # https://docs.djangoproject.com/en/1.11/ref/settings/#auth-password-validators
 
@@ -213,9 +266,9 @@ EMAIL_HOST_USER = os.getenv('APP_EMAIL_HOST_USER', '')
 
 EMAIL_HOST_PASSWORD = os.getenv('APP_EMAIL_HOST_PASSWORD', '')
 
-EMAIL_USE_TLS = os.getenv('APP_EMAIL_USE_TLS', False)
+EMAIL_USE_TLS = os.getenv('APP_EMAIL_USE_TLS') in TRUE_VALUES
 
-EMAIL_USE_SSL = os.getenv('APP_EMAIL_USE_SSL', False)
+EMAIL_USE_SSL = os.getenv('APP_EMAIL_USE_SSL') in TRUE_VALUES
 
 EMAIL_TIMEOUT = os.getenv('APP_EMAIL_TIMEOUT', None)
 
@@ -244,6 +297,6 @@ SITE_NAME = os.getenv('APP_SITE_NAME', "TeamLogger")
 
 HEADLINES_DAYS = os.getenv('APP_SITE_HEADLINES_DAYS', 7)
 
-EMAIL_HIGH_ARTICLES = os.getenv('APP_EMAIL_HIGH_ARTICLES', False)
+EMAIL_HIGH_ARTICLES = os.getenv('APP_EMAIL_HIGH_ARTICLES') in TRUE_VALUES
 
 SITE_URL = ""
