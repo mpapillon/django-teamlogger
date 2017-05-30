@@ -13,7 +13,7 @@ https://docs.djangoproject.com/en/1.11/ref/settings/
 import os
 
 
-TRUE_VALUES = ['true', 'y', 'yes']
+TRUE_VALUES = ['TRUE', 'True','true', 'y', 'yes']
 
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
@@ -23,8 +23,6 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.11/howto/deployment/checklist/
 
-# SECURITY WARNING: keep the secret key used in production secret!
-
 def get_or_create_secret_key():
     """
     Get the secret from environement varaibles or create it if not exists.
@@ -32,6 +30,7 @@ def get_or_create_secret_key():
     import random
     import string
 
+    # SECURITY WARNING: keep the secret key used in production secret!
     secret_key = "".join( [random.choice(string.printable) for i in range(60)] )
     return os.getenv('APP_SECRET', secret_key)
 
@@ -39,7 +38,7 @@ def get_or_create_secret_key():
 SECRET_KEY = get_or_create_secret_key()
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = os.getenv('APP_DEBUG') in TRUE_VALUES
 
 ALLOWED_HOSTS = ['*']
 
@@ -124,8 +123,8 @@ def get_database_settings():
         }
     
     db_engine = os.getenv('DB_ENGINE', 'sqlite').lower()
-    db_path = os.getenv('DB_PATH', '/home/docker/persistent/databases/teamlogger.db')
-    
+    db_path = os.getenv('DB_PATH', os.path.join(BASE_DIR, 'teamlogger.db'))
+
     # No DB_ENGINE, use default sqlite
     if db_engine not in db_engines:
         return create_sqlite_settings(db_path)
