@@ -81,7 +81,8 @@
     align-self: flex-start;
     margin-left: 1rem;
     margin-bottom: 1rem;
-    min-width: 15rem;
+    width: 16rem;
+    text-overflow: ellipsis;
   }
 }
 
@@ -254,6 +255,9 @@ ul.article-list {
 
       a {
         display: block;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        overflow: hidden;
       }
     }
   }

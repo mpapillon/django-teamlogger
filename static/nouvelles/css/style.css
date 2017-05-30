@@ -37,6 +37,7 @@ a {
 hr {
   border: none;
   border-top: 1px solid #b1b1b1;
+  margin: 0 0 1rem 0;
 }
 hr.vertical {
   display: inline-block;
@@ -319,7 +320,8 @@ select[multiple],
   display: block;
 }
 .tabs-container .tab-content p {
-  margin: 0 0.2rem;
+  margin-left: 0.2rem;
+  margin-right: 0.2rem;
 }
 .message {
   padding: 0.7rem;
@@ -405,7 +407,8 @@ select[multiple],
   align-self: flex-start;
   margin-left: 1rem;
   margin-bottom: 1rem;
-  min-width: 15rem;
+  width: 16rem;
+  text-overflow: ellipsis;
 }
 .article {
   margin-bottom: 1rem;
@@ -548,6 +551,9 @@ ul.article-list > * .description {
 }
 .filters-sidebar ul li a {
   display: block;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
 }
 .info-watermark {
   background: url(../img/info.png) no-repeat 50% 0%;
