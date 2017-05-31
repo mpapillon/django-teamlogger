@@ -7,7 +7,7 @@ TeamLogger is a fully configured Django project for the [Nouvelles application](
 First, clone the repo with dependencies :
 
 ```sh
-git clone --recursive https://github.com/mpapillon/django-teamlogger.git
+git clone https://github.com/mpapillon/django-teamlogger.git
 ```
 
 ### Run locally
@@ -32,6 +32,8 @@ pip install -r app/requirements.txt
   * `docker run -d -p 80:80 teamlogger`
   * Go to 127.0.0.1 to see if works
 
+---
+
 ## Settings
 
 This section details wich environement variable you need to use to configure the application.
@@ -40,9 +42,15 @@ This section details wich environement variable you need to use to configure the
 
 - `APP_SITE_NAME` : The name to show in headers.
    - Default: `TeamLogger`
+   
+- `APP_SITE_DOMAIN` : The domain of the site, like `http://www.example.com/`.
+   - Default: `None`
 
 - `APP_SITE_HEADLINES_DAYS` : The number of days to show in Headlines view.
    - Default: `7`
+
+- `APP_EMAIL_HIGH_ARTICLES` : Allow the app to send mails when new article with high crtiticality is posted. If True, `APP_SITE_DOMAIN` is required.
+   - Default: `False`
 
 - `APP_DEBUG` : If True, runs the server in debug.
    - Default: `False`
@@ -72,10 +80,15 @@ This section details wich environement variable you need to use to configure the
 
 - `DB_PATH` : The full path to the database file. When specifying the path, always use forward slashes, even on Windows (e.g. `C:/homes/user/mysite/sqlite3.db`).
    - Default: `./app/teamlogger.db`
+   
+### Email settings
+
+See [Django Email Settings](https://docs.djangoproject.com/en/1.11/ref/settings/#email-host).
+Most of default Django Email settings are mapped to an environment variable with the same name.
 
 ### LDAP Authentication Connection
 
-LDAP Authentication is turned on when you set the `LDAP_AUTH_URL` env varaible.
+LDAP Authentication is turned on when you set the `LDAP_AUTH_URL` env variable.
 
 - `LDAP_AUTH_URL` : The URL of the LDAP server like `ldap://localhost:10389`.
 
@@ -94,3 +107,9 @@ LDAP Authentication is turned on when you set the `LDAP_AUTH_URL` env varaible.
 - `LDAP_AUTH_CONNECTION_PASSWORD` : The LDAP password of a user for querying the LDAP database for user details.
    - Default: `secret`
 
+---
+
+## Licence
+
+Copyright (C) 2017  Maxence PAPILLON  
+TeamLogger is under GPLv3. See the LICENCE file to know more.
