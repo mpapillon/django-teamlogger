@@ -12,7 +12,7 @@ class HeadlinesFeed(Feed):
     Represent the syndication feed of Headlines page.
     """
     title = "Headlines of %s" % SITE_NAME
-    link = "/feeds/headlines/"
+    link = "/nouvelles/feeds/headlines/"
     description = "Latest Headlines"
 
     query_date = (timezone.now() - timedelta(HEADLINES_DAYS)).date()
