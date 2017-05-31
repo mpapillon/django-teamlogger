@@ -38,18 +38,18 @@
 </head>
 
 <body>
-    <table width="100%" class="mail-content">
+    <table  width="100%" border="0" cellspacing="0" cellpadding="0" class="mail-content">
         <tr>
             <td>
                 <table width="100%" class="mail-article-header">
                     <tr>
-                        <td>Title: </td>
+                        <td width="87">Title: </td>
                         <td>
                             <a href="{{ domain }}{% url 'detail' article.slug %}">{{ article.title }}</a>
                         </td>
                     </tr>
                     <tr>
-                        <td>Date: </td>
+                        <td width="87">Date: </td>
                         <td>
                             <a href="{{ domain }}{% url 'archives' %}?date={{ article.effective_date|date:"o-m-d" }}">
                                 {{ article.creation_date|date }}
@@ -57,7 +57,7 @@
                         </td>
                     </tr>
                     <tr>
-                        <td>Author: </td>
+                        <td width="87">Author: </td>
                         <td>
                             <a href="{{ domain }}{% url 'archives' %}?author={{ article.author.username }}">
                                 {% if article.author.get_full_name %}

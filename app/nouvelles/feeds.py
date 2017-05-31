@@ -24,8 +24,11 @@ class HeadlinesFeed(Feed):
         return item.title
 
     def item_description(self, item):
-        from markdown_deux.templatetags.markdown_deux_tags import markdown_filter
-        return markdown_filter(item.description)
+        from django.template.loader import render_to_string
+        return render_to_string('nouvelles/email/article_detail.html', {
+            'article': item,
+            'domain': ''
+        })
 
     def item_pubdate(self, item: Article):
         return item.creation_date
