@@ -1,3 +1,0 @@
-[submodule "app/nouvelles"]
-	path = app/nouvelles
-	url = https://gitlab.com/mapapill/django-nouvelles-app.git
