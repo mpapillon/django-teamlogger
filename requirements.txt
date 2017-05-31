@@ -1,5 +1,0 @@
-django-markdown-deux==1.0.5
-markdown2==2.3.3
-psycopg2==2.7
-pytz==2016.10
-Pygments==2.2.0
