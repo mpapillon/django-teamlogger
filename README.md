@@ -7,7 +7,7 @@ TeamLogger is a fully configured Django project for the [Nouvelles application](
 First, clone the repo with dependencies :
 
 ```sh
-git clone --recursive https://gitlab.com/mapapill/django-teamlogger.git
+git clone --recursive https://github.com/mpapillon/django-teamlogger.git
 ```
 
 ### Run locally
