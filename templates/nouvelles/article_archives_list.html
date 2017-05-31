@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{% load nouvelles %}
+
+{% block title %}{% site_title title %}{% endblock %}
+
+{% block content %}
+    <div class="content-wrapper">
+        <div class="shadowed-box content-title">
+            <h2 class="title">{{ title }}</h2>
+        </div>
+        <div class="content content-box">
+            <div class="shadowed-box collapsed-on-top">
+                <form name="filter_form" method="GET" action="{% url 'archives' %}">
+                    <ul class="filter-form">
+                        {{ form.as_ul }}
+                    </ul>
+                    <input type="submit" style="position: absolute; left: -9999px"/>
+                </form>
+                <p>
+                    <a class="button" href="javascript:filter_form.submit()"><span class="i-zoom"></span>Apply
+                        filters</a><a class="button secondary" href="{% url 'archives' %}"><span class="i-bin"></span>Clear
+                    filters</a>
+                </p>
+            </div>
+            {% if article_list %}
+                {% articles_list article_list %}
+                {% if is_paginated %}
+                    <ul class="pagination">
+                        {% if page_obj.has_previous %}
+                            <li class="shadowed-box pagination-previous">
+                                <a href="{% paginated_url 'archives' page=page_obj.previous_page_number %}" class="button secondary">previous</a>
+                            </li>
+                        {% endif %}
+                        <li class="shadowed-box page-current">
+                            page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}
+                        </li>
+                        {% if page_obj.has_next %}
+                            <li class="shadowed-box  pagination-next">
+                                <a href="{% paginated_url 'archives' page=page_obj.next_page_number %}" class="button secondary">next</a></li>
+                        {% endif %}
+                    </ul>
+                {% endif %}
+            {% else %}
+                <div class="info-watermark">No articles found, check your filters</div>
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}

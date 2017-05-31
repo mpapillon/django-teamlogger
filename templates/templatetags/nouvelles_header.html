@@ -1,0 +1,38 @@
+<header class="nouvelles-header">
+    <div class="row">
+        {% if user.is_authenticated %}
+            <div class="nouvelles-auth"><a title="Change your password" href="{% url 'password_change' %}">{{ user.username }}</a> [<a href="{% url 'logout' %}">logout</a>]</div>
+        {% else %}
+            <div class="nouvelles-auth">[<a href="{% url 'login' %}">login</a>]</div>
+        {% endif %}
+        <h1 class="nouvelles-title"><a href="{% url 'index' %}">{{ site_name }}</a></h1>
+    </div>
+    <div class="nouvelles-header-bottom">
+        <div class="row">
+            <ul class="nouvelles-nav">
+                <li class="nouvelles-nav-item {% if path_name == 'index' %}active{% endif %}">
+                    <a href="{% url 'index' %}"><span class="i-newspaper">News</span></a>
+                </li>
+                {% if perms.nouvelles.add_article %}
+                <li class="nouvelles-nav-item {% if path_name == 'create' or path_name == 'create_reply' %}active{% endif %}">
+                    <a href="{% url 'create' %}"><span class="i-note-add">New article</span></a>
+                </li>
+                {% endif %}
+                <li class="nouvelles-nav-item {% if path_name == 'archives' %}active{% endif %}">
+                    <a href="{% url 'archives' %}"><span class="i-box">Archives</span></a>
+                </li>
+                {% if user.is_staff %}
+                    <li class="nouvelles-nav-item">
+                        <a href="{% url 'admin:index' %}"><span class="i-wrench">Administration</span></a>
+                    </li>
+                {% endif %}
+                <!-- <li class="nouvelles-nav-form align-self-right">
+                    <form>
+                        <input type="search" 
+                            placeholder="Search in archive">
+                    </form>
+                </li> -->
+            </ul>
+        </div>
+    </div>
+</header>

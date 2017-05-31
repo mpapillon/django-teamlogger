@@ -1,0 +1,64 @@
+{% load markdown_deux_tags %}
+{% load nouvelles %}
+
+<div class="shadowed-box content-box article">
+    <div class="article-header">
+        <div class="article-header-row">
+            <div class="article-header-title"><p>Title: </p></div>
+            <div class="article-header-content"><p>{% article_name article %}</p></div>
+        </div>
+        <div class="article-header-row">
+            <div class="article-header-title"><p>Date: </p></div>
+            <div class="article-header-content">
+                <p><a href="{% url 'archives' %}?date={{ article.effective_date|date:"o-m-d" }}" class="i-date">{{ article.creation_date|date }}</a></p>
+            </div>
+        </div>
+        <div class="article-header-row">
+            <div class="article-header-title"><p>Author: </p></div>
+            <div class="article-header-content">
+                <p>
+                    <a href="{% url 'archives' %}?author={{ article.author.username }}" class="i-user">
+                        {% if article.author.get_full_name %}
+                            {{ article.author.get_full_name }}
+                        {%  else %}
+                            {{ article.author }}
+                        {% endif %}
+                    </a>
+                </p>
+            </div>
+        </div>
+        {% if article.tags.count %}
+        <div class="article-header-row">
+            <div class="article-header-title"><p>Tags: </p></div>
+            <div class="article-header-content">
+                <p>
+                    {% for tag in article.tags.all %}
+                        <a class="i-tag-blue" href="{% url 'archives' %}?tag={{ tag.slug }}">{{ tag.name }}</a>
+                        {% if forloop.last is not True %}, {% endif %}
+                    {% endfor %}
+                </p>
+            </div>
+        </div>
+        {% endif %}
+        {% if article.attachments.count %}
+            <div class="article-header-row">
+                <div class="article-header-title">Attachments:</div>
+                <div class="article-header-content">
+                    <ul class="no-bullet">
+                        {% for attach in article.attachments.all %}
+                            <li><a href="{% url 'download_attachment' attach.id %}"
+                                   class="i-attach">{{ attach.file_name }}</a></li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+        {% endif %}
+    </div>
+    <div class="markdown-body">
+        {{ article.description|markdown }}
+    </div>
+</div>
+
+{% if show_parents and article.parent_article %}
+    {% article article.parent_article %}
+{% endif %}

@@ -1,0 +1,76 @@
+@import "colors";
+
+.button {
+  background-color: @light-accent-color;
+  display: inline-block;
+  color: @default-white;
+  padding: 0.4rem 0.5rem;
+  font-size: 0.9rem;
+  min-width: 11rem;
+  margin-right: 0.5rem;
+  box-shadow: inset 0 -2px 0 0 rgba(0, 0, 0, 0.4);
+  border: none;
+  cursor: pointer;
+  height: 1.6rem;
+  line-height: 1.6rem;
+  box-sizing: content-box;
+  text-align: left;
+
+  &:focus {
+    outline: none;
+  }
+
+  &.danger {
+    background-color: @danger-color;
+
+    &:focus {
+      background-color: darken(@danger-color, 10%);
+    }
+  }
+
+  &.warning {
+    background-color: @warning-color;
+    color: lighten(rgb(0, 0, 0), 10%);
+
+    &:focus {
+      background-color: darken(@warning-color, 10%);
+    }
+  }
+
+  &.success {
+    background-color: @success-color;
+
+    &:focus {
+      background-color: darken(@success-color, 10%);
+    }
+  }
+
+  &.secondary {
+    background-color: @secondary-color;
+
+    &:focus {
+      background-color: darken(@secondary-color, 10%);
+    }
+  }
+
+  &.syndication {
+    background-color: rgb(255, 150, 31);
+
+    &:focus {
+      background-color: darken(rgb(255, 150, 31), 10%);
+    }
+  }
+
+  &.large {
+    display: block;
+    margin-right: 0;
+  }
+
+  &:focus, &:active {
+    background-color: darken(@light-accent-color, 10%);
+  }
+}
+
+.button-group {
+  display: flex;
+}
