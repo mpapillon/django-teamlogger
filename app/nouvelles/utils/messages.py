@@ -41,7 +41,7 @@ def send_article_to_all_users(article: Article):
     for user in User.objects.exclude(email=''):
         html_message = render_to_string('nouvelles/email/article_detail.html', {
             'article': article,
-            'domain': getattr(settings, 'SITE_URL')
+            'domain': getattr(settings, 'SITE_DOMAIN')
         })
 
         subject = "[%s] %s by %s" % (SITE_NAME, article.title, article.author.get_full_name())

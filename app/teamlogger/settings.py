@@ -294,8 +294,11 @@ MARKDOWN_DEUX_STYLES = {
 
 SITE_NAME = os.getenv('APP_SITE_NAME', "TeamLogger")
 
+SITE_DOMAIN = os.getenv('APP_SITE_DOMAIN')
+
 HEADLINES_DAYS = os.getenv('APP_SITE_HEADLINES_DAYS', 7)
 
 EMAIL_HIGH_ARTICLES = os.getenv('APP_EMAIL_HIGH_ARTICLES') in TRUE_VALUES
 
-SITE_URL = ""
+if EMAIL_HIGH_ARTICLES and not SITE_DOMAIN:
+    raise ValueError("You need a SITE_DOMAIN if you want email sending.")
