@@ -1,0 +1,529 @@
+[
+  {
+    "model": "nouvelles.tag",
+    "pk": 1,
+    "fields": {
+      "name": "Consectetur adipiscing",
+      "slug": "consectetur-adipiscing"
+    }
+  },
+  {
+    "model": "nouvelles.tag",
+    "pk": 2,
+    "fields": {
+      "name": "Nam suscipit",
+      "slug": "nam-suscipit"
+    }
+  },
+  {
+    "model": "nouvelles.tag",
+    "pk": 3,
+    "fields": {
+      "name": "Vestibulum nisl aliquam",
+      "slug": "vestibulum-nisl-aliquam"
+    }
+  },
+  {
+    "model": "contenttypes.contenttype",
+    "pk": 1,
+    "fields": {
+      "app_label": "nouvelles",
+      "model": "article"
+    }
+  },
+  {
+    "model": "contenttypes.contenttype",
+    "pk": 2,
+    "fields": {
+      "app_label": "nouvelles",
+      "model": "attachment"
+    }
+  },
+  {
+    "model": "contenttypes.contenttype",
+    "pk": 3,
+    "fields": {
+      "app_label": "nouvelles",
+      "model": "tag"
+    }
+  },
+  {
+    "model": "contenttypes.contenttype",
+    "pk": 4,
+    "fields": {
+      "app_label": "admin",
+      "model": "logentry"
+    }
+  },
+  {
+    "model": "contenttypes.contenttype",
+    "pk": 5,
+    "fields": {
+      "app_label": "auth",
+      "model": "permission"
+    }
+  },
+  {
+    "model": "contenttypes.contenttype",
+    "pk": 6,
+    "fields": {
+      "app_label": "auth",
+      "model": "group"
+    }
+  },
+  {
+    "model": "contenttypes.contenttype",
+    "pk": 7,
+    "fields": {
+      "app_label": "auth",
+      "model": "user"
+    }
+  },
+  {
+    "model": "contenttypes.contenttype",
+    "pk": 8,
+    "fields": {
+      "app_label": "contenttypes",
+      "model": "contenttype"
+    }
+  },
+  {
+    "model": "contenttypes.contenttype",
+    "pk": 9,
+    "fields": {
+      "app_label": "sessions",
+      "model": "session"
+    }
+  },
+  {
+    "model": "sessions.session",
+    "pk": "ktq8hrdylfxw429gu91o9vlpsy71s0nd",
+    "fields": {
+      "session_data": "MGIzNTg1NWUxZjVmOWNkZjZlOTRiZDIyMTNmNWFlM2FlM2FhNGYxODp7Il9hdXRoX3VzZXJfaWQiOiIxIiwiX2F1dGhfdXNlcl9iYWNrZW5kIjoiZGphbmdvLmNvbnRyaWIuYXV0aC5iYWNrZW5kcy5Nb2RlbEJhY2tlbmQiLCJfYXV0aF91c2VyX2hhc2giOiI4YWUxMzJmM2ZkNzhlNTFiNTRlOTIxNjljNWVhNDI0MjRlYWMxNWUzIn0=",
+      "expire_date": "2017-06-15T07:36:47.441Z"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 1,
+    "fields": {
+      "name": "Can add article",
+      "content_type": 1,
+      "codename": "add_article"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 2,
+    "fields": {
+      "name": "Can change article",
+      "content_type": 1,
+      "codename": "change_article"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 3,
+    "fields": {
+      "name": "Can delete article",
+      "content_type": 1,
+      "codename": "delete_article"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 4,
+    "fields": {
+      "name": "Can add attachment",
+      "content_type": 2,
+      "codename": "add_attachment"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 5,
+    "fields": {
+      "name": "Can change attachment",
+      "content_type": 2,
+      "codename": "change_attachment"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 6,
+    "fields": {
+      "name": "Can delete attachment",
+      "content_type": 2,
+      "codename": "delete_attachment"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 7,
+    "fields": {
+      "name": "Can add tag",
+      "content_type": 3,
+      "codename": "add_tag"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 8,
+    "fields": {
+      "name": "Can change tag",
+      "content_type": 3,
+      "codename": "change_tag"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 9,
+    "fields": {
+      "name": "Can delete tag",
+      "content_type": 3,
+      "codename": "delete_tag"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 10,
+    "fields": {
+      "name": "Can add log entry",
+      "content_type": 4,
+      "codename": "add_logentry"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 11,
+    "fields": {
+      "name": "Can change log entry",
+      "content_type": 4,
+      "codename": "change_logentry"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 12,
+    "fields": {
+      "name": "Can delete log entry",
+      "content_type": 4,
+      "codename": "delete_logentry"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 13,
+    "fields": {
+      "name": "Can add permission",
+      "content_type": 5,
+      "codename": "add_permission"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 14,
+    "fields": {
+      "name": "Can change permission",
+      "content_type": 5,
+      "codename": "change_permission"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 15,
+    "fields": {
+      "name": "Can delete permission",
+      "content_type": 5,
+      "codename": "delete_permission"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 16,
+    "fields": {
+      "name": "Can add group",
+      "content_type": 6,
+      "codename": "add_group"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 17,
+    "fields": {
+      "name": "Can change group",
+      "content_type": 6,
+      "codename": "change_group"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 18,
+    "fields": {
+      "name": "Can delete group",
+      "content_type": 6,
+      "codename": "delete_group"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 19,
+    "fields": {
+      "name": "Can add user",
+      "content_type": 7,
+      "codename": "add_user"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 20,
+    "fields": {
+      "name": "Can change user",
+      "content_type": 7,
+      "codename": "change_user"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 21,
+    "fields": {
+      "name": "Can delete user",
+      "content_type": 7,
+      "codename": "delete_user"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 22,
+    "fields": {
+      "name": "Can add content type",
+      "content_type": 8,
+      "codename": "add_contenttype"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 23,
+    "fields": {
+      "name": "Can change content type",
+      "content_type": 8,
+      "codename": "change_contenttype"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 24,
+    "fields": {
+      "name": "Can delete content type",
+      "content_type": 8,
+      "codename": "delete_contenttype"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 25,
+    "fields": {
+      "name": "Can add session",
+      "content_type": 9,
+      "codename": "add_session"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 26,
+    "fields": {
+      "name": "Can change session",
+      "content_type": 9,
+      "codename": "change_session"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 27,
+    "fields": {
+      "name": "Can delete session",
+      "content_type": 9,
+      "codename": "delete_session"
+    }
+  },
+  {
+    "model": "auth.group",
+    "pk": 1,
+    "fields": {
+      "name": "authors",
+      "permissions": [
+        1,
+        4
+      ]
+    }
+  },
+  {
+    "model": "auth.group",
+    "pk": 2,
+    "fields": {
+      "name": "editors",
+      "permissions": [
+        1,
+        2,
+        4,
+        5,
+        7
+      ]
+    }
+  },
+  {
+    "model": "auth.group",
+    "pk": 3,
+    "fields": {
+      "name": "managers",
+      "permissions": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ]
+    }
+  },
+  {
+    "model": "auth.user",
+    "pk": 1,
+    "fields": {
+      "password": "pbkdf2_sha256$36000$Iv7VtRMdVes1$H9tcghSb3zSjq9e7wKghHLOLHJeIm/EzBRoT1v0IaRA=",
+      "last_login": "2017-06-01T07:36:47.431Z",
+      "is_superuser": true,
+      "username": "admin",
+      "first_name": "",
+      "last_name": "",
+      "email": "",
+      "is_staff": true,
+      "is_active": true,
+      "date_joined": "2017-06-01T07:32:07.353Z",
+      "groups": [],
+      "user_permissions": []
+    }
+  },
+  {
+    "model": "auth.user",
+    "pk": 2,
+    "fields": {
+      "password": "pbkdf2_sha256$36000$TEnlnuJbQvqZ$nLtupQc4RIP2BVNjFTBpl+960HIRNXhcYqP497kkEbk=",
+      "last_login": null,
+      "is_superuser": false,
+      "username": "bkane",
+      "first_name": "Brett",
+      "last_name": "Kane",
+      "email": "bkane@teamlogger.com",
+      "is_staff": false,
+      "is_active": true,
+      "date_joined": "2017-06-01T07:42:40Z",
+      "groups": [
+        1
+      ],
+      "user_permissions": []
+    }
+  },
+  {
+    "model": "auth.user",
+    "pk": 5,
+    "fields": {
+      "password": "pbkdf2_sha256$36000$eGckeBXPtYnD$3dCBuBsOmA+92xSm2ibCdI+JWLpK8133IM+dIkqJd+0=",
+      "last_login": null,
+      "is_superuser": false,
+      "username": "hschmucker",
+      "first_name": "Harriet",
+      "last_name": "Schmucker",
+      "email": "hschmucker@teamlogger.com",
+      "is_staff": false,
+      "is_active": true,
+      "date_joined": "2017-06-01T08:48:50Z",
+      "groups": [],
+      "user_permissions": []
+    }
+  },
+  {
+    "model": "auth.user",
+    "pk": 3,
+    "fields": {
+      "password": "pbkdf2_sha256$36000$FX7y50fQyDkt$XVjag6hgZ20KhQ54nkGAd7heVZZHRZHtU7ShATG8iIk=",
+      "last_login": null,
+      "is_superuser": false,
+      "username": "cgilmore",
+      "first_name": "Charles",
+      "last_name": "Gilmore",
+      "email": "cgilmore@teamlogger.com",
+      "is_staff": false,
+      "is_active": true,
+      "date_joined": "2017-06-01T07:43:30Z",
+      "groups": [
+        2
+      ],
+      "user_permissions": []
+    }
+  },
+  {
+    "model": "auth.user",
+    "pk": 4,
+    "fields": {
+      "password": "pbkdf2_sha256$36000$OsoVfOv1YH00$oIDhX0BwWIn+kVXhIg2t0n/kLZPavltOxAWYVA/X/1E=",
+      "last_login": null,
+      "is_superuser": false,
+      "username": "mmarley",
+      "first_name": "Maria",
+      "last_name": "Marley",
+      "email": "mmarley@teamlogger.com",
+      "is_staff": false,
+      "is_active": true,
+      "date_joined": "2017-06-01T07:44:21Z",
+      "groups": [
+        3
+      ],
+      "user_permissions": []
+    }
+  },
+  {
+    "model": "nouvelles.article",
+    "pk": 1,
+    "fields": {
+      "title": "Lorem ipsum dolor sit amet",
+      "creation_date": "2017-06-01T07:45:52.197Z",
+      "effective_date": "2017-06-01",
+      "description": "Ut id eros mollis, accumsan velit vitae, venenatis ipsum. \r\n\r\n# Phasellus id consequat mi\r\n\r\nMaecenas eget varius metus. Proin interdum elementum lacinia. Nam finibus varius aliquet. Vestibulum sed enim sit amet nunc sodales tristique. Nunc eu neque quis nibh congue ullamcorper. Ut nec congue lectus.",
+      "slug": "lorem-ipsum-dolor-sit-amet",
+      "criticality": "L",
+      "edition_date": "2017-06-01T07:44:59Z",
+      "author": 2,
+      "editor": null,
+      "parent_article": null,
+      "tags": [
+        1,
+        3
+      ],
+      "attachments": []
+    }
+  },
+  {
+    "model": "nouvelles.article",
+    "pk": 2,
+    "fields": {
+      "title": "Fusce vestibulum nulla nec eleifend ornare",
+      "creation_date": "2017-06-01T07:48:04.331Z",
+      "effective_date": "2017-05-31",
+      "description": "#Nam suscipit diam quam\r\n\r\n> Sed commodo tortor hendrerit eu. \r\n\r\nPhasellus eleifend hendrerit massa. Etiam nec maximus ex. Mauris placerat felis sem, vitae facilisis enim condimentum quis. Nam elementum sed turpis quis blandit. Nulla blandit tortor tempus metus feugiat, et tempor quam scelerisque. Mauris aliquam pulvinar odio quis egestas. \r\n\r\n* Cras est risus, cursus vel quam vel, mattis consectetur felis. \r\n* Mauris imperdiet elit non tortor tincidunt, ultrices vulputate quam tristique. \r\n* Nunc eu convallis leo, in imperdiet mi. \r\n\r\nPellentesque eleifend pulvinar orci ut pellentesque. Proin facilisis dui eget est pellentesque, commodo varius sapien laoreet. Nunc aliquet sapien at mi malesuada, nec dapibus libero cursus. Mauris sit amet velit vulputate, aliquet urna ut, varius mi.",
+      "slug": "fusce-vestibulum-nulla-nec-eleifend-ornare",
+      "criticality": "M",
+      "edition_date": "2017-06-01T07:46:09Z",
+      "author": 3,
+      "editor": null,
+      "parent_article": null,
+      "tags": [
+        2
+      ],
+      "attachments": []
+    }
+  }
+]
