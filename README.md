@@ -60,26 +60,18 @@ This section details wich environement variable you need to use to configure the
 
 ### Database settings
 
-- `DB_ENGINE` : The database backend to use.
-   - Values: `sqlite`, `postgres`, `mysql`, `oracle`
-   - Default: `sqlite`
+Database connection configuration is provided by the `DATABASE_URL` environment variable.
+If no specifications, the default SQLITE databse is used.
 
-- `DB_HOST` : Which host to use when connecting to the database. An empty string means localhost. Not used with SQLite.
-   - Default: `db`
+Databases urls are like :
 
-- `DB_NAME` : The name of the database to use. Not used with SQLite.
-   - Default: `teamlogger`
+```
+driver://user:passord@host/db_name
+```
 
-- `DB_PORT` : The port to use when connecting to the database. An empty string means the default port. Not used with SQLite.
+#### Supported Databases
 
-- `DB_USER` : The username to use when connecting to the database. Not used with SQLite.
-   - Default: _Empty string_
-
-- `DB_PASSWORD` : The password to use when connecting to the database. Not used with SQLite.
-   - Default: _Empty string_
-
-- `DB_PATH` : The full path to the database file. When specifying the path, always use forward slashes, even on Windows (e.g. `C:/homes/user/mysite/sqlite3.db`).
-   - Default: `./app/teamlogger.db`
+You can use PostgreSQL, MySQL, Oracle, and SQLite.
    
 ### Email settings
 

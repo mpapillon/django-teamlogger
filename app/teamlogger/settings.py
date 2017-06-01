@@ -11,9 +11,9 @@ https://docs.djangoproject.com/en/1.11/ref/settings/
 """
 
 import os
+import dj_database_url
 
-
-TRUE_VALUES = ['TRUE', 'True','true', 'y', 'yes']
+TRUE_VALUES = ['TRUE', 'True', 'true', 'y', 'yes']
 
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
@@ -31,7 +31,7 @@ def get_or_create_secret_key():
     import string
 
     # SECURITY WARNING: keep the secret key used in production secret!
-    secret_key = "".join( [random.choice(string.printable) for i in range(60)] )
+    secret_key = "".join([random.choice(string.printable) for i in range(60)])
     return os.getenv('APP_SECRET', secret_key)
 
 
@@ -91,58 +91,18 @@ WSGI_APPLICATION = 'teamlogger.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/1.11/ref/settings/#databases
 
-def get_database_settings():
-    """
-    Get database settings from environement varaibles or returns defaults.
-    """
-    db_engines = {
-        'sqlite': 'django.db.backends.sqlite3', 
-        'postgres': 'django.db.backends.postgresql', 
-        'mysql': 'django.db.backends.mysql', 
-        'oracle': 'django.db.backends.oracle'
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': os.path.join(BASE_DIR, 'teamlogger.sqlite3'),
     }
-    
-    def create_sqlite_settings(path):
-        return {
-            'default': {
-                'ENGINE': db_engines['sqlite'],
-                'NAME': path,
-            }
-        }
-    
-    def create_database_settings(engine, name, host, port, user, passw):
-        return {
-            'default': {
-                'ENGINE': db_engines[engine],
-                'NAME': name,
-                'HOST': host,
-                'PORT': port,
-                'USER': user,
-                'PASSWORD': passw
-            }
-        }
-    
-    db_engine = os.getenv('DB_ENGINE', 'sqlite').lower()
-    db_path = os.getenv('DB_PATH', os.path.join(BASE_DIR, 'teamlogger.db'))
+}
 
-    # No DB_ENGINE, use default sqlite
-    if db_engine not in db_engines:
-        return create_sqlite_settings(db_path)
-    
-    db_name = os.getenv('DB_NAME', 'teamlogger')
-    db_host = os.getenv('DB_HOST', 'db')
-    db_port = os.getenv('DB_PORT', '')
-    db_user = os.getenv('DB_USER', '')
-    db_passw = os.getenv('DB_PASSWORD', '')
-    
-    if db_engine == 'sqlite':
-        return create_sqlite_settings(db_path)
-    else:
-        return create_database_settings(db_engine, db_name, db_host, db_port, 
-                                        db_user, db_passw)    
-    
 
-DATABASES = get_database_settings()
+# Update database with env. var DATABASE_URL
+# https://github.com/kennethreitz/dj-database-url
+
+DATABASES['default'].update(dj_database_url.config(conn_max_age=500))
 
 
 # django-python3-ldap configuration
@@ -159,6 +119,7 @@ if LDAP_AUTH_URL:
         'django_python3_ldap.auth.LDAPBackend',
         'django.contrib.auth.backends.ModelBackend',
     )
+
 
     def get_user_fields_mapping():
         """
@@ -192,6 +153,7 @@ if LDAP_AUTH_URL:
     # the `ldap_sync_users` command will perform an anonymous query.
     LDAP_AUTH_CONNECTION_USERNAME = os.getenv("LDAP_AUTH_CONNECTION_USERNAME", "admin")
     LDAP_AUTH_CONNECTION_PASSWORD = os.getenv("LDAP_AUTH_CONNECTION_PASSWORD", "secret")
+
 
 # Password validation
 # https://docs.djangoproject.com/en/1.11/ref/settings/#auth-password-validators
