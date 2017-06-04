@@ -14,14 +14,16 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+import teamlogger
 
-__version__ = "0.0.0"
 
-__author__ = "Maxence PAPILLON"
-__copyright__ = "Copyright (C) 2017  Maxence PAPILLON"
-__credits__ = ["Maxence PAPILLON", "Dan GEFFROY", "Brian GOHIER", "Solène MARTIN", "Maxime BELLIER", "Alexandre PRENZA",
-               "Nicolas SABOUREAU", "Delphine DESPORT", "Aurélien PINIER", "Fabien BONTEMPS"]
-__licence__ = "GPLv3"
-__maintainer__ = "Maxence PAPILLON"
-__email__ = "maxence.papillon@outlook.com"
-__status_ = "Development"
+__version_info_ = teamlogger.__version_info__
+__version__ = teamlogger.__version__
+
+__author__ = teamlogger.__author__
+__copyright__ = teamlogger.__copyright__
+__credits__ = teamlogger.__credits__
+__licence__ = teamlogger.__licence__
+__maintainer__ = teamlogger.__maintainer__
+__email__ = teamlogger.__email__
+__status_ = teamlogger.__status__
