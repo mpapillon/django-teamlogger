@@ -1,5 +1,5 @@
 #!/bin/bash
-# K'eude
+# TeamLogger
 # Copyright (C) 2017  Maxence PAPILLON
 #
 # This program is free software: you can redistribute it and/or modify
@@ -16,16 +16,9 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 # Database migration/creation
-python3 $APP_PATH/manage.py migrate
+python manage.py migrate
 
 # Moving static files
-python3 $APP_PATH/manage.py collectstatic --clear --no-input
+python manage.py collectstatic --clear --no-input
 
-# Create an administrator if not yet created
-python3 $APP_PATH/manage.py shell -c "from django.contrib.auth.models import User; 
-
-if not User.objects.filter(is_superuser=True).count():
-    User.objects.create_superuser('$APP_ADMIN_USERNAME', '$APP_ADMIN_EMAIL', '$APP_ADMIN_PASSW')
-"
-
-supervisord -n
+gunicorn teamlogger.wsgi -b :8000 --log-file -
