@@ -3,11 +3,11 @@
 {% for key, values in articles.items %}
     <div class="">
         <h4 class="title">
-            {{ key }}
+            {{ values.date }}
         </h4>
     </div>
     <ul class="article-list">
-        {% for article in values %}
+        {% for article in values.articles %}
             <li class="shadowed-box" style="display: flex;flex-wrap: wrap;">
                 <h5 class="title" style="flex: 1 100%;">
                     <a href="{% url 'detail' article.slug %}">

@@ -55,8 +55,8 @@ def articles_list_by_date(articles):
     grouped_articles = {}
 
     for date in articles.dates('effective_date', 'day'):
-        date_key = formats.date_format(date)
-        grouped_articles.update({date_key: articles.filter(effective_date=date)})
+        date_key = date.isoformat()
+        grouped_articles.update({date_key: {"date": date, "articles": articles.filter(effective_date=date)}})
 
     return {'articles': collections.OrderedDict(sorted(grouped_articles.items(), reverse=True))}
 
