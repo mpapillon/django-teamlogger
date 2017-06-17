@@ -1,0 +1,29 @@
+.pagination {
+  list-style: none;
+  display: flex;
+  justify-content: center;
+  margin: 0;
+  padding: 0;
+
+  .button {
+    min-width: 5rem;
+    margin: 0;
+    text-align: center;
+  }
+
+  .page-current {
+    line-height: 2rem;
+  }
+
+  .pagination-previous a::before, .pagination-previous.disabled::before {
+    display: inline-block;
+    margin-right: 0.5rem;
+    content: '\00ab';
+  }
+
+  .pagination-next a::after, .pagination-next.disabled::after {
+    display: inline-block;
+    margin-left: 0.5rem;
+    content: '\00bb';
+  }
+}

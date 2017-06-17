@@ -16,14 +16,14 @@
   box-sizing: content-box;
   text-align: left;
 
-  &:focus {
-    outline: none;
+  &:focus, &:active {
+    background-color: darken(@light-accent-color, 10%);
   }
 
   &.danger {
     background-color: @danger-color;
 
-    &:focus {
+    &:focus, &:active {
       background-color: darken(@danger-color, 10%);
     }
   }
@@ -32,7 +32,7 @@
     background-color: @warning-color;
     color: lighten(rgb(0, 0, 0), 10%);
 
-    &:focus {
+    &:focus, &:active {
       background-color: darken(@warning-color, 10%);
     }
   }
@@ -40,7 +40,7 @@
   &.success {
     background-color: @success-color;
 
-    &:focus {
+    &:focus, &:active {
       background-color: darken(@success-color, 10%);
     }
   }
@@ -48,7 +48,7 @@
   &.secondary {
     background-color: @secondary-color;
 
-    &:focus {
+    &:focus, &:active {
       background-color: darken(@secondary-color, 10%);
     }
   }
@@ -56,7 +56,7 @@
   &.syndication {
     background-color: rgb(255, 150, 31);
 
-    &:focus {
+    &:focus, &:active {
       background-color: darken(rgb(255, 150, 31), 10%);
     }
   }
@@ -64,10 +64,6 @@
   &.large {
     display: block;
     margin-right: 0;
-  }
-
-  &:focus, &:active {
-    background-color: darken(@light-accent-color, 10%);
   }
 }
 

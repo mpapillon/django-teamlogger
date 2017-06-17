@@ -1,11 +1,11 @@
 @import "colors";
 
-.nouvelles-header {
+.header {
   background-color: @accent-color;
   color: @default-white;
   box-shadow: 0 2px 0 0 darken(@light-accent-color, 20%);
-  
-  .nouvelles-auth {
+
+  .header-top-corner {
     font-size: 0.9rem;
     margin: 0.25rem 1rem 0 0;
     float: right;
@@ -18,8 +18,8 @@
     }
   }
 
-  .nouvelles-title {
-    margin: 0;
+  .header-title {
+    margin: 0 0 0 0.5rem;
     padding: 1rem;
     font-weight: 200;
 
@@ -28,18 +28,18 @@
     }
   }
 
-  .nouvelles-header-bottom {
+  .header-bottom {
     background-color: @light-accent-color;
     box-shadow: inset 0 2px 0 0 @darken-accent-color;
 
-    .nouvelles-nav {
+    .header-nav {
       padding: 0 1rem;
       margin: 0;
       display: flex;
       list-style: none;
       font-size: 0.95rem;
 
-      .nouvelles-nav-item {
+      .header-nav-item {
         margin: 0 0.3rem 0 0;
         font-size: 0.9rem;
 
