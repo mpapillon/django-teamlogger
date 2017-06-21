@@ -11,18 +11,19 @@ https://docs.djangoproject.com/en/1.11/ref/settings/
 """
 
 import os
-import dj_database_url
+import environ
 
-TRUE_VALUES = ['TRUE', 'True', 'true', 'y']
+
+env = environ.Env(APP_DEBUG=(bool, False), APP_SITE_NAME=(str, 'TeamLogger'), APP_LOG_LEVEL=(str, 'ERROR'))
 
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))
-
+root = environ.Path(__file__) - 2
+public_root = root.path('public/')
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.11/howto/deployment/checklist/
+
 
 def get_or_create_secret_key():
     """
@@ -39,7 +40,7 @@ def get_or_create_secret_key():
 SECRET_KEY = get_or_create_secret_key()
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.getenv('APP_DEBUG') in TRUE_VALUES
+DEBUG = env('APP_DEBUG')
 
 ALLOWED_HOSTS = ['*']
 
@@ -94,17 +95,8 @@ WSGI_APPLICATION = 'teamlogger.wsgi.application'
 # https://docs.djangoproject.com/en/1.11/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'teamlogger.sqlite3'),
-    }
+    'default': env.db(default='sqlite:///teamlogger.db'),
 }
-
-
-# Update database with env. var DATABASE_URL
-# https://github.com/kennethreitz/dj-database-url
-
-DATABASES['default'].update(dj_database_url.config(conn_max_age=500))
 
 
 # Honor the 'X-Forwarded-Proto' header for request.is_secure()
@@ -115,9 +107,9 @@ SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 # https://github.com/etianen/django-python3-ldap
 
 # The URL of the LDAP server.
-LDAP_AUTH_URL = os.getenv("LDAP_AUTH_URL")  # "ldap://localhost:10389"
+LDAP_URL = env.str("LDAP_URL", "")  # "ldap://localhost:10389"
 
-if LDAP_AUTH_URL:
+if LDAP_URL:
     # Turning on LDAP backend (Authentication backend)
     # https://docs.djangoproject.com/en/1.11/ref/settings/#authentication-backends
 
@@ -126,39 +118,14 @@ if LDAP_AUTH_URL:
         'django.contrib.auth.backends.ModelBackend',
     )
 
-
-    def get_user_fields_mapping():
-        """
-        Get LDAP_AUTH_USER_FIELDS from environment variable or return default.
-        """
-        import json
-        auth_user_fields_str = os.getenv("LDAP_AUTH_USER_FIELDS")
-
-        if auth_user_fields_str:
-            return json.load(auth_user_fields_str)
-        else:
-            return {
-                "username": "uid",
-                "first_name": "cn",
-                "last_name": "sn",
-                "email": "mail",
-            }
-
-    # Initiate TLS on connection.
-    LDAP_AUTH_USE_TLS = os.getenv("LDAP_AUTH_USE_TLS") in TRUE_VALUES
-
-    # The LDAP search base for looking up users.
-    LDAP_AUTH_SEARCH_BASE = os.getenv("LDAP_AUTH_SEARCH_BASE", "ou=people,dc=example,dc=com")
-
     # User model fields mapped to the LDAP
     # attributes that represent them.
-    LDAP_AUTH_USER_FIELDS = get_user_fields_mapping()
-
-    # The LDAP username and password of a user for querying the LDAP database for user
-    # details. If None, then the authenticated user will be used for querying, and
-    # the `ldap_sync_users` command will perform an anonymous query.
-    LDAP_AUTH_CONNECTION_USERNAME = os.getenv("LDAP_AUTH_CONNECTION_USERNAME", "admin")
-    LDAP_AUTH_CONNECTION_PASSWORD = os.getenv("LDAP_AUTH_CONNECTION_PASSWORD", "secret")
+    LDAP_AUTH_USER_FIELDS = env.json("LDAP_AUTH_USER_FIELDS", {
+        "username": "uid",
+        "first_name": "cn",
+        "last_name": "sn",
+        "email": "mail"
+    })
 
 
 # Password validation
@@ -183,9 +150,9 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/1.11/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = env.str('APP_LANGUAGE_CODE', 'en-us')
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = env.str('APP_TIME_ZONE', 'UTC')
 
 USE_I18N = True
 
@@ -197,13 +164,12 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
 
-STATIC_ROOT = os.getenv("APP_STATIC_ROOT", os.path.join(PROJECT_ROOT, 'staticfiles'))
-STATIC_URL = '/static/'
+try:
+    STATIC_ROOT = env('APP_STATIC_ROOT')
+except environ.ImproperlyConfigured:
+    STATIC_ROOT = public_root('staticfiles')
 
-# Extra places for collectstatic to find static files.
-STATICFILES_DIRS = (
-    os.path.join(PROJECT_ROOT, 'static'),
-)
+STATIC_URL = '/static/'
 
 
 # Simplified static file serving.
@@ -215,7 +181,11 @@ STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
 # Media files
 # https://docs.djangoproject.com/en/1.11/topics/files/
 
-MEDIA_ROOT = os.getenv("APP_MEDIA_ROOT", os.path.join(BASE_DIR, 'mediafiles'))
+try:
+    MEDIA_ROOT = env('APP_MEDIA_ROOT')
+except environ.ImproperlyConfigured:
+    STATIC_ROOT = public_root('mediafiles')
+
 MEDIA_URL = '/media/'
 
 
@@ -234,23 +204,8 @@ LOGOUT_REDIRECT_URL = '/'
 # Emails settings
 # https://docs.djangoproject.com/en/1.11/topics/email/#smtp-backend
 
-EMAIL_HOST = os.getenv('APP_EMAIL_HOST', 'localhost')
-
-EMAIL_PORT = os.getenv('APP_EMAIL_PORT', 25)
-
-EMAIL_HOST_USER = os.getenv('APP_EMAIL_HOST_USER', '')
-
-EMAIL_HOST_PASSWORD = os.getenv('APP_EMAIL_HOST_PASSWORD', '')
-
-EMAIL_USE_TLS = os.getenv('APP_EMAIL_USE_TLS') in TRUE_VALUES
-
-EMAIL_USE_SSL = os.getenv('APP_EMAIL_USE_SSL') in TRUE_VALUES
-
-EMAIL_TIMEOUT = os.getenv('APP_EMAIL_TIMEOUT', None)
-
-EMAIL_SSL_KEYFILE = os.getenv('APP_EMAIL_SSL_KEYFILE', None)
-
-EMAIL_SSL_CERTFILE = os.getenv('APP_EMAIL_SSL_CERTFILE', None)
+EMAIL_CONFIG = env.email(default='dummymail://')
+vars().update(EMAIL_CONFIG)
 
 
 # Markdown deux settings
@@ -281,7 +236,7 @@ LOGGING = {
     'loggers': {
         'django': {
             'handlers': ['console'],
-            'level': os.getenv('DJANGO_LOG_LEVEL', 'ERROR'),
+            'level': env('APP_LOG_LEVEL'),
         },
     },
 }
@@ -289,13 +244,13 @@ LOGGING = {
 
 # Nouvelles Settings
 
-SITE_NAME = os.getenv('APP_SITE_NAME', "TeamLogger")
+SITE_NAME = env('APP_SITE_NAME')
 
-SITE_DOMAIN = os.getenv('APP_SITE_DOMAIN')
+SITE_DOMAIN = env.str('APP_SITE_DOMAIN', '')
 
-HEADLINES_DAYS = os.getenv('APP_SITE_HEADLINES_DAYS', 7)
+HEADLINES_DAYS = env.int('APP_SITE_HEADLINES_DAYS', 7)
 
-EMAIL_HIGH_ARTICLES = os.getenv('APP_EMAIL_HIGH_ARTICLES') in TRUE_VALUES
+EMAIL_HIGH_ARTICLES = env.bool('APP_EMAIL_HIGH_ARTICLES', False)
 
 if EMAIL_HIGH_ARTICLES and not SITE_DOMAIN:
-    raise ValueError("You need a SITE_DOMAIN if you want email sending.")
+    raise environ.ImproperlyConfigured("You need a SITE_DOMAIN if you want email sending.")

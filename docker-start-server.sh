@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 # TeamLogger
 # Copyright (C) 2017  Maxence PAPILLON
 #
@@ -15,10 +15,17 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+GREEN='\033[0;32m'
+NC='\033[0m'
+
 # Database migration/creation
+echo "${GREEN}==>${NC} Database migration"
+
 python manage.py migrate
 
 # Moving static files
+echo "\n${GREEN}==>${NC} Collecting static files"
 python manage.py collectstatic --clear --no-input
 
+echo "\n${GREEN}==>${NC} Stating the server"
 gunicorn teamlogger.wsgi -b :8000 --log-file -

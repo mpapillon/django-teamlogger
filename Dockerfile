@@ -20,6 +20,7 @@ LABEL maintainer "maxence.papillon@outlook.com"
 
 WORKDIR /usr/src/app
 
+# get requirements
 COPY requirements.txt ./
 RUN pip install --no-cache-dir -r requirements.txt
 
@@ -38,6 +39,6 @@ RUN mkdir -p $APP_MEDIA_ROOT
 RUN chmod +rx docker-start-server.sh
 
 EXPOSE 8000
-VOLUME ["/var/log/", "/usr/src/app/", "/srv/app/"]
+VOLUME ["/var/log/", "/usr/src/app/", "$APP_STATIC_ROOT", "$APP_MEDIA_ROOT"]
 
 CMD ["/usr/src/app/docker-start-server.sh"]
