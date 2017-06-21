@@ -529,6 +529,7 @@ select[multiple],
 .shadowed-box.centered {
   max-width: 34rem;
   margin: 0 auto 1rem auto;
+  flex: 1 100%;
 }
 .shadowed-box.collapsed-on-top {
   margin-top: -1rem;
