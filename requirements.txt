@@ -8,4 +8,4 @@ django-environ==0.4.3
 gunicorn==19.7.1
 whitenoise==3.3.0
 
--e git://github.com/mpapillon/django-python3-ldap.git#egg=django-python3-ldap
+-e git+http://github.com/mpapillon/django-python3-ldap.git#egg=django-python3-ldap
