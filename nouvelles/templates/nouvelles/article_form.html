@@ -128,13 +128,13 @@
                 </div>
             </div>
         </div>
-    </div>
 
-    {% if article.parent_article %}
-        {% article article.parent_article %}
-    {% elif parent_article %}
-        {% article parent_article %}
-    {% endif %}
+        {% if article.parent_article %}
+            {% article article.parent_article %}
+        {% elif parent_article %}
+            {% article parent_article %}
+        {% endif %}
+    </div>
 {% endblock %}
 
 {% block scripts %}
