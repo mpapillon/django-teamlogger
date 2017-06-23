@@ -156,13 +156,13 @@
 
         $editorTabs.tabs(function (tabName) {
             if (tabName === 'preview') {
+                $('#preview').height($('#editor').height());
                 $.ajax({
                     url: preview_url,
                     type: 'post',
                     data: {"text": $('#id_description').val()},
                     success: function(data) {
                         $('#md_preview').html(data);
-                        $('#preview').height($('#editor').height());
                     }
                 });
             }
