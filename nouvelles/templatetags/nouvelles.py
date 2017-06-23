@@ -2,7 +2,7 @@ from django import template
 from django.core.urlresolvers import resolve
 from django.db.models import QuerySet
 
-from nouvelles import settings, __version__, __revision__
+from nouvelles import settings
 from nouvelles.models import Article
 
 register = template.Library()
@@ -33,8 +33,6 @@ def nouvelles_footer():
     return {
         'site_name': settings.SITE_NAME,
         'site_footer': settings.SITE_FOOTER,
-        'app_version': __version__,
-        'app_revision': __revision__.strip(),
     }
 
 
@@ -81,8 +79,3 @@ def paginated_url(context, view_name, page, page_arg_name='page'):
         req_params.update({page_arg_name: page})
 
     return "%s?%s" % (reverse(view_name), req_params.urlencode())
-
-
-@register.filter
-def class_name(obj):
-    return obj.__class__.__name__
