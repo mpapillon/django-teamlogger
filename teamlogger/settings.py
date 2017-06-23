@@ -184,7 +184,7 @@ STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
 try:
     MEDIA_ROOT = env('APP_MEDIA_ROOT')
 except environ.ImproperlyConfigured:
-    STATIC_ROOT = public_root('mediafiles')
+    MEDIA_ROOT = public_root('mediafiles')
 
 MEDIA_URL = '/media/'
 
