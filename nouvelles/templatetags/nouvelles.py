@@ -1,9 +1,9 @@
-from tokenize import group
-
 from django import template
 from django.core.urlresolvers import resolve
+from django.db.models import QuerySet
 
-from nouvelles import settings
+from nouvelles import settings, __version__, __revision__
+from nouvelles.models import Article
 
 register = template.Library()
 
@@ -32,7 +32,9 @@ def nouvelles_footer():
     """Build the footer"""
     return {
         'site_name': settings.SITE_NAME,
-        'site_footer': settings.SITE_FOOTER
+        'site_footer': settings.SITE_FOOTER,
+        'app_version': __version__,
+        'app_revision': __revision__.strip(),
     }
 
 
@@ -42,23 +44,19 @@ def site_title(page_title):
     return {'page_title': page_title, 'site_name': settings.SITE_NAME}
 
 
-@register.inclusion_tag('templatetags/articles_list.html')
-def articles_list(articles):
-    return {'articles': articles}
+@register.inclusion_tag('templatetags/format_articles_list.html')
+def format_articles_list(articles: QuerySet, show_dates: bool = False):
+    ordered_articles = []
 
+    if show_dates:
+        paginated_articles = Article.objects.filter(effective_date__in=articles.values_list('effective_date'))
+        for date in paginated_articles.dates('effective_date', 'day', order='DESC'):
+            ordered_articles.append(date)
+            ordered_articles.extend(paginated_articles.filter(effective_date=date))
+    else:
+        ordered_articles = articles
 
-@register.inclusion_tag('templatetags/articles_list_by_date.html')
-def articles_list_by_date(articles):
-    """Build a list of articles items"""
-    from django.utils import formats
-    import collections
-    grouped_articles = {}
-
-    for date in articles.dates('effective_date', 'day'):
-        date_key = date.isoformat()
-        grouped_articles.update({date_key: {"date": date, "articles": articles.filter(effective_date=date)}})
-
-    return {'articles': collections.OrderedDict(sorted(grouped_articles.items(), reverse=True))}
+    return {'articles': ordered_articles}
 
 
 @register.inclusion_tag('templatetags/article.html')
@@ -83,3 +81,8 @@ def paginated_url(context, view_name, page, page_arg_name='page'):
         req_params.update({page_arg_name: page})
 
     return "%s?%s" % (reverse(view_name), req_params.urlencode())
+
+
+@register.filter
+def class_name(obj):
+    return obj.__class__.__name__

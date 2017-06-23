@@ -10,7 +10,7 @@
 {% block content %}
     <div class="content-wrapper">
         <div class="shadowed-box content-title">
-            <h2 class="title">{{ title }}
+            <h2 class="title-plain">{{ title }}
                 {% comment %}<small>{{ query_date|date }}</small>{% endcomment %}
             </h2>
         </div>
@@ -18,7 +18,7 @@
         {% if author_filters|length %}
             <div class="content">
                 {% if article_list %}
-                    {% articles_list_by_date article_list %}
+                    {% format_articles_list article_list True %}
                 {% else %}
                     <div class="info-watermark">No article founded with theses filters</div>
                 {% endif %}

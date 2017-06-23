@@ -6,7 +6,7 @@
 {% block content %}
     <div class="content-wrapper">
         <div class="shadowed-box content-title">
-            <h2 class="title">{{ title }}</h2>
+            <h2 class="title-plain">{{ title }}</h2>
         </div>
         <div class="content content-box">
             <div class="shadowed-box collapsed-on-top">
@@ -17,13 +17,14 @@
                     <input type="submit" style="position: absolute; left: -9999px"/>
                 </form>
                 <p>
-                    <a class="button" href="javascript:filter_form.submit()"><span class="i-zoom"></span>Apply
-                        filters</a><a class="button secondary" href="{% url 'archives' %}"><span class="i-bin"></span>Clear
-                    filters</a>
+                    <a class="button" href="javascript:filter_form.submit()">
+                        <span class="i-zoom">Apply filters</span></a>
+                    <a class="button secondary" href="{% url 'archives' %}">
+                        <span class="i-bin">Clear filters</span></a>
                 </p>
             </div>
             {% if article_list %}
-                {% articles_list article_list %}
+                {% format_articles_list article_list True %}
                 {% if is_paginated %}
                     <ul class="pagination">
                         {% if page_obj.has_previous %}

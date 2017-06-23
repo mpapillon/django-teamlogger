@@ -9,7 +9,7 @@
 
     <div class="content-wrapper">
         <div class="shadowed-box content-title">
-            <h2 class="title">{{ article.title }}</h2>
+            <h2 class="title-plain">{{ article.title }}</h2>
         </div>
         <div class="content">
             {% article article %}
@@ -46,18 +46,16 @@
             {% endif %}
         </div>
         {% endif %}
-    </div>
 
     {% if article.article_set.count %}
-        <div class="content-wrapper">
-            <div class="shadowed-box content-title">
-                <h4 class="title">Replies</h4>
-            </div>
-            <div class="content">
-                <div class="content-box">
-                    {% articles_list article.article_set.all %}
-                </div>
+        <div class="shadowed-box content-title">
+            <h4 class="title-plain">Replies</h4>
+        </div>
+        <div class="content">
+            <div class="content-box">
+                {% format_articles_list article.article_set.all %}
             </div>
         </div>
     {% endif %}
+    </div>
 {% endblock %}
