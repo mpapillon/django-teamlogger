@@ -5,8 +5,8 @@
 <html>
 <head>
     <title>{% block title %}{% endblock %}</title>
-    <link rel="stylesheet" type="text/css" href="{% static 'nouvelles/css/github-markdown.css' %}"/>
-    <link rel="stylesheet" type="text/css" href="{% static 'nouvelles/css/select2.min.css' %}"/>
+    <link rel="stylesheet" type="text/css" href="{% static 'nouvelles/vendor/gh-markdown-css/github-markdown.css' %}"/>
+    <link rel="stylesheet" type="text/css" href="{% static 'nouvelles/vendor/select2/dist/css/select2.min.css' %}"/>
     <link rel="stylesheet" type="text/css" href="{% static 'nouvelles/css/style.css' %}"/>
     {% block head_links %}{% endblock %}
 </head>
@@ -25,10 +25,8 @@
     {% nouvelles_footer %}
 </div>
 
-<script src="https://code.jquery.com/jquery-3.1.1.min.js"
-        integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
-        crossorigin="anonymous"></script>
-<script src="{% static 'nouvelles/js/select2.full.min.js' %}"></script>
+<script src="{% static 'nouvelles/vendor/jquery/dist/jquery.min.js' %}"></script>
+<script src="{% static 'nouvelles/vendor/select2/dist/js/select2.full.min.js' %}"></script>
 {% block scripts %}{% endblock %}
 </body>
 </html>
