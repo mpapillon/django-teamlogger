@@ -1,0 +1,1 @@
+web: gunicorn teamlogger.wsgi --log-file -
