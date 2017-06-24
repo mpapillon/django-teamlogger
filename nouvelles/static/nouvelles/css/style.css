@@ -388,15 +388,3 @@ ul.attachments-list {
 .select2-container li {
   margin: 0;
 }
-pre,
-code {
-  font-family: "Consolas", "Monaco", "Lucida Console", "Liberation Mono", "DejaVu Sans Mono", "Bitstream Vera Sans Mono", "Courier New", monospace;
-  font-size: 0.75rem;
-}
-pre {
-  background-color: #f9f9f9;
-  border: 1px solid #f1f1f1;
-  padding: 0.5rem;
-  border-radius: 0.15rem;
-  overflow: auto;
-}
