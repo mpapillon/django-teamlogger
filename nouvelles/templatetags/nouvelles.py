@@ -79,3 +79,8 @@ def paginated_url(context, view_name, page, page_arg_name='page'):
         req_params.update({page_arg_name: page})
 
     return "%s?%s" % (reverse(view_name), req_params.urlencode())
+
+
+@register.filter
+def class_name(obj):
+    return obj.__class__.__name__

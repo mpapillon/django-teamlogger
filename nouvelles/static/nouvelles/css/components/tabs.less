@@ -12,6 +12,7 @@
       background-color: @light-accent-color;
       margin-right: 0.5rem;
       color: @default-white;
+      margin-bottom: 0;
 
       cursor: pointer;
 
@@ -19,6 +20,10 @@
         display: block;
         padding: 0.3rem 1rem;
         color: inherit;
+
+        &:hover {
+          text-decoration: none;
+        }
       }
 
       &.active {

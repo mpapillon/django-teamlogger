@@ -1,16 +1,20 @@
 @import "colors";
+@import url('https://fonts.googleapis.com/css?family=Open+Sans:300,400|Source+Sans+Pro:400,400i,700');
 
 body {
   margin: 0;
   padding: 0;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
   background-color: @background-color;
   font-size: 1rem;
+  color: @text-color;
+  font-family: 'Source Sans Pro', sans-serif;
 }
 
 h1, h2, h3, h4, h5, h6 {
-  padding: 0;
-  margin: 0;
+  border-bottom: 2px solid #b1b1b1;
+  padding: 0.3rem 0.5rem;
+  margin: 0 0 1rem;
+  font-family: 'Open Sans', sans-serif;
 }
 
 h1 {
@@ -21,13 +25,25 @@ h2 {
   font-size: 1.5rem;
 }
 
+h3 {
+  font-size: 1.17rem;
+}
+
+h4 {
+  font-size: 1rem;
+}
+
+h5 {
+  font-size: 0.83rem;
+}
+
+h6 {
+  font-size: 0.67em;
+}
+
 p {
   margin: 0 0 1rem 0;
-  line-height: 1.4rem;
-
-  &:first-child {
-    margin-top: 0;
-  }
+  line-height: 1.45rem;
 
   &:last-child {
     margin-bottom: 0;
@@ -37,6 +53,20 @@ p {
 a {
   text-decoration: none;
   color: @link-color;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+ul, ol {
+  line-height: 1.37rem;
+  margin: 1rem 0;
+  padding-left: 2.65rem;
+
+  li {
+    margin-bottom: 0.34rem;
+  }
 }
 
 hr {

@@ -1,0 +1,37 @@
+@import "colors";
+
+.shadowed-box {
+  padding: 0.5rem;
+  background-color: @default-white;
+  box-shadow: 0 2px 0 0 darken(@default-white, 20%);
+  margin-bottom: 1rem;
+
+  .title-plain {
+    background-color: @accent-color;
+    color: @default-white;
+    padding: 0.2rem 0.5rem;
+    border: none;
+
+    &.danger {
+      background-color: @danger-color;
+    }
+
+    small {
+      color: @light-accent-color;
+    }
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+
+  &.centered {
+    max-width: 34rem;
+    margin: 0 auto 1rem auto;
+    flex: 1 100%;
+  }
+
+  &.collapsed-on-top {
+    margin-top: -1rem;
+  }
+}

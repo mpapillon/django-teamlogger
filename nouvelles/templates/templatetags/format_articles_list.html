@@ -3,22 +3,22 @@
 {% for elm in articles %}
     {% with elm|class_name as elm_class %}
         {% if elm_class == "date" %}
-            <h4 class="title">
+            <h4>
                 {{ elm }}
             </h4>
         {% elif elm_class == "Article" %}
             <div class="shadowed-box" style="display: flex;flex-wrap: wrap;">
-                <h5 class="title" style="flex: 1 100%;">
-                    <a href="{% url 'detail' elm.slug %}">
-                    <span class="{% if elm.criticality == 'L' %}
-                    i-information
-                {% elif elm.criticality == 'M' %}
-                    i-error
-                {% elif elm.criticality == 'H' %}
-                    i-exclamation
-                {% endif %}"></span>{{ elm.title }}
-                    </a>
-                </h5>
+                    <h5 style="flex: 1 100%; border: none;margin-bottom: 0.5rem; padding: 0;">
+                        <a href="{% url 'detail' elm.slug %}">
+                        <span class="{% if elm.criticality == 'L' %}
+                        i-information
+                    {% elif elm.criticality == 'M' %}
+                        i-error
+                    {% elif elm.criticality == 'H' %}
+                        i-exclamation
+                    {% endif %}"></span>{{ elm.title }}
+                        </a>
+                    </h5>
                 <p class="description"
                    style="flex: 1 0 100%;">{{ elm.description|markdown|striptags|truncatewords:45 }}</p>
                 <small title="Publication date" class="i-date" style="flex: 1 1 25%;">
@@ -57,14 +57,14 @@
 {% comment %}
 {% for key, values in articles.items %}
     <div class="">
-        <h4 class="title">
+        <h4>
             {{ values.date }}
         </h4>
     </div>
     <ul class="article-list">
         {% for article in values.articles %}
             <li class="shadowed-box" style="display: flex;flex-wrap: wrap;">
-                <h5 class="title" style="flex: 1 100%;">
+                <h5 style="flex: 1 100%;">
                     <a href="{% url 'detail' article.slug %}">
                     <span class="{% if article.criticality == 'L' %}
                     i-information
