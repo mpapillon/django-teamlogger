@@ -14,9 +14,18 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+import subprocess
 
-__version_info__ = ('0', '2', '0')
+
+def get_commit_hash():
+    try:
+        return subprocess.check_output(['git', 'rev-parse', '--short', 'HEAD'])
+    except FileNotFoundError:
+        return "unknown"
+
+__version_info__ = ('0', '2', '1')
 __version__ = ".".join(__version_info__)
+__revision__ = get_commit_hash()
 
 __author__ = "Maxence PAPILLON"
 __copyright__ = "Copyright (C) 2017  Maxence PAPILLON"

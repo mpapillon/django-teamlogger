@@ -1,10 +1,11 @@
 from django.conf.urls import url
 
 from nouvelles import feeds
+from nouvelles.views.about import AboutView, LicenceView
 from nouvelles.views.ajax import PreviewMarkdownAjaxView, AttachmentUploadAjaxView
 from nouvelles.views.attachments import AttachmentDownloadView
-from nouvelles.views.articles import ArticleNewsListView, ArticleArchiveListView, ArticleCreateView, ArticleDetailView, \
-    ArticleEditView, ArticleDeleteView, ArticleReplyView
+from nouvelles.views.articles import ArticleNewsListView, ArticleArchiveListView, ArticleCreateView, \
+    ArticleDetailView, ArticleEditView, ArticleDeleteView, ArticleReplyView
 
 urlpatterns = [
     # ex: /nouvelles/
@@ -28,6 +29,11 @@ urlpatterns = [
     url(r'^attachment/upload/$', AttachmentUploadAjaxView.as_view(), name='upload_attachment'),
     # ex: /nouvelles/attachment/download/12
     url(r'^attachment/download/(?P<pk>[0-9]+)/$', AttachmentDownloadView.as_view(), name='download_attachment'),
+
+    # ex: /nouvelles/about
+    url(r'^about/$', AboutView.as_view(), name='about'),
+    # ex: /nouvelles/about/licence
+    url(r'^about/licence/$', LicenceView.as_view(), name='about_licence'),
 
     # ex: /nouvelles/feeds/headlines
     url(r'^feeds/headlines/$', feeds.HeadlinesFeed(), name='headlines_feed'),

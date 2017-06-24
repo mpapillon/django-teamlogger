@@ -1,5 +1,4 @@
-<div class="row">
-    <div class="columns">
-        <p><small class="nouvelles-credits">{{ site_name }} - {{ site_footer }}</small></p>
-    </div>
+<div class="footer">
+    <p>{{ site_name }} - {{ site_footer }}</p>
+    <p>Version {{ app_version }} (Revision {{ app_revision }}) - <a href="{% url 'about_licence' %}">GPL v3</a> - <a href="{% url 'about' %}">About</a></p>
 </div>

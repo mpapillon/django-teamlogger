@@ -1,4 +1,4 @@
-# django-nouvelles
+# TeamLogger
 # Copyright (C) 2017  Maxence PAPILLON
 #
 # This program is free software: you can redistribute it and/or modify
@@ -19,6 +19,7 @@ import teamlogger
 
 __version_info_ = teamlogger.__version_info__
 __version__ = teamlogger.__version__
+__revision__ = teamlogger.__revision__
 
 __author__ = teamlogger.__author__
 __copyright__ = teamlogger.__copyright__

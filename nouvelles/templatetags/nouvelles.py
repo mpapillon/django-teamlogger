@@ -2,7 +2,7 @@ from django import template
 from django.core.urlresolvers import resolve
 from django.db.models import QuerySet
 
-from nouvelles import settings
+from nouvelles import settings, __version__, __revision__
 from nouvelles.models import Article
 
 register = template.Library()
@@ -33,6 +33,8 @@ def nouvelles_footer():
     return {
         'site_name': settings.SITE_NAME,
         'site_footer': settings.SITE_FOOTER,
+        'app_version': __version__,
+        'app_revision': __revision__.strip(),
     }
 
 

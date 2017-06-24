@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% load nouvelles %}
+
+{% block title %}{% site_title "About" %}{% endblock %}
+
+{% block content %}
+    <div class="content-wrapper">
+        <div class="shadowed-box content-title">
+            <h2 class="title-plain">About TeamLogger</h2>
+        </div>
+        <div class="content">
+            <div class="shadowed-box">
+                <h3>What is TeamLogger</h3>
+                <p>
+                    TeamLogger enhance the spread of valuable work or infos about a projet. It focus on teamspirit
+                    and stress the importance of sharing between team members in order to keep a high level of
+                    transparency.
+                </p>
+
+                <h3>How can I help?</h3>
+                <p>
+                    You can share your ideas or encountered issues on the
+                    <a href="https://github.com/mpapillon/django-teamlogger">GitHub</a>.<br>
+                    If you are a developer your help is welcome !
+                </p>
+
+                <h4>Credits</h4>
+                <p>
+                    The application would not exist today without these people:
+                </p>
+                <ul>
+                    {% for p in peoples %}
+                    <li>{{ p }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+    </div>
+{% endblock %}
