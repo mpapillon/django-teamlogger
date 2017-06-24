@@ -213,9 +213,9 @@ vars().update(EMAIL_CONFIG)
 MARKDOWN_DEUX_STYLES = {
     "default": {
         "extras": {
-            "code-friendly": None,
             "fenced-code-blocks": None,
-            "tables": None
+            "tables": None,
+            "header-ids": None,
         },
         "safe_mode": "escape",
     },

@@ -14,17 +14,26 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-import teamlogger
+import subprocess
 
 
-__version_info_ = teamlogger.__version_info__
-__version__ = teamlogger.__version__
-__revision__ = teamlogger.__revision__
+def get_commit_hash():
+    try:
+        return subprocess.check_output(['git', 'rev-parse', '--short', 'HEAD'])
+    except FileNotFoundError:
+        return "unknown"
 
-__author__ = teamlogger.__author__
-__copyright__ = teamlogger.__copyright__
-__credits__ = teamlogger.__credits__
-__licence__ = teamlogger.__licence__
-__maintainer__ = teamlogger.__maintainer__
-__email__ = teamlogger.__email__
-__status_ = teamlogger.__status__
+__version_info__ = ('0', '2', '1')
+__version__ = ".".join(__version_info__)
+__revision__ = get_commit_hash()
+
+__author__ = "Maxence PAPILLON"
+__copyright__ = "Copyright (C) 2017  Maxence PAPILLON"
+__credits__ = ["Maxence PAPILLON", "Dan GEFFROY", "Brian GOHIER",
+               "Solène MARTIN", "Maxime BELLIER", "Alexandre PRENZA",
+               "Nicolas SABOUREAU", "Delphine DESPORT", "Aurélien PINIER",
+               "Fabien BONTEMPS"]
+__licence__ = "GPLv3"
+__maintainer__ = "Maxence PAPILLON"
+__email__ = "maxence.papillon@outlook.com"
+__status__ = "Development"
