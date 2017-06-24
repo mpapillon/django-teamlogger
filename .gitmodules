@@ -7,3 +7,6 @@
 [submodule "nouvelles/static/nouvelles/vendor/gh-markdown-css"]
 	path = nouvelles/static/nouvelles/vendor/gh-markdown-css
 	url = https://github.com/sindresorhus/github-markdown-css.git
+[submodule "nouvelles/static/nouvelles/vendor/milky-css"]
+	path = nouvelles/static/nouvelles/vendor/milky-css
+	url = https://github.com/mpapillon/milky-css.git

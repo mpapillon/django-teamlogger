@@ -1,18 +1,176 @@
-@import "components/colors";
-@import "components/default";
-@import "components/header";
-@import "components/footer";
-@import "components/forms";
-@import "components/grid";
-@import "components/buttons";
-@import "components/pagination";
-@import "components/tabs";
-@import "components/messages";
-@import "components/boxes";
+@import "../vendor/milky-css/src/colors";
+@import "icons";
 
-// Third parties
-@import "components/icons";
-@import "components/select2";
+.article {
+  //width: 53rem;
+  margin-bottom: 1rem;
+}
 
-// Application specific
-@import "components/app";
+.article-header {
+  background: rgba(179, 179, 179, 0.1);
+  padding: 0.5rem;
+  list-style: none;
+  border-bottom: 2px solid rgba(10, 10, 10, 0.1);
+  font-size: 0.8rem;
+
+  .article-header-row {
+    display: flex;
+    margin-bottom: 0.3rem;
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+
+    .article-header-title {
+      width: 7rem;
+    }
+  }
+
+  ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+}
+
+.markdown-body {
+  margin: 0.5rem 0;
+}
+
+ul.article-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+
+  & > * {
+    margin-bottom: 1rem;
+
+    .title {
+      background-color: @light-accent-color;
+      color: @default-white;
+      border-color: darken(@light-accent-color, 30%);
+      font-size: 1rem;
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+
+      a {
+        padding: 0.2rem 0.5rem;
+        color: inherit;
+        display: block;
+      }
+    }
+
+    .description {
+      margin-top: 0;
+      text-overflow: ellipsis;
+      overflow: hidden;
+    }
+  }
+}
+
+.filter-form {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+
+  li {
+    flex: 0 1 auto;
+    display: flex;
+    flex-direction: column;
+    margin-right: 0.5rem;
+    margin-bottom: 1rem;
+  }
+}
+
+.filters-sidebar {
+
+  h6 {
+    border-bottom: 2px solid @secondary-color;
+    //color: @default-white;
+    padding: 0.3rem 0.5rem;
+  }
+
+  ul {
+    margin: 0.5rem 0;
+    padding: 0;
+    list-style: none;
+
+    li {
+      padding: 0.1rem 0.5rem;
+      &.active {
+        background-color: @accent-color;
+        color: @default-white;
+
+        a {
+          color: inherit;
+        }
+      }
+
+      a {
+        display: block;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        overflow: hidden;
+      }
+    }
+  }
+}
+
+.info-watermark {
+  background: url(../img/info.png) no-repeat 50% 0;
+  margin: 3.5rem auto;
+  padding-top: 61px;
+  max-width: 256px;
+  background-size: 56px;
+  text-align: center;
+  color: rgba(0, 0, 0, 0.16);
+  font-size: 0.9rem;
+}
+
+#id_description {
+  box-sizing: border-box;
+  width: 100%;
+  min-height: 18rem;
+}
+
+ul.attachments-list {
+  margin: 0.5rem 0;
+  padding-left: 0.5rem;
+  list-style: none;
+}
+
+
+// Select 2
+
+
+.select2-container {
+  display: block;
+  min-width: 10.2rem;
+
+  &.select2-container--focus {
+    .select2-selection {
+      border: none;
+      box-shadow: inset 0 -2px 0 0 @darken-accent-color;
+    }
+  }
+
+  .select2-selection {
+    border: none;
+    height: auto;
+    font-size: 0.9rem;
+    min-height: 2rem;
+    border-radius: 0;
+    box-sizing: content-box;
+  }
+
+  .select2-results__option--highlighted[aria-selected] {
+    background-color: @accent-color;
+    color: @default-white;
+  }
+
+  li {
+    margin: 0;
+  }
+}
