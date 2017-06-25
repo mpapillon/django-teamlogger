@@ -48,7 +48,8 @@ def format_articles_list(articles: QuerySet, show_dates: bool = False):
     ordered_articles = []
 
     if show_dates:
-        paginated_articles = Article.objects.filter(effective_date__in=articles.values_list('effective_date'))
+        paginated_articles = Article.objects.filter(article__in=articles)\
+            .filter(effective_date__in=articles.values_list('effective_date'))
         for date in paginated_articles.dates('effective_date', 'day', order='DESC'):
             ordered_articles.append(date)
             ordered_articles.extend(paginated_articles.filter(effective_date=date))
