@@ -252,6 +252,12 @@
   image-rendering: pixelated;
   padding-left: 22px;
 }
+.i-github {
+  background: url(../icons/GitHub-Mark-Light-32px.png) no-repeat 0 50%;
+  background-size: 16px;
+  image-rendering: pixelated;
+  padding-left: 22px;
+}
 .article {
   margin-bottom: 1rem;
 }
