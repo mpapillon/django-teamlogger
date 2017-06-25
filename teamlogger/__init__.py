@@ -19,7 +19,6 @@ import nouvelles
 
 __version_info_ = nouvelles.__version_info__
 __version__ = nouvelles.__version__
-__revision__ = nouvelles.__revision__
 
 __author__ = nouvelles.__author__
 __copyright__ = nouvelles.__copyright__
