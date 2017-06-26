@@ -254,5 +254,3 @@ EMAIL_HIGH_ARTICLES = env.bool('APP_EMAIL_HIGH_ARTICLES', False)
 
 if EMAIL_HIGH_ARTICLES and not SITE_DOMAIN:
     raise environ.ImproperlyConfigured("You need a SITE_DOMAIN if you want email sending.")
-
-LICENCE_FILE = root('LICENCE')

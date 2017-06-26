@@ -1,4 +1,5 @@
 """Contains Nouvelles settings"""
+from os import path
 from django.conf import settings
 
 
@@ -7,6 +8,8 @@ def get(key, default):
     Returns the value of key from global settings or the default value.
     """
     return getattr(settings, key, default)
+
+ACKNOWLEDGMENTS_FILE = path.join(path.dirname(path.dirname(path.abspath(__file__))), 'ACKNOWLEDGMENTS.md')
 
 # Number of days in headlines page
 HEADLINES_DAYS = get('HEADLINES_DAYS', 7)
