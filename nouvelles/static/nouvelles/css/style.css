@@ -345,6 +345,9 @@ ul.article-list > * .description {
   white-space: nowrap;
   overflow: hidden;
 }
+.filters-sidebar ul li a:hover {
+  text-decoration: none;
+}
 .info-watermark {
   background: url(../img/info.png) no-repeat 50% 0;
   margin: 3.5rem auto;
