@@ -13,14 +13,16 @@
 <body>
 {% nouvelles_header %}
 <div class="main-content">
-    {% if messages %}
-        <div class="shadowed-box messages">
-            {% for message in messages %}
-                <div class="message {% if message.tags %}{{ message.tags }}{% endif %}">{{ message }}</div>
-            {% endfor %}
-        </div>
-    {% endif %}
-    {% block content %}{% endblock %}
+    <div class="content-wrapper">
+        {% if messages %}
+            <div class="shadowed-box messages content-title" style="flex: 1 100%;">
+                {% for message in messages %}
+                    <div class="message {% if message.tags %}{{ message.tags }}{% endif %}">{{ message }}</div>
+                {% endfor %}
+            </div>
+        {% endif %}
+        {% block content %}{% endblock %}
+    </div>
     <hr/>
     {% nouvelles_footer %}
 </div>

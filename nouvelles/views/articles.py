@@ -1,5 +1,6 @@
 from datetime import timedelta
 
+from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import PermissionRequiredMixin, UserPassesTestMixin
 from django.contrib.messages.views import SuccessMessageMixin
@@ -127,6 +128,17 @@ class ArticleArchiveListView(ViewTitleMixin, FormFilterMixin, ListView):
 
 class ArticleDetailView(DetailView):
     model = Article
+    same_parent_message = "The parent article could not be loaded because it seems to be the same as this article.\n" \
+                          "Please contact an administrator to report the problem."
+
+    def get_context_data(self, **kwargs):
+        context = super(ArticleDetailView, self).get_context_data(**kwargs)
+
+        if self.object.parent_article and self.object.slug == self.object.parent_article.slug:
+            self.object.parent_article = None
+            messages.warning(self.request, self.same_parent_message)
+
+        return context
 
 
 @method_decorator(login_required, name="dispatch")

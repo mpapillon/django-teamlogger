@@ -4,46 +4,44 @@
 {% block title %}{% site_title article.title %}{% endblock %}
 
 {% block content %}
+    <div class="shadowed-box content-title">
+        <h2 class="title-plain">{{ article.title }}</h2>
+    </div>
+    <div class="content">
+        {% article article %}
+    </div>
 
-    <div class="content-wrapper">
-        <div class="shadowed-box content-title">
-            <h2 class="title-plain">{{ article.title }}</h2>
-        </div>
-        <div class="content">
-            {% article article %}
-        </div>
-
-        {% if perms.nouvlles.change_article or perms.nouvelles.add_article or perms.nouvlles.delete_article %}
+    {% if perms.nouvlles.change_article or perms.nouvelles.add_article or perms.nouvlles.delete_article %}
         <div class="shadowed-box content-sidebar">
             {% if perms.nouvelles.add_article %}
-            <p>
-                <a class="button large" href="{% url 'create_reply' article.slug %}">
-                    <span class="i-note-go"></span>Reply
-                </a>
-            </p>
+                <p>
+                    <a class="button large" href="{% url 'create_reply' article.slug %}">
+                        <span class="i-note-go"></span>Reply
+                    </a>
+                </p>
             {% endif %}
 
             {% if perms.nouvlles.change_article or perms.nouvlles.delete_article or article.author == user %}
-            <hr/>
+                <hr/>
             {% endif %}
 
             {% if perms.nouvlles.change_article or article.author == user %}
-            <p>
-                <a class="button large" href="{% url 'edit' article.slug %}">
-                    <span class="i-note-edit"></span>Edit
-                </a>
-            </p>
+                <p>
+                    <a class="button large" href="{% url 'edit' article.slug %}">
+                        <span class="i-note-edit"></span>Edit
+                    </a>
+                </p>
             {% endif %}
 
             {% if perms.nouvlles.delete_article %}
-            <p>
-                <a class="button large danger" href="{% url 'delete' article.slug %}">
-                    <span class="i-note-delete"></span>Delete this thread
-                </a>
-            </p>
+                <p>
+                    <a class="button large danger" href="{% url 'delete' article.slug %}">
+                        <span class="i-note-delete"></span>Delete this thread
+                    </a>
+                </p>
             {% endif %}
         </div>
-        {% endif %}
+    {% endif %}
 
     {% if article.article_set.count %}
         <div class="shadowed-box content-title">
@@ -55,5 +53,4 @@
             </div>
         </div>
     {% endif %}
-    </div>
 {% endblock %}
