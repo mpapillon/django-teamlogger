@@ -7,6 +7,7 @@ TeamLogger / Changelog
 ### New features 
 
 * Header with dates is shown on the _Archive_ page.
+* Code blocks have syntax highlighting.
 * Creation of _About_ and _Licence_ pages.
 * Some design improvements.
 
