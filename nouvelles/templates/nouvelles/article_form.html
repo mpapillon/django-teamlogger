@@ -126,10 +126,10 @@
             </div>
         </div>
 
-        {% if article.parent_article %}
-            {% article article.parent_article %}
-        {% elif parent_article %}
-            {% article parent_article %}
+        {% if article_lineage %}
+            {% for a in article_lineage %}
+                {% article a %}
+            {% endfor %}
         {% endif %}
     </div>
 {% endblock %}

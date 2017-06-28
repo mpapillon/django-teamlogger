@@ -8,7 +8,9 @@
         <h2 class="title-plain">{{ article.title }}</h2>
     </div>
     <div class="content">
-        {% article article %}
+        {% for a in article_lineage %}
+            {% article a %}
+        {% endfor %}
     </div>
 
     {% if perms.nouvlles.change_article or perms.nouvelles.add_article or perms.nouvlles.delete_article %}

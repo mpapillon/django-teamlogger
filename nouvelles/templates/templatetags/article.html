@@ -58,7 +58,3 @@
         {{ article.description|markdown }}
     </div>
 </div>
-
-{% if show_parents and article.parent_article %}
-    {% article article.parent_article %}
-{% endif %}
