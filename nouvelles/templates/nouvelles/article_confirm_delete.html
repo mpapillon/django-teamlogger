@@ -19,11 +19,11 @@
             </div>
         </form>
         <div class="callout">
-            {% article article=article show_parents=False %}
+            {% article article %}
         </div>
         {% for child in article.article_set.all %}
             <div class="callout">
-                {% article article=child show_parents=False %}
+                {% article article=child %}
             </div>
         {% endfor %}
     </div>

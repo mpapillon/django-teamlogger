@@ -209,7 +209,7 @@ class ArticleEditView(UserPassesTestMixin, ViewTitleMixin, UpdateView, ArticleLi
 
 
 @method_decorator(login_required, name="dispatch")
-class ArticleDeleteView(PermissionRequiredMixin, ViewTitleMixin, SuccessMessageMixin, DeleteView):
+class ArticleDeleteView(PermissionRequiredMixin, ViewTitleMixin, SuccessMessageMixin, DeleteView, ArticleLineage):
     model = Article
     success_url = reverse_lazy('index')
     title = 'Delete confirmation'

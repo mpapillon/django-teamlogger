@@ -25,19 +25,7 @@ public_root = root.path('public/')
 # See https://docs.djangoproject.com/en/1.11/howto/deployment/checklist/
 
 
-def get_or_create_secret_key():
-    """
-    Get the secret from environement varaibles or create it if not exists.
-    """
-    import random
-    import string
-
-    # SECURITY WARNING: keep the secret key used in production secret!
-    secret_key = "".join([random.choice(string.printable) for i in range(60)])
-    return os.getenv('APP_SECRET', secret_key)
-
-
-SECRET_KEY = get_or_create_secret_key()
+SECRET_KEY = env('APP_SECRET')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = env('APP_DEBUG')
