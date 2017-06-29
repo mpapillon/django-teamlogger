@@ -163,14 +163,6 @@
     }
   },
   {
-    "model": "sessions.session",
-    "pk": "853uv801tb0ryxjti1h9jq91q2gh187t",
-    "fields": {
-      "session_data": "OGFhMzk0Y2Q5YjdlNDc4NzdmYjhjNTJjMzdkYWI0ODk3YTE1YzhiMTp7Il9hdXRoX3VzZXJfaWQiOiIxIiwiX2F1dGhfdXNlcl9iYWNrZW5kIjoiZGphbmdvLmNvbnRyaWIuYXV0aC5iYWNrZW5kcy5Nb2RlbEJhY2tlbmQiLCJfYXV0aF91c2VyX2hhc2giOiIzMzZhYjcwODljZmEyYTMxYjhjMjlkYWI4ZTI4ZGM5NjJkZjIyYmNjIn0=",
-      "expire_date": "2017-06-15T08:48:13.816Z"
-    }
-  },
-  {
     "model": "nouvelles.article",
     "pk": 1,
     "fields": {
