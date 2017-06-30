@@ -4,8 +4,9 @@ Third parties licenses
 Django
 ------
 
-https://www.djangoproject.com/
+[https://www.djangoproject.com/](https://www.djangoproject.com/)
 
+```
 Copyright (c) Django Software Foundation and individual contributors.
 All rights reserved.
 
@@ -33,14 +34,16 @@ LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON
 ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
 (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+```
 
 
 django-markdown-deux
 --------------------
 
-https://github.com/trentm/django-markdown-deux
+[https://github.com/trentm/django-markdown-deux](https://github.com/trentm/django-markdown-deux)
 
-# This is the MIT license
+```
+This is the MIT license
 
 Copyright (c) 2014 Trent Mick.
 Copyright (c) 2010 ActiveState Software Inc.
@@ -63,13 +66,15 @@ IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
 CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
 TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+```
 
 
 django-environ
 --------------
 
-https://github.com/joke2k/django-environ
+[https://github.com/joke2k/django-environ](https://github.com/joke2k/django-environ)
 
+```
 Copyright (c) 2013-2017, Daniele Faraglia
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -89,13 +94,15 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
+```
 
 
 django-python3-ldap
 -------------------
 
-https://github.com/etianen/django-python3-ldap
+[https://github.com/etianen/django-python3-ldap](https://github.com/etianen/django-python3-ldap)
 
+```
 Copyright (c) 2015, David Hall.
 All rights reserved.
 
@@ -123,14 +130,15 @@ LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON
 ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
 (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+```
 
 
 freezegun
 ---------
 
-https://github.com/spulec/freezegun
+[https://github.com/spulec/freezegun](https://github.com/spulec/freezegun)
 
-
+```
                               Apache License
                         Version 2.0, January 2004
                      http://www.apache.org/licenses/
@@ -332,13 +340,15 @@ distributed under the License is distributed on an "AS IS" BASIS,
 WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
+```
 
 
 gunicorn
 --------
 
-http://www.gunicorn.org/
+[http://www.gunicorn.org/](http://www.gunicorn.org/)
 
+```
 2009-2017 (c) Benoît Chesneau <benoitc@e-engura.org>
 2009-2015 (c) Paul J. Davis <paul.joseph.davis@gmail.com>
 
@@ -362,13 +372,15 @@ HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
 WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
 FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 OTHER DEALINGS IN THE SOFTWARE.
+```
 
 
 whitenoise
 ----------
 
-http://whitenoise.evans.io/
+[http://whitenoise.evans.io/](http://whitenoise.evans.io/)
 
+```
 The MIT License (MIT)
 
 Copyright (c) 2013 David Evans
@@ -389,13 +401,15 @@ FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
 COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
 IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+```
 
 
 select2
 -------
 
-https://github.com/select2/select2
+[https://github.com/select2/select2](https://github.com/select2/select2)
 
+```
 The MIT License (MIT)
 
 Copyright (c) 2012-2015 Kevin Brown, Igor Vaynberg, and Select2 contributors
@@ -417,13 +431,15 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
+```
 
 
 jquery
 ------
 
-https://jquery.com/
+[https://jquery.com/](https://jquery.com/)
 
+```
 Copyright JS Foundation and other contributors, https://js.foundation/
 
 This software consists of voluntary contributions made by many
@@ -460,23 +476,28 @@ All files located in the node_modules and external directories are
 externally maintained libraries used by this software which have their
 own licenses; we recommend you read them, as their terms may differ from
 the terms above.
+```
 
 
 Silk Icons
 ----------
 
-http://www.famfamfam.com/lab/icons/silk/
+[http://www.famfamfam.com/lab/icons/silk/](http://www.famfamfam.com/lab/icons/silk/)
 
+```
 This work is licensed under the Creative Commons Attribution 2.5 Generic License.
 To view a copy of this license, visit http://creativecommons.org/licenses/by/2.5/
 or send a letter to Creative Commons, PO Box 1866, Mountain View, CA 94042, USA.
+```
 
 
 Silk Icons Companion #1
 -----------------------
 
-https://github.com/damieng/silk-companion
+[https://github.com/damieng/silk-companion](https://github.com/damieng/silk-companion)
 
+```
 This work is licensed under the Creative Commons Attribution 2.5 Generic License.
 To view a copy of this license, visit http://creativecommons.org/licenses/by/2.5/
 or send a letter to Creative Commons, PO Box 1866, Mountain View, CA 94042, USA.
+```

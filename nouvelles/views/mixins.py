@@ -1,3 +1,4 @@
+from django.contrib import messages
 from django.views.generic.base import ContextMixin, View
 from django.views.generic.edit import FormMixin
 from django.views.generic.list import MultipleObjectMixin
@@ -54,3 +55,28 @@ class FormFilterMixin(FormMixin, FilterMixin):
             return queryset.filter(**self.get_queryset_filters())
         else:
             return queryset
+
+
+class ArticleLineage(ContextMixin):
+    """
+    Build a list named "article_lineage" containing current article with his parents
+    and prevent from article loops.
+    """
+    same_parent_message = "There was a problem with this article or one of its related elements. " \
+                          "Please contact an administrator."
+
+    def get_context_data(self, **kwargs):
+        context = super(ArticleLineage, self).get_context_data(**kwargs)
+        article_lineage = []
+        article_to_check = self.object if self.object else self.parent_article
+
+        while article_to_check:
+            if article_to_check.parent_article and article_to_check.slug == article_to_check.parent_article.slug:
+                article_to_check.parent_article = None
+                messages.warning(self.request, self.same_parent_message)
+            else:
+                article_lineage.append(article_to_check)
+                article_to_check = article_to_check.parent_article
+
+        context['article_lineage'] = article_lineage
+        return context

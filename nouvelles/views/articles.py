@@ -11,8 +11,8 @@ from django.views.generic import ListView, DetailView, CreateView, UpdateView, D
 
 from nouvelles.forms import ArticleForm, UploadAttachmentForm, ArchiveFiltersForm
 from nouvelles.models import Article
-from nouvelles.views.mixins import ViewTitleMixin, FilterMixin, FormFilterMixin
 from nouvelles.settings import HEADLINES_DAYS
+from nouvelles.views.mixins import ViewTitleMixin, FilterMixin, FormFilterMixin, ArticleLineage
 
 
 class ArticleNewsListView(ViewTitleMixin, FilterMixin, ListView):
@@ -125,7 +125,7 @@ class ArticleArchiveListView(ViewTitleMixin, FormFilterMixin, ListView):
         return dict((k, v) for (k, v) in filters.items() if v)
 
 
-class ArticleDetailView(DetailView):
+class ArticleDetailView(DetailView, ArticleLineage):
     model = Article
 
 
@@ -149,8 +149,11 @@ class ArticleCreateView(PermissionRequiredMixin, ViewTitleMixin, CreateView):
 
 
 @method_decorator(login_required, name="dispatch")
-class ArticleReplyView(ArticleCreateView):
+class ArticleReplyView(PermissionRequiredMixin, ViewTitleMixin, CreateView, ArticleLineage):
     title = 'New reply'
+    model = Article
+    form_class = ArticleForm
+    permission_required = 'nouvelles.add_article'
     parent_article = None
 
     def dispatch(self, request, *args, **kwargs):
@@ -171,16 +174,19 @@ class ArticleReplyView(ArticleCreateView):
     def get_context_data(self, **kwargs):
         context = super(ArticleReplyView, self).get_context_data(**kwargs)
         context['parent_article'] = self.parent_article
+        context['attachment_form'] = UploadAttachmentForm()
         return context
 
     def form_valid(self, form):
+        # Add connected user as author
+        form.instance.author = self.request.user
         # Add parent article
         form.instance.parent_article = self.parent_article
         return super(ArticleReplyView, self).form_valid(form)
 
 
 @method_decorator(login_required, name="dispatch")
-class ArticleEditView(UserPassesTestMixin, ViewTitleMixin, UpdateView):
+class ArticleEditView(UserPassesTestMixin, ViewTitleMixin, UpdateView, ArticleLineage):
     title = "Edit article"
     model = Article
     form_class = ArticleForm
@@ -198,11 +204,12 @@ class ArticleEditView(UserPassesTestMixin, ViewTitleMixin, UpdateView):
     def get_context_data(self, **kwargs):
         context = super(ArticleEditView, self).get_context_data(**kwargs)
         context['attachment_form'] = UploadAttachmentForm()
+        del context['article_lineage'][0]  # Removes the current article from lineage
         return context
 
 
 @method_decorator(login_required, name="dispatch")
-class ArticleDeleteView(PermissionRequiredMixin, ViewTitleMixin, SuccessMessageMixin, DeleteView):
+class ArticleDeleteView(PermissionRequiredMixin, ViewTitleMixin, SuccessMessageMixin, DeleteView, ArticleLineage):
     model = Article
     success_url = reverse_lazy('index')
     title = 'Delete confirmation'

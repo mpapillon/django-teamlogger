@@ -48,10 +48,11 @@ def format_articles_list(articles: QuerySet, show_dates: bool = False):
     ordered_articles = []
 
     if show_dates:
-        paginated_articles = Article.objects.filter(effective_date__in=articles.values_list('effective_date'))
+        paginated_articles = Article.objects.filter(id__in=articles.values_list('id'))\
+            .filter(effective_date__in=articles.values_list('effective_date'))
         for date in paginated_articles.dates('effective_date', 'day', order='DESC'):
             ordered_articles.append(date)
-            ordered_articles.extend(paginated_articles.filter(effective_date=date))
+            ordered_articles.extend(paginated_articles.filter(effective_date=date).order_by('-creation_date'))
     else:
         ordered_articles = articles
 
@@ -59,8 +60,8 @@ def format_articles_list(articles: QuerySet, show_dates: bool = False):
 
 
 @register.inclusion_tag('templatetags/article.html')
-def article(article, show_parents=True):
-    return {'article': article, 'show_parents': show_parents}
+def article(article):
+    return {'article': article}
 
 
 @register.inclusion_tag('templatetags/article_name.html')

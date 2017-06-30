@@ -1,6 +1,23 @@
 TeamLogger / Changelog
 =====================
 
+0.2.1
+-----
+
+### New features 
+
+* Header with dates is shown on the _Archive_ page.
+* Code blocks have syntax highlighting.
+* Creation of _About_ and _Licence_ pages.
+* Some design improvements.
+
+### Correctives
+
+* Static files was not collected in the right directory if the environment variable `APP_MEDIA_ROOT` was not set.
+* The screen scrolling was not retained after clicking on _Preview_ tab in the article form.
+* Prevent infinite loops on article.
+* Minor bug fixes.
+
 0.2.0
 -----
 

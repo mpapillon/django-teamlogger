@@ -6,27 +6,25 @@
 {% load static %}
 
 {% block content %}
-    <div class="content-wrapper">
-        <div class="shadowed-box content-title">
-            <h2 class="title-plain danger">Articles deletion confirmation</h2>
-        </div>
-        <div class="content content-box">
-            <form class="shadowed-box collapsed-on-top" method="post">
-                {% csrf_token %}
-                <p>Are you sure you want to delete the article "<i>{{ article.title }}</i>" and all its replies?</p>
-                <div class="button-group">
-                    <input type="submit" class="button danger" value="Delete the article and its replies"/>
-                    <a class="button" href="{% url 'detail' article.slug %}">Cancel</a>
-                </div>
-            </form>
-            <div class="callout">
-                {% article article=article show_parents=False %}
+    <div class="shadowed-box content-title">
+        <h2 class="title-plain danger">Articles deletion confirmation</h2>
+    </div>
+    <div class="content content-box">
+        <form class="shadowed-box collapsed-on-top" method="post">
+            {% csrf_token %}
+            <p>Are you sure you want to delete the article "<i>{{ article.title }}</i>" and all its replies?</p>
+            <div class="button-group">
+                <input type="submit" class="button danger" value="Delete the article and its replies"/>
+                <a class="button" href="{% url 'detail' article.slug %}">Cancel</a>
             </div>
-            {% for child in article.article_set.all %}
-                <div class="callout">
-                    {% article article=child show_parents=False %}
-                </div>
-            {% endfor %}
+        </form>
+        <div class="callout">
+            {% article article %}
         </div>
+        {% for child in article.article_set.all %}
+            <div class="callout">
+                {% article article=child %}
+            </div>
+        {% endfor %}
     </div>
 {% endblock %}

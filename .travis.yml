@@ -1,12 +1,18 @@
 language: python
+
 python:
   - "3.4"
   - "3.5"
   - "3.6"
   - "3.7-dev" # 3.7 development branch
+
 matrix:
   allow_failures:
      - python: "3.4"
+
+env:
+  - APP_SECRET=NotASecret
+
 install: "pip install -r requirements.txt"
 before_script: "./manage.py collectstatic"
 script: "./manage.py test"

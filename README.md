@@ -1,6 +1,8 @@
 # TeamLogger, Django application
 
-Team Newspaper: This tool enhance the spread of valuable work or infos about a projet. K'eude focus on teamspirit and stress the importance of sharing between team members in order to keep a high level of transparency.
+Team Newspaper: This tool enhance the spread of valuable work or infos about a projet. 
+TeamLogger focus on teamspirit and stress the importance of sharing between team members in order to keep a high 
+level of transparency.
 
 ## Run the app
 
@@ -18,6 +20,9 @@ No configuration needed, just run the following commands :
 # get requirements with pip
 pip install -r requirements.txt
 
+# set the secret key
+export APP_SECRET=MySecretKey
+
 # run the server
 ./manage.py runserver
 ```
@@ -30,7 +35,7 @@ TeamLogger can be launched with Docker, see the [wiki page](https://github.com/m
 
 ## Settings
 
-You can change the configuration by setting environement variables. All parameters are optional.
+You can change the configuration by setting environment variables. All parameters are optional.
 
 ### Application settings
 
@@ -62,7 +67,7 @@ _More informations in the [wiki page](https://github.com/mpapillon/django-teamlo
 
 ### LDAP Authentication Connection
 
-LDAP authentification can be used by setting the `LDAP_URL`. If you enable LDAP auth. you will always able to use database stored users.
+LDAP authentication can be used by setting the `LDAP_URL`. If you enable LDAP auth. you will always able to use database stored users.
 
 Example of `LDAP_URL`:
 

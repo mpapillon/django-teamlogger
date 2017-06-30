@@ -5,147 +5,145 @@
 {% load static %}
 
 {% block content %}
-    <div class="content-wrapper">
-        <div class="shadowed-box content-title">
-            <h2 class="title-plain">{{ title }}</h2>
-        </div>
-        <div class="content">
-            <div class="shadowed-box content-box">
-                <form name="form_article" method="post">
-                    {% csrf_token %}
-                    <div class="row">
-                        <div class="col">
-                            <div class="field-wrapper">
-                                {{ form.title.errors }}
-                                {{ form.title.label_tag }}
-                                {{ form.title }}
-                            </div>
+    <div class="shadowed-box content-title">
+        <h2 class="title-plain">{{ title }}</h2>
+    </div>
+    <div class="content">
+        <div class="shadowed-box content-box">
+            <form name="form_article" method="post">
+                {% csrf_token %}
+                <div class="row">
+                    <div class="col">
+                        <div class="field-wrapper">
+                            {{ form.title.errors }}
+                            {{ form.title.label_tag }}
+                            {{ form.title }}
                         </div>
                     </div>
+                </div>
 
-                    <div class="row">
-                        <div class="col">
-                            <div class="field-wrapper">
-                                {{ form.criticality.errors }}
-                                {{ form.criticality.label_tag }}
-                                {{ form.criticality }}
-                            </div>
-                        </div>
-                        <div class="col">
-                            <div class="field-wrapper">
-                                {{ form.effective_date.errors }}
-                                {{ form.effective_date.label_tag }}
-                                {{ form.effective_date }}
-                            </div>
+                <div class="row">
+                    <div class="col">
+                        <div class="field-wrapper">
+                            {{ form.criticality.errors }}
+                            {{ form.criticality.label_tag }}
+                            {{ form.criticality }}
                         </div>
                     </div>
-
-                    <div class="row">
-                        <div class="col">
-                            <div class="field-wrapper">
-                                {{ form.tags.errors }}
-                                {{ form.tags.label_tag }}
-                                {{ form.tags }}
-                            </div>
+                    <div class="col">
+                        <div class="field-wrapper">
+                            {{ form.effective_date.errors }}
+                            {{ form.effective_date.label_tag }}
+                            {{ form.effective_date }}
                         </div>
                     </div>
+                </div>
 
-                    <div class="row">
-                        <div class="col">
-                            <div class="field-wrapper">
-                                {{ form.description.errors }}
-                                {{ form.description.label_tag }}
-                                <div class="tabs-container" id="editor-tabs">
-                                    <ul class="tab-list">
-                                        <li class="tab active"><a data-target="editor" href="#editor">Editor</a></li>
-                                        <li class="tab"><a data-target="preview" href="#preview">Preview</a></li>
-                                    </ul>
-                                    <div id="editor" class="tab-content active">
-                                        {{ form.description }}
-                                        <p class="help-text">You can use <a
-                                                href="https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet"
-                                                target="_blank">Markdown
-                                            syntax</a>.</p>
-                                    </div>
-                                    <div id="preview" class="tab-content" style="max-height: 30rem; overflow: auto">
-                                        <div id="md_preview" class="markdown-body">
-                                        </div>
+                <div class="row">
+                    <div class="col">
+                        <div class="field-wrapper">
+                            {{ form.tags.errors }}
+                            {{ form.tags.label_tag }}
+                            {{ form.tags }}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col">
+                        <div class="field-wrapper">
+                            {{ form.description.errors }}
+                            {{ form.description.label_tag }}
+                            <div class="tabs-container" id="editor-tabs">
+                                <ul class="tab-list">
+                                    <li class="tab active"><a data-target="editor" href="#editor">Editor</a></li>
+                                    <li class="tab"><a data-target="preview" href="#preview">Preview</a></li>
+                                </ul>
+                                <div id="editor" class="tab-content active">
+                                    {{ form.description }}
+                                    <p class="help-text">You can use <a
+                                            href="https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet"
+                                            target="_blank">Markdown
+                                        syntax</a>.</p>
+                                </div>
+                                <div id="preview" class="tab-content" style="max-height: 30rem; overflow: auto">
+                                    <div id="md_preview" class="highlight">
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
+                </div>
 
 
-                    <div class="row">
-                        <div class="col">
-                            <div class="field-wrapper" style="display: none;">
-                                {{ form.attachments.errors }}
-                                {{ form.attachments.label_tag }}
-                                {{ form.attachments }}
-                            </div>
+                <div class="row">
+                    <div class="col">
+                        <div class="field-wrapper" style="display: none;">
+                            {{ form.attachments.errors }}
+                            {{ form.attachments.label_tag }}
+                            {{ form.attachments }}
                         </div>
                     </div>
+                </div>
 
 
-
-                    <div class="row">
-                        <div class="col">
-                            <div class="field-wrapper">
-                                {{ form.attachments.label_tag }}
-                                <ul id="js-attachments" class="attachments-list">
-                                    {% for attach in attachment_list %}
-                                        <li id="attach_{{ attach.id }}">
-                                            <p>
-                                                <a href="{% url 'download_attachment' attach.id %}"
-                                                   class="i-attach">{{ attach.file_name }}</a> -
-                                                <small>[<a href="javascript:removeAttachment({{ attach.id }})">remove</a>]
-                                                </small>
-                                            </p>
-                                        </li>
-                                    {% endfor %}
-                                </ul>
-                            </div>
+                <div class="row">
+                    <div class="col">
+                        <div class="field-wrapper">
+                            {{ form.attachments.label_tag }}
+                            <ul id="js-attachments" class="attachments-list">
+                                {% for attach in attachment_list %}
+                                    <li id="attach_{{ attach.id }}">
+                                        <p>
+                                            <a href="{% url 'download_attachment' attach.id %}"
+                                               class="i-attach">{{ attach.file_name }}</a> -
+                                            <small>[<a href="javascript:removeAttachment({{ attach.id }})">remove</a>]
+                                            </small>
+                                        </p>
+                                    </li>
+                                {% endfor %}
+                            </ul>
                         </div>
                     </div>
-                </form>
-            </div>
+                </div>
+            </form>
+        </div>
 
-            <div class="content-box">
-                <div class="shadowed-box">
+        <div class="content-box">
+            <div class="shadowed-box">
 
-                    <a title="Save and publish the article" class="button success"
-                       href="javascript:form_article.submit()"><span class="i-disk">Publish</span></a>
+                <a title="Save and publish the article" class="button success"
+                   href="javascript:form_article.submit()"><span class="i-disk">Publish</span></a>
 
-                    {% if perms.nouvelles.add_attachment %}
+                {% if perms.nouvelles.add_attachment %}
                     <form name="attachment_form" enctype="multipart/form-data" style="display: inline-block">
                         <label class="button file-upload" title="Upload and add attachment to this article"> <span
                                 class="i-attach">{{ attachment_form.file.label }}</span>
                             {{ attachment_form.file }}
                         </label>
                     </form>
-                    {% endif %}
-                </div>
+                {% endif %}
             </div>
         </div>
 
-        {% if article.parent_article %}
-            {% article article.parent_article %}
-        {% elif parent_article %}
-            {% article parent_article %}
+        {% if article_lineage %}
+            {% for a in article_lineage %}
+                {% article a %}
+            {% endfor %}
         {% endif %}
     </div>
 {% endblock %}
 
 {% block scripts %}
     <script>
-        {% if perms.nouvelles.add_attachment %}var upload_url = "{% url 'upload_attachment' %}";{% endif %}
+            {% if perms.nouvelles.add_attachment %}var upload_url = "{% url 'upload_attachment' %}";{% endif %}
         var download_url = "{% url 'download_attachment' '0000' %}";
         var preview_url = "{% url 'preview' %}";
     </script>
 
     <script src="{% static 'nouvelles/js/tabs.js' %}"></script>
-    {% if perms.nouvelles.add_attachment %}<script src="{% static 'nouvelles/js/attachment-upload.js' %}"></script>{% endif %}
+    {% if perms.nouvelles.add_attachment %}
+        <script src="{% static 'nouvelles/js/attachment-upload.js' %}"></script>{% endif %}
 
     <script>
         $('#id_tags').select2({width: '100%'});
@@ -161,7 +159,7 @@
                     url: preview_url,
                     type: 'post',
                     data: {"text": $('#id_description').val()},
-                    success: function(data) {
+                    success: function (data) {
                         $('#md_preview').html(data);
                     }
                 });

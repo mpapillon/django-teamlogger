@@ -1,7 +1,7 @@
 from django.conf.urls import url
 
 from nouvelles import feeds
-from nouvelles.views.about import AboutView, LicenceView
+from nouvelles.views.about import AboutView, LicenceView, ThirdPartiesView
 from nouvelles.views.ajax import PreviewMarkdownAjaxView, AttachmentUploadAjaxView
 from nouvelles.views.attachments import AttachmentDownloadView
 from nouvelles.views.articles import ArticleNewsListView, ArticleArchiveListView, ArticleCreateView, \
@@ -34,6 +34,8 @@ urlpatterns = [
     url(r'^about/$', AboutView.as_view(), name='about'),
     # ex: /nouvelles/about/licence
     url(r'^about/licence/$', LicenceView.as_view(), name='about_licence'),
+    # ex: /nouvelles/about/third_parties
+    url(r'^about/third_parties/$', ThirdPartiesView.as_view(), name='about_third_parties'),
 
     # ex: /nouvelles/feeds/headlines
     url(r'^feeds/headlines/$', feeds.HeadlinesFeed(), name='headlines_feed'),
