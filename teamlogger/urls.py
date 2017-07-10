@@ -13,21 +13,26 @@ Including another URLconf
     1. Import the include() function: from django.conf.urls import url, include
     2. Add a URL to urlpatterns:  url(r'^blog/', include('blog.urls'))
 """
+import re
 from django.urls import reverse
 from django.http import HttpResponseRedirect
 
 from django.conf.urls import include, url
 from django.contrib import admin
+from nouvelles.admin import admin_page
+from teamlogger.settings import APP_CONTEXT
+
+context_path = re.sub(r'^/', '', APP_CONTEXT)
 
 urlpatterns = [
-    url(r'^$', lambda r: HttpResponseRedirect(reverse('index'))),
+    url(r'^'+context_path+r'$', lambda r: HttpResponseRedirect(reverse('index'))),
     
     # ex: /
-    url('^', include('django.contrib.auth.urls')),
+    url('^'+context_path, include('django.contrib.auth.urls')),
 
     # ex: /nouvelles/
-    url(r'^nouvelles/', include('nouvelles.urls')),
+    url(r'^'+context_path+r'nouvelles/', include('nouvelles.urls')),
 
     # ex: /admin
-    url(r'^admin/', admin.site.urls),
+    url(r'^'+context_path+r'admin/', admin_page.urls),
 ]
