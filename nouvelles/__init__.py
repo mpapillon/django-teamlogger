@@ -1,5 +1,3 @@
-#!/usr/bin/python
-# -*- coding: latin-1 -*-
 # TeamLogger
 # Copyright (C) 2017  Maxence PAPILLON
 #
