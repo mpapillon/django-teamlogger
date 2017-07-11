@@ -153,7 +153,7 @@ USE_TZ = True
 
 # Application context path
 APP_CONTEXT = os.getenv('APP_CONTEXT', '/')
-APP_CONTEXT = APP_CONTEXT if len(APP_CONTEXT) > 0 and APP_CONTEXT[-1] == '/' else f'{APP_CONTEXT}/'
+APP_CONTEXT = APP_CONTEXT if len(APP_CONTEXT) > 0 and APP_CONTEXT[-1] == '/' else '%s/' % APP_CONTEXT
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
@@ -163,7 +163,7 @@ try:
 except environ.ImproperlyConfigured:
     STATIC_ROOT = public_root('staticfiles')
 
-STATIC_URL = f'{APP_CONTEXT}static/'
+STATIC_URL = '%sstatic/' % APP_CONTEXT
 
 
 # Simplified static file serving.
@@ -180,7 +180,7 @@ try:
 except environ.ImproperlyConfigured:
     MEDIA_ROOT = public_root('mediafiles')
 
-MEDIA_URL = f'{APP_CONTEXT}smedia/'
+MEDIA_URL = '%smedia/' % APP_CONTEXT
 
 
 # Auth urls
@@ -188,7 +188,7 @@ MEDIA_URL = f'{APP_CONTEXT}smedia/'
 # https://docs.djangoproject.com/en/1.11/ref/settings/#login-redirect-url
 # https://docs.djangoproject.com/en/1.11/ref/settings/#logout-redirect-url
 
-LOGIN_URL = f'{APP_CONTEXT}login/'
+LOGIN_URL = '%slogin/' % APP_CONTEXT
 
 LOGIN_REDIRECT_URL = APP_CONTEXT
 

@@ -20,9 +20,9 @@ from django.http import HttpResponseRedirect
 from django.conf.urls import include, url
 from django.contrib import admin
 from nouvelles.admin import admin_page
-from teamlogger.settings import APP_CONTEXT
+from django.conf import settings
 
-context_path = re.sub(r'^/', '', APP_CONTEXT)
+context_path = re.sub(r'^/', '',  getattr(settings, 'APP_CONTEXT'))
 
 urlpatterns = [
     url(r'^'+context_path+r'$', lambda r: HttpResponseRedirect(reverse('index'))),
