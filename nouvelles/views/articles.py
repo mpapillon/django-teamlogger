@@ -1,8 +1,11 @@
+import operator
 from datetime import timedelta
+from functools import reduce
 
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import PermissionRequiredMixin, UserPassesTestMixin
 from django.contrib.messages.views import SuccessMessageMixin
+from django.db.models import Q
 from django.shortcuts import get_object_or_404
 from django.urls import reverse_lazy, reverse
 from django.utils import timezone
@@ -112,12 +115,25 @@ class ArticleArchiveListView(ViewTitleMixin, FormFilterMixin, ListView):
         .order_by('-effective_date', '-creation_date')
     paginate_by = 10
     allowed_filters = {
-        'title': 'title__contains',
         'criticality': 'criticality',
         'author': 'author__username',
         'date': 'effective_date',
         'tag': 'tags__slug'
     }
+
+    def get_queryset(self):
+        result = super(ArticleArchiveListView, self).get_queryset()
+
+        # gets words in the search field and searches for articles
+        # that have at least one of the words in title or content.
+        query = self.request.GET.get('q')
+        if query:
+            query_list = query.split()
+            result = result.filter(
+                reduce(operator.or_, (Q(title__icontains=q) for q in query_list))
+                | reduce(operator.or_, (Q(description__icontains=q) for q in query_list))
+            )
+        return result
 
     def get_queryset_filters(self):
         filters = super(ArticleArchiveListView, self).get_queryset_filters()

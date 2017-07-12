@@ -1,6 +1,14 @@
 TeamLogger / Changelog
 =====================
 
+0.2.2
+-----
+
+### New features 
+
+* In the archives, the "date" field is no longer available as a filter.
+* A search field is available in the archives.
+
 0.2.1
 -----
 

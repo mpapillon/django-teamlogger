@@ -10,14 +10,44 @@
     <div class="content content-box">
         <div class="shadowed-box collapsed-on-top">
             <form name="filter_form" method="GET" action="{% url 'archives' %}">
-                <ul class="filter-form">
-                    {{ form.as_ul }}
-                </ul>
+                <div class="row">
+                    <div class="col">
+                        <div class="field-wrapper">
+                            {{ form.q.errors }}
+                            {{ form.q.label_tag }}
+                            {{ form.q }}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col">
+                        <div class="field-wrapper">
+                            {{ form.author.errors }}
+                            {{ form.author.label_tag }}
+                            {{ form.author }}
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="field-wrapper">
+                            {{ form.criticality.errors }}
+                            {{ form.criticality.label_tag }}
+                            {{ form.criticality }}
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="field-wrapper">
+                            {{ form.tag.errors }}
+                            {{ form.tag.label_tag }}
+                            {{ form.tag }}
+                        </div>
+                    </div>
+                </div>
                 <input type="submit" style="position: absolute; left: -9999px"/>
             </form>
             <p>
                 <a class="button" href="javascript:filter_form.submit()">
-                    <span class="i-zoom">Apply filters</span></a>
+                    <span class="i-zoom">Find articles</span></a>
                 <a class="button secondary" href="{% url 'archives' %}">
                     <span class="i-bin">Clear filters</span></a>
             </p>
