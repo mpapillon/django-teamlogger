@@ -48,13 +48,15 @@ def format_articles_list(articles: QuerySet, show_dates: bool = False):
     ordered_articles = []
 
     if show_dates:
-        paginated_articles = Article.objects.filter(id__in=articles.values_list('id'))\
-            .filter(effective_date__in=articles.values_list('effective_date'))
+        paginated_articles = Article.objects.filter(id__in=articles.values_list('id', flat=True))\
+            .filter(effective_date__in=articles.values_list('effective_date', flat=True))\
+            .select_related('author')\
+            .prefetch_related('tags')
         for date in paginated_articles.dates('effective_date', 'day', order='DESC'):
             ordered_articles.append(date)
             ordered_articles.extend(paginated_articles.filter(effective_date=date).order_by('-creation_date'))
     else:
-        ordered_articles = articles
+        ordered_articles = articles.select_related('author').prefetch_related('tags')
 
     return {'articles': ordered_articles}
 

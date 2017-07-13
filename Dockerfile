@@ -24,11 +24,14 @@ ENV LOGS_PATH=/var/log
 ENV APP_STATIC_ROOT=/srv/app/static
 ENV APP_MEDIA_ROOT=/srv/app/media
 
+# set application in production mode
+ENV DJANGO_SETTINGS_MODULE=teamlogger.settings.production
+
 WORKDIR /usr/src/app
 
 # get requirements
-COPY requirements.txt ./
-RUN pip install --no-cache-dir -r requirements.txt
+COPY requirements_prod.txt ./
+RUN pip install --no-cache-dir -r requirements_prod.txt
 
 # copy all files into container
 COPY . .

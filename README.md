@@ -9,7 +9,7 @@ level of transparency.
 First, clone the repo with dependencies :
 
 ```sh
-git clone https://github.com/mpapillon/django-teamlogger.git
+git clone --recursive https://github.com/mpapillon/django-teamlogger.git
 ```
 
 ### Run locally
@@ -18,9 +18,10 @@ No configuration needed, just run the following commands :
 
 ```sh
 # get requirements with pip
-pip install -r requirements.txt
+pip install -r requirements_dev.txt
 
-# set the secret key
+# set required env variables
+export DJANGO_SETTINGS_MODULE=teamlogger.settings.development
 export APP_SECRET=MySecretKey
 
 # run the server

@@ -9,6 +9,10 @@ TeamLogger / Changelog
 * In the archives, the "date" field is no longer available as a filter.
 * A search field is available in the archives.
 
+### Correctives
+
+* Some optimisations.
+
 0.2.1
 -----
 

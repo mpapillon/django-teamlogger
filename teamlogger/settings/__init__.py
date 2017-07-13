@@ -10,7 +10,6 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/1.11/ref/settings/
 """
 
-import os
 import environ
 
 
@@ -18,7 +17,7 @@ env = environ.Env(APP_DEBUG=(bool, False), APP_SITE_NAME=(str, 'TeamLogger'), AP
 
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
-root = environ.Path(__file__) - 2
+root = environ.Path(__file__) - 3
 public_root = root.path('public/')
 
 # Quick-start development settings - unsuitable for production
@@ -55,7 +54,6 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'whitenoise.middleware.WhiteNoiseMiddleware',
 ]
 
 ROOT_URLCONF = 'teamlogger.urls'
@@ -85,10 +83,6 @@ WSGI_APPLICATION = 'teamlogger.wsgi.application'
 DATABASES = {
     'default': env.db(default='sqlite:///teamlogger.db'),
 }
-
-
-# Honor the 'X-Forwarded-Proto' header for request.is_secure()
-SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
 
 # django-python3-ldap configuration
@@ -160,12 +154,6 @@ except environ.ImproperlyConfigured:
 STATIC_URL = '/static/'
 
 
-# Simplified static file serving.
-# https://warehouse.python.org/project/whitenoise/
-
-STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
-
-
 # Media files
 # https://docs.djangoproject.com/en/1.11/topics/files/
 
@@ -206,26 +194,6 @@ MARKDOWN_DEUX_STYLES = {
             "header-ids": None,
         },
         "safe_mode": "escape",
-    },
-}
-
-
-# Logging configuration, prints everything in console
-# https://docs.djangoproject.com/en/1.11/topics/logging/#configuring-logging
-
-LOGGING = {
-    'version': 1,
-    'disable_existing_loggers': False,
-    'handlers': {
-        'console': {
-            'class': 'logging.StreamHandler',
-        },
-    },
-    'loggers': {
-        'django': {
-            'handlers': ['console'],
-            'level': env('APP_LOG_LEVEL'),
-        },
     },
 }
 
