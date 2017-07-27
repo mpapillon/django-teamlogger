@@ -1,7 +1,14 @@
 <header class="header">
     <div class="main-content">
         {% if user.is_authenticated %}
-            <div class="header-top-corner"><a title="Change your password" href="{% url 'password_change' %}">{{ user.username }}</a> [<a href="{% url 'logout' %}">logout</a>]</div>
+            <div class="header-top-corner">
+                {% if not user.ldapprofile.source %}
+                    <a title="Change your password" href="{% url 'password_change' %}">{{ user.username }}</a>
+                {% else %}
+                    {{ user.username }}
+                {% endif %}
+                [<a href="{% url 'logout' %}">logout</a>]
+            </div>
         {% else %}
             <div class="header-top-corner">[<a href="{% url 'login' %}">login</a>]</div>
         {% endif %}

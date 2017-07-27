@@ -13,18 +13,9 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
+from ldapab.core import LDAPConnectionHandler
 
-
-__version_info__ = ('0', '2', '2', 'dev1')
+__version_info__ = ('1', '0', '0')
 __version__ = ".".join(__version_info__)
 
-__author__ = "Maxence PAPILLON"
-__copyright__ = "Copyright (C) 2017  Maxence PAPILLON"
-__credits__ = ["Maxence PAPILLON", "Dan GEFFROY", "Brian GOHIER",
-               "Solène MARTIN", "Maxime BELLIER", "Alexandre PRENZA",
-               "Nicolas SABOUREAU", "Delphine DESPORT", "Aurélien PINIER",
-               "Fabien BONTEMPS"]
-__licence__ = "GPLv3"
-__maintainer__ = "Maxence PAPILLON"
-__email__ = "maxence.papillon@outlook.com"
-__status__ = "Development"
+connections = LDAPConnectionHandler()
