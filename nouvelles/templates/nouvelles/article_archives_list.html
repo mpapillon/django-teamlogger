@@ -9,7 +9,7 @@
     </div>
     <div class="content content-box">
         <div class="shadowed-box collapsed-on-top">
-            <form name="filter_form" method="GET" action="{% url 'archives' %}">
+            <form name="filter_form" method="GET" action="{% url 'nouvelles:archives' %}">
                 <div class="row">
                     <div class="col">
                         <div class="field-wrapper">
@@ -48,7 +48,7 @@
             <p>
                 <a class="button" href="javascript:filter_form.submit()">
                     <span class="i-zoom">Find articles</span></a>
-                <a class="button secondary" href="{% url 'archives' %}">
+                <a class="button secondary" href="{% url 'nouvelles:archives' %}">
                     <span class="i-bin">Clear filters</span></a>
             </p>
         </div>
@@ -58,7 +58,7 @@
                 <ul class="pagination">
                     {% if page_obj.has_previous %}
                         <li class="shadowed-box pagination-previous">
-                            <a href="{% paginated_url 'archives' page=page_obj.previous_page_number %}"
+                            <a href="{% paginated_url 'nouvelles:archives' page=page_obj.previous_page_number %}"
                                class="button secondary">previous</a>
                         </li>
                     {% endif %}
@@ -67,7 +67,7 @@
                     </li>
                     {% if page_obj.has_next %}
                         <li class="shadowed-box  pagination-next">
-                            <a href="{% paginated_url 'archives' page=page_obj.next_page_number %}"
+                            <a href="{% paginated_url 'nouvelles:archives' page=page_obj.next_page_number %}"
                                class="button secondary">next</a></li>
                     {% endif %}
                 </ul>

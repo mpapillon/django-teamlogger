@@ -24,7 +24,7 @@ class Attachment(models.Model):
         return self.file_md5
 
     def get_absolute_url(self):
-        return reverse('download_attachment', kwargs={'pk': self.id})
+        return reverse('nouvelles:download_attachment', kwargs={'pk': self.id})
 
     def save(self, *args, **kwargs):
         # if the attachment was not yet in the database
@@ -103,7 +103,7 @@ class Article(models.Model):
         super(Article, self).save(*args, **kwargs)
 
     def get_absolute_url(self):
-        return reverse('detail', kwargs={'slug': self.slug})
+        return reverse('nouvelles:detail', kwargs={'slug': self.slug})
 
     def __str__(self):
         return '[' + self.author.username + '] ' + self.title

@@ -12,21 +12,21 @@
         {% else %}
             <div class="header-top-corner">[<a href="{% url 'login' %}">login</a>]</div>
         {% endif %}
-        <h1 class="header-title"><a href="{% url 'index' %}">{{ site_name }}</a></h1>
+        <h1 class="header-title"><a href="{% url 'nouvelles:index' %}">{{ site_name }}</a></h1>
     </div>
     <div class="header-bottom">
         <div class="main-content">
             <ul class="header-nav">
                 <li class="header-nav-item {% if path_name == 'index' %}active{% endif %}">
-                    <a href="{% url 'index' %}"><span class="i-newspaper">News</span></a>
+                    <a href="{% url 'nouvelles:index' %}"><span class="i-newspaper">News</span></a>
                 </li>
                 {% if perms.nouvelles.add_article %}
-                <li class="header-nav-item {% if path_name == 'create' or path_name == 'create_reply' %}active{% endif %}">
-                    <a href="{% url 'create' %}"><span class="i-note-add">New article</span></a>
+                <li class="header-nav-item {% if path_name == 'create' or path_name == 'reply' %}active{% endif %}">
+                    <a href="{% url 'nouvelles:create' %}"><span class="i-note-add">New article</span></a>
                 </li>
                 {% endif %}
                 <li class="header-nav-item {% if path_name == 'archives' %}active{% endif %}">
-                    <a href="{% url 'archives' %}"><span class="i-box">Archives</span></a>
+                    <a href="{% url 'nouvelles:archives' %}"><span class="i-box">Archives</span></a>
                 </li>
                 {% if user.is_staff %}
                     <li class="header-nav-item">

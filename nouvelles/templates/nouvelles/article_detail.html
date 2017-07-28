@@ -17,7 +17,7 @@
         <div class="shadowed-box content-sidebar">
             {% if perms.nouvelles.add_article %}
                 <p>
-                    <a class="button large" href="{% url 'create_reply' article.slug %}">
+                    <a class="button large" href="{% url 'nouvelles:reply' article.slug %}">
                         <span class="i-note-go"></span>Reply
                     </a>
                 </p>
@@ -29,7 +29,7 @@
 
             {% if perms.nouvlles.change_article or article.author == user %}
                 <p>
-                    <a class="button large" href="{% url 'edit' article.slug %}">
+                    <a class="button large" href="{% url 'nouvelles:edit' article.slug %}">
                         <span class="i-note-edit"></span>Edit
                     </a>
                 </p>
@@ -37,7 +37,7 @@
 
             {% if perms.nouvlles.delete_article %}
                 <p>
-                    <a class="button large danger" href="{% url 'delete' article.slug %}">
+                    <a class="button large danger" href="{% url 'nouvelles:delete' article.slug %}">
                         <span class="i-note-delete"></span>Delete this thread
                     </a>
                 </p>

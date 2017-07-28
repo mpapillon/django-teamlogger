@@ -4,7 +4,7 @@
 {% block title %}{% site_title title %}{% endblock %}
 
 {% block head_links %}
-    <link href="{% url 'headlines_feed' %}" rel="alternate" type="application/rss+xml" title="Headlines"/>
+    <link href="{% url 'nouvelles:headlines_feed' %}" rel="alternate" type="application/rss+xml" title="Headlines"/>
 {% endblock %}
 
 {% block content %}
@@ -51,11 +51,11 @@
                         </li>
                     {% endfor %}
                 </ul>
-                <a class="button large secondary" href="{% url 'index' %}"><span class="i-bin"></span>Clear
+                <a class="button large secondary" href="{% url 'nouvelles:index' %}"><span class="i-bin"></span>Clear
                     filters</a>
             </div>
             <div class="shadowed-box">
-                <a class="button large syndication" href="{% url 'headlines_feed' %}"><span class="i-feed"></span>Subscribe
+                <a class="button large syndication" href="{% url 'nouvelles:headlines_feed' %}"><span class="i-feed"></span>Subscribe
                     to {{ title }}</a>
             </div>
         </div>

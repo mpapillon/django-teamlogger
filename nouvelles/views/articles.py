@@ -44,9 +44,9 @@ class ArticleNewsListView(ViewTitleMixin, FilterMixin, ListView):
             req_params.update({field: value})
 
         if len(req_params):
-            return "%s?%s" % (reverse('index'), req_params.urlencode())
+            return "%s?%s" % (reverse('nouvelles:index'), req_params.urlencode())
         else:
-            return "%s" % reverse('index')
+            return "%s" % reverse('nouvelles:index')
 
     def get_filters(self):
         criticalities = [None] * 3
@@ -227,7 +227,7 @@ class ArticleEditView(UserPassesTestMixin, ViewTitleMixin, UpdateView, ArticleLi
 @method_decorator(login_required, name="dispatch")
 class ArticleDeleteView(PermissionRequiredMixin, ViewTitleMixin, SuccessMessageMixin, DeleteView, ArticleLineage):
     model = Article
-    success_url = reverse_lazy('index')
+    success_url = reverse_lazy('nouvelles:index')
     title = 'Delete confirmation'
     success_message = 'The article "%(title)s" has been deleted.'
 

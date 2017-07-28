@@ -1,7 +1,4 @@
-try:
-    from teamlogger.settings import *
-except ImportError:
-    pass
+from teamlogger.settings import *
 
 DEBUG = True
 

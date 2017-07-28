@@ -3,7 +3,7 @@ from django.apps import AppConfig
 
 class NouvellesConfig(AppConfig):
     name = 'nouvelles'
-    verbose_name = 'Nouvelles - Articles management'
+    verbose_name = 'Articles management'
 
     def ready(self):
         import nouvelles.signals

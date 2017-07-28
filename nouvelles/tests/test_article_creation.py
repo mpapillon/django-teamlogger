@@ -11,22 +11,22 @@ class ArticleCreationTestCase(TestCase):
     fixtures = ['nouvelles_dataset.json']
 
     def test_article_get_not_logged(self):
-        response = self.client.get(reverse('create'))
+        response = self.client.get(reverse('nouvelles:create'))
         self.assertEquals(response.status_code, 302)
 
     def test_get_no_permissions(self):
         self.client.login(username="hschmucker", password="p@ssword")
-        response = self.client.get(reverse('create'))
+        response = self.client.get(reverse('nouvelles:create'))
         self.assertEquals(response.status_code, 302)
 
     def test_get_success(self):
         self.client.login(username="bkane", password="p@ssword")
-        response = self.client.get(reverse('create'))
+        response = self.client.get(reverse('nouvelles:create'))
         self.assertTemplateUsed(response, "nouvelles/article_form.html")
         self.assertEquals(response.status_code, 200)
 
     def test_post_not_logged(self):
-        response = self.client.post(reverse('create'), {
+        response = self.client.post(reverse('nouvelles:create'), {
             "title": "test_post_not_logger",
             "criticality": Article.CRITICALITY_LOW,
             "effective_date": "2017-05-30",
@@ -36,7 +36,7 @@ class ArticleCreationTestCase(TestCase):
 
     def test_post_no_permissions(self):
         self.client.login(username="hschmucker", password="p@ssword")
-        response = self.client.post(reverse('create'), {
+        response = self.client.post(reverse('nouvelles:create'), {
             "title": "test_post_not_logger",
             "criticality": Article.CRITICALITY_LOW,
             "effective_date": "2017-05-30",
@@ -47,7 +47,7 @@ class ArticleCreationTestCase(TestCase):
 
     def test_post_success(self):
         self.client.login(username="bkane", password="p@ssword")
-        response = self.client.post(reverse('create'), {
+        response = self.client.post(reverse('nouvelles:create'), {
             "title": "test_post_not_logger",
             "criticality": Article.CRITICALITY_LOW,
             "effective_date": "2017-05-30",

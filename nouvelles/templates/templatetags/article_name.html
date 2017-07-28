@@ -1,4 +1,4 @@
-<a href="{% url 'detail' article.slug %}" class="
+<a href="{% url 'nouvelles:detail' article.slug %}" class="
 {% if article.criticality == 'L' %}
     i-information
 {% elif article.criticality == 'M' %}

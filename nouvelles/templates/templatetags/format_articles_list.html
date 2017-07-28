@@ -9,7 +9,7 @@
         {% elif elm_class == "Article" %}
             <div class="shadowed-box" style="display: flex;flex-wrap: wrap;">
                     <h5 style="flex: 1 100%; border: none;margin-bottom: 0.5rem; padding: 0;">
-                        <a href="{% url 'detail' elm.slug %}">
+                        <a href="{% url 'nouvelles:detail' elm.slug %}">
                         <span class="{% if elm.criticality == 'L' %}
                         i-information
                     {% elif elm.criticality == 'M' %}
@@ -28,7 +28,7 @@
                     <small title="Replies" class="i-note-go" style="flex: 1 1 25%;">{{ elm.article_set.count }}
                         {% if elm.article_set.count > 1 %}replies{% else %}reply{% endif %}</small>
                 {% endif %}
-                <a title="Author" href="{% url 'archives' %}?author={{ elm.author.username }}"
+                <a title="Author" href="{% url 'nouvelles:archives' %}?author={{ elm.author.username }}"
                    style="flex: 0 1 25%;">
                     <small class="i-user">
                         {% if elm.author.get_full_name %}
@@ -42,7 +42,7 @@
                 <small class="i-tag-blue" style="flex: 1 100%;">
                     {% if elm.tags.all|length > 0 %}
                         {% for tag in elm.tags.all %}
-                            <a href="{% url 'archives' %}?tag={{ tag.slug }}">{{ tag.name }}</a>
+                            <a href="{% url 'nouvelles:archives' %}?tag={{ tag.slug }}">{{ tag.name }}</a>
                             {% if forloop.last is not True %}, {% endif %}
                         {% endfor %}
                     {% else %}

@@ -15,7 +15,7 @@
             <p>Are you sure you want to delete the article "<i>{{ article.title }}</i>" and all its replies?</p>
             <div class="button-group">
                 <input type="submit" class="button danger" value="Delete the article and its replies"/>
-                <a class="button" href="{% url 'detail' article.slug %}">Cancel</a>
+                <a class="button" href="{% url 'nouvelles:detail' article.slug %}">Cancel</a>
             </div>
         </form>
         <div class="callout">

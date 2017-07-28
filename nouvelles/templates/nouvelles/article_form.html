@@ -95,7 +95,7 @@
                                 {% for attach in attachment_list %}
                                     <li id="attach_{{ attach.id }}">
                                         <p>
-                                            <a href="{% url 'download_attachment' attach.id %}"
+                                            <a href="{% url 'nouvelles:download_attachment' attach.id %}"
                                                class="i-attach">{{ attach.file_name }}</a> -
                                             <small>[<a href="javascript:removeAttachment({{ attach.id }})">remove</a>]
                                             </small>
@@ -136,9 +136,9 @@
 
 {% block scripts %}
     <script>
-            {% if perms.nouvelles.add_attachment %}var upload_url = "{% url 'upload_attachment' %}";{% endif %}
-        var download_url = "{% url 'download_attachment' '0000' %}";
-        var preview_url = "{% url 'preview' %}";
+            {% if perms.nouvelles.add_attachment %}var upload_url = "{% url 'nouvelles:upload_attachment' %}";{% endif %}
+        var download_url = "{% url 'nouvelles:download_attachment' '0000' %}";
+        var preview_url = "{% url 'nouvelles:preview' %}";
     </script>
 
     <script src="{% static 'nouvelles/js/tabs.js' %}"></script>
