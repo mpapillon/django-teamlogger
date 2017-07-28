@@ -118,8 +118,8 @@ class LDAPConnectionHandler(object):
             self._servers = getattr(settings, 'LDAP_SERVERS', {})
 
         # If no default settings, checking in environment variables
-        if DEFAULT_DIRECTORY_ALIAS not in self._servers:
-            self._servers[DEFAULT_DIRECTORY_ALIAS] = parse_ldap_url(os.getenv('LDAP_URL', None))
+        if DEFAULT_DIRECTORY_ALIAS not in self._servers and os.getenv('LDAP_URL'):
+            self._servers[DEFAULT_DIRECTORY_ALIAS] = parse_ldap_url(os.getenv('LDAP_URL'))
 
         return self._servers
 
@@ -133,6 +133,8 @@ class LDAPConnectionHandler(object):
         except KeyError:
             raise LDAPConnectionDoesNotExist("The connection %s doesn't exist" % alias)
 
+        conn.setdefault('PORT', '389')
+        conn.setdefault('ADMIN_GROUP', 'Administrators')
         conn.setdefault('ATTRIBUTES', {
             'username': ['uid', 'userid'],
             'email': ['mail', 'email'],
@@ -140,9 +142,7 @@ class LDAPConnectionHandler(object):
             'last_name':  'sn',
         })
 
-        conn.setdefault('ADMIN_GROUP', 'Administrators')
-
-        for setting in ['USER', 'PASSWORD', 'HOST', 'PORT', 'BASE', 'GROUP_BASE']:
+        for setting in ['USER', 'PASSWORD', 'HOST', 'BASE', 'GROUP_BASE']:
             conn.setdefault(setting, '')
 
     def __getitem__(self, alias):
