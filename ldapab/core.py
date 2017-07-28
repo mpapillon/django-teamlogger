@@ -47,7 +47,8 @@ class LDAPConnection(object):
         sb = self._settings_dict['BASE']
 
         # Find the user into the LDAP directory
-        for attr in attrs['username']:
+        username_attrs = attrs['username']
+        for attr in username_attrs if isinstance(username_attrs, list) else [username_attrs]:
             filters = "(&({attr}={username}))".format(attr=attr, username=username)
             if not self._connection.search(sb, filters, attributes=ALL_ATTRIBUTES):
                 continue

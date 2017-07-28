@@ -8,6 +8,7 @@ TeamLogger / Changelog
 
 * In the archives, the "date" field is no longer available as a filter.
 * A search field is available in the archives.
+* The LDAP connection has been reviewed, it supports groups.
 
 ### Correctives
 
