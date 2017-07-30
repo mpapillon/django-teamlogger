@@ -32,7 +32,6 @@ def nouvelles_footer():
     """Build the footer"""
     return {
         'site_name': settings.SITE_NAME,
-        'site_footer': settings.SITE_FOOTER,
         'app_version': __version__,
     }
 

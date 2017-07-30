@@ -2,7 +2,7 @@
     <div class="main-content">
         {% if user.is_authenticated %}
             <div class="header-top-corner">
-                {% if not user.ldapprofile.source %}
+                {% if not user.directory_info.source %}
                     <a title="Change your password" href="{% url 'password_change' %}">{{ user.username }}</a>
                 {% else %}
                     {{ user.username }}
