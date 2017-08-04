@@ -36,7 +36,7 @@ urlpatterns = [
 
     url(r'^about/', include([
         # ex: /nouvelles/about
-        url(r'^', AboutView.as_view(), name='about'),
+        url(r'^$', AboutView.as_view(), name='about'),
         # ex: /nouvelles/about/licence
         url(r'^licence/$', LicenceView.as_view(), name='licence'),
         # ex: /nouvelles/about/third_parties

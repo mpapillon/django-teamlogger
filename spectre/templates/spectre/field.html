@@ -1,0 +1,29 @@
+{% load spectre %}
+
+{% if field.is_hidden %}
+    {{ field }}
+{% else %}
+    {% with field|input_type as input_type %}
+        <div class="form-group">
+            {% if input_type != "checkbox" %}
+                <label class="form-label{% if size %} label-{{ size }}{% endif %}"
+                        {% if field.auto_id and input_type != "multicheckbox" and input_type != "radioset" %}
+                       for="{{ field.auto_id }}"
+                        {% endif %}>
+                    {{ field.label }}
+                </label>
+            {% endif %}
+            {% if input_type == "checkbox" %}
+                TODO: checkbox
+            {% elif input_type == "choice" %}
+                {{ field|to_spectre_field:size }}
+            {% elif input_type == "multicheckbox" %}
+                TODO: multicheckbox
+            {% elif input_type == "radioset" %}
+                TODO: radioset
+            {% else %}
+                {{ field|to_spectre_field:size }}
+            {% endif %}
+        </div>
+    {% endwith %}
+{% endif %}

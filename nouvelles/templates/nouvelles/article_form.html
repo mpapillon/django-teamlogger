@@ -1,152 +1,166 @@
-{% extends "base.html" %}
-{% load nouvelles %}
+{% extends "nouvelles/base.html" %}
+{% load nouvelles spectre %}
 
 {% block title %}{% site_title title %}{% endblock %}
 {% load static %}
 
 {% block content %}
-    <div class="shadowed-box content-title">
+    <div class="container" style="max-width: 85rem;">
         <h2 class="title-plain">{{ title }}</h2>
-    </div>
-    <div class="content">
-        <div class="shadowed-box content-box">
-            <form name="form_article" method="post">
-                {% csrf_token %}
-                <div class="row">
-                    <div class="col">
-                        <div class="field-wrapper">
-                            {{ form.title.errors }}
-                            {{ form.title.label_tag }}
-                            {{ form.title }}
-                        </div>
+        <div class="divider"></div>
+        <form name="form_article" method="post">
+            {% csrf_token %}
+            <div class="columns">
+                <div class="column col-12">
+                    <div class="form-group">
+                        {{ form.title.errors }}
+                        {{ form.title|as_spectre }}
                     </div>
                 </div>
+            </div>
 
-                <div class="row">
-                    <div class="col">
-                        <div class="field-wrapper">
-                            {{ form.criticality.errors }}
-                            {{ form.criticality.label_tag }}
-                            {{ form.criticality }}
-                        </div>
-                    </div>
-                    <div class="col">
-                        <div class="field-wrapper">
-                            {{ form.effective_date.errors }}
-                            {{ form.effective_date.label_tag }}
-                            {{ form.effective_date }}
-                        </div>
+
+            <div class="columns">
+                <div class="column col-6">
+                    <div class="form-group">
+                        {{ form.criticality.errors }}
+                        {{ form.criticality|as_spectre }}
                     </div>
                 </div>
-
-                <div class="row">
-                    <div class="col">
-                        <div class="field-wrapper">
-                            {{ form.tags.errors }}
-                            {{ form.tags.label_tag }}
-                            {{ form.tags }}
-                        </div>
+                <div class="column col-6">
+                    <div class="form-group">
+                        {{ form.effective_date.errors }}
+                        {{ form.effective_date|as_spectre }}
                     </div>
                 </div>
+            </div>
 
-                <div class="row">
-                    <div class="col">
-                        <div class="field-wrapper">
-                            {{ form.description.errors }}
-                            {{ form.description.label_tag }}
-                            <div class="tabs-container" id="editor-tabs">
-                                <ul class="tab-list">
-                                    <li class="tab active"><a data-target="editor" href="#editor">Editor</a></li>
-                                    <li class="tab"><a data-target="preview" href="#preview">Preview</a></li>
-                                </ul>
-                                <div id="editor" class="tab-content active">
-                                    {{ form.description }}
-                                    <p class="help-text">You can use <a
-                                            href="https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet"
-                                            target="_blank">Markdown
-                                        syntax</a>.</p>
-                                </div>
-                                <div id="preview" class="tab-content" style="max-height: 30rem; overflow: auto">
-                                    <div id="md_preview" class="highlight">
-                                    </div>
-                                </div>
+            <div class="columns">
+                <div class="column col-12">
+                    <div class="form-group">
+                        {{ form.tags.errors }}
+                        <label class="form-label" for="{{ form.tags.auto_id }}">
+                            {{ form.tags.label }}
+                        </label>
+                        {{ form.tags }}
+                    </div>
+                </div>
+            </div>
+
+            <div class="columns">
+                <div class="column col-12">
+                    <div class="field-wrapper">
+                        {{ form.description.errors }}
+                        <div class="tabs-container" id="editor-tabs">
+                            <ul class="tab">
+                                <li class="tab-item active"><a data-target="editor" href="#editor">Editor</a></li>
+                                <li class="tab-item"><a data-target="preview" href="#preview">Preview</a></li>
+                            </ul>
+                        </div>
+                        <div id="editor" class="tab-editor tab-content active">
+                            {{ form.description|as_spectre }}
+                            <p class="help-text">You can use <a href="#md-sheet-cheat">Markdown syntax</a>.</p>
+                        </div>
+                        <div id="preview" class="tab-content">
+                            <div id="md_preview" class="form-input highlight">
+                                <div class="loading" style="height: 100%;"></div>
                             </div>
                         </div>
                     </div>
                 </div>
+            </div>
 
+            <div class="hide">
+                {{ form.attachments.errors }}
+                {{ form.attachments.label }}
+                {{ form.attachments }}
+            </div>
 
-                <div class="row">
-                    <div class="col">
-                        <div class="field-wrapper" style="display: none;">
-                            {{ form.attachments.errors }}
-                            {{ form.attachments.label_tag }}
-                            {{ form.attachments }}
+            <div class="columns" id="js-attachments">
+                {% for attach in article.attachments.all %}
+                    <div class="column col-4 col-xs-12">
+                        <div class="tile tile-centered" id="attach_{{ attach.id }}">
+                            <div class="tile-icon">
+                                <a class="btn btn-action btn-primary btn-lg"
+                                   href="{% url 'nouvelles:download_attachment' attach.id %}">
+                                    <i class="icon icon-download centered"></i>
+                                </a>
+                            </div>
+                            <div class="tile-content">
+                                <div class="tile-title">{{ attach.file_name }}</div>
+                                <div class="tile-subtitle">{{ attach.upload_date|date }}</div>
+                            </div>
+                            <div class="tile-action">
+                                <div class="dropdown dropdown-right">
+                                    <a href="#" class="btn btn-link dropdown-toggle" tabindex="0">
+                                        <i class="icon icon-more-vert"></i>
+                                    </a>
+                                    <ul class="menu">
+                                        <li class="menu-item">
+                                            <a href="javascript:removeAttachment({{ attach.id }})">
+                                                Delete from article
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                </div>
+                {% endfor %}
+            </div>
 
-
-                <div class="row">
-                    <div class="col">
-                        <div class="field-wrapper">
-                            {{ form.attachments.label_tag }}
-                            <ul id="js-attachments" class="attachments-list">
-                                {% for attach in attachment_list %}
-                                    <li id="attach_{{ attach.id }}">
-                                        <p>
-                                            <a href="{% url 'nouvelles:download_attachment' attach.id %}"
-                                               class="i-attach">{{ attach.file_name }}</a> -
-                                            <small>[<a href="javascript:removeAttachment({{ attach.id }})">remove</a>]
-                                            </small>
-                                        </p>
-                                    </li>
-                                {% endfor %}
-                            </ul>
-                        </div>
-                    </div>
+            <div class="columns">
+                <div class="column col-12">
+                    <input class="btn btn-primary" type="submit" value="Publish">
+                    <label class="btn btn-info" title="Upload and add attachment to this article"
+                           for="{{ attachment_form.file.auto_id }}">
+                        {{ attachment_form.file.label }}
+                    </label>
                 </div>
+            </div>
+        </form>
+
+        {% if perms.nouvelles.add_attachment %}
+            <form name="attachment_form" enctype="multipart/form-data" class="hide">
+                {{ attachment_form.file }}
             </form>
-        </div>
+        {% endif %}
 
-        <div class="content-box">
-            <div class="shadowed-box">
+        <div id="md-sheet-cheat" class="modal">
+            <a class="modal-overlay" href="#"></a>
+            <div class="modal-container">
+                <div class="modal-header">
+                    <a class="btn btn-clear float-right" href="#"></a>
+                    <div class="modal-title">Markdown syntax</div>
+                </div>
+                <div class="modal-body">
+                    <div class="content">
+                        <p>Todo !</p>
+                    </div>
+                </div>
+                <div class="modal-footer">
 
-                <a title="Save and publish the article" class="button success"
-                   href="javascript:form_article.submit()"><span class="i-disk">Publish</span></a>
-
-                {% if perms.nouvelles.add_attachment %}
-                    <form name="attachment_form" enctype="multipart/form-data" style="display: inline-block">
-                        <label class="button file-upload" title="Upload and add attachment to this article"> <span
-                                class="i-attach">{{ attachment_form.file.label }}</span>
-                            {{ attachment_form.file }}
-                        </label>
-                    </form>
-                {% endif %}
+                </div>
             </div>
         </div>
-
-        {% if article_lineage %}
-            {% for a in article_lineage %}
-                {% article a %}
-            {% endfor %}
-        {% endif %}
     </div>
 {% endblock %}
 
 {% block scripts %}
     <script>
-            {% if perms.nouvelles.add_attachment %}var upload_url = "{% url 'nouvelles:upload_attachment' %}";{% endif %}
+            {% if perms.nouvelles.add_attachment %}var upload_url = "{% url 'nouvelles:upload_attachment' %}"
+                ;{% endif %}
         var download_url = "{% url 'nouvelles:download_attachment' '0000' %}";
         var preview_url = "{% url 'nouvelles:preview' %}";
     </script>
 
     <script src="{% static 'nouvelles/js/tabs.js' %}"></script>
     {% if perms.nouvelles.add_attachment %}
-        <script src="{% static 'nouvelles/js/attachment-upload.js' %}"></script>{% endif %}
+        <script src="{% static 'nouvelles/js/attachment-upload.js' %}"></script>
+    {% endif %}
 
     <script>
-        $('#id_tags').select2({width: '100%'});
+        $('#id_tags').select2({width: '100%', theme: 'spectre'});
     </script>
 
     <script>
@@ -154,7 +168,7 @@
 
         $editorTabs.tabs(function (tabName) {
             if (tabName === 'preview') {
-                $('#preview').height($('#editor').height());
+                $('#md_preview').height($('#id_description').height());
                 $.ajax({
                     url: preview_url,
                     type: 'post',
@@ -163,6 +177,10 @@
                         $('#md_preview').html(data);
                     }
                 });
+            }
+
+            if (tabName === 'editor') {
+                $('#md_preview').html('<div class="loading" style="height: 100%;"></div>');
             }
         });
     </script>

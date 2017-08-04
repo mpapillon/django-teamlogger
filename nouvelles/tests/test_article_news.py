@@ -14,5 +14,5 @@ class ArticleNewsTestCase(TestCase):
     def test_headlines_success(self):
         response = self.client.get(reverse('nouvelles:index'))
         self.failUnless(isinstance(response.context['article_list'], QuerySet))
-        self.assertTemplateUsed(response, "nouvelles/article_news_list.html")
+        self.assertTemplateUsed(response, "nouvelles/article_headlines.html")
         self.failUnlessEqual(response.status_code, 200)

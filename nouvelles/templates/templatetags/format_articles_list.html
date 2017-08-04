@@ -3,52 +3,31 @@
 {% for elm in articles %}
     {% with elm|class_name as elm_class %}
         {% if elm_class == "date" %}
-            <h4>
-                {{ elm }}
-            </h4>
+            <div class="column col-12">
+                <div class="divider text-center" data-content="{{ elm|date|upper }}"></div>
+            </div>
         {% elif elm_class == "Article" %}
-            <div class="shadowed-box" style="display: flex;flex-wrap: wrap;">
-                    <h5 style="flex: 1 100%; border: none;margin-bottom: 0.5rem; padding: 0;">
-                        <a href="{% url 'nouvelles:detail' elm.slug %}">
-                        <span class="{% if elm.criticality == 'L' %}
-                        i-information
-                    {% elif elm.criticality == 'M' %}
-                        i-error
-                    {% elif elm.criticality == 'H' %}
-                        i-exclamation
-                    {% endif %}"></span>{{ elm.title }}
-                        </a>
-                    </h5>
-                <p class="description"
-                   style="flex: 1 0 100%;">{{ elm.description|markdown|striptags|truncatewords:45 }}</p>
-                <small title="Publication date" class="i-date" style="flex: 1 1 25%;">
-                    {{ elm.effective_date|date }}
-                </small>
-                {% if elm.article_set.count %}
-                    <small title="Replies" class="i-note-go" style="flex: 1 1 25%;">{{ elm.article_set.count }}
-                        {% if elm.article_set.count > 1 %}replies{% else %}reply{% endif %}</small>
-                {% endif %}
-                <a title="Author" href="{% url 'nouvelles:archives' %}?author={{ elm.author.username }}"
-                   style="flex: 0 1 25%;">
-                    <small class="i-user">
-                        {% if elm.author.get_full_name %}
-                            {{ elm.author.get_full_name }}
-                        {% else %}
-                            {{ elm.author }}
+            <div class="column col-12">
+                <div class="tile tile-article">
+                    <div class="tile-icon">
+                        <div class="example-tile-icon">
+                            <figure class="avatar" data-initial="{{ elm.author|user_initials }}"></figure>
+                        </div>
+                    </div>
+                    <div class="tile-content">
+                        {% if elm.criticality != 'L' %}
+                            <span class="label label-{{ elm.criticality|lower }} rel float-right">{{ elm.get_criticality_display|lower }}</span>
                         {% endif %}
-                    </small>
-                </a>
-
-                <small class="i-tag-blue" style="flex: 1 100%;">
-                    {% if elm.tags.all|length > 0 %}
-                        {% for tag in elm.tags.all %}
-                            <a href="{% url 'nouvelles:archives' %}?tag={{ tag.slug }}">{{ tag.name }}</a>
-                            {% if forloop.last is not True %}, {% endif %}
-                        {% endfor %}
-                    {% else %}
-                        No tags
-                    {% endif %}
-                </small>
+                        <p class="tile-title">
+                            <a href="{% url 'nouvelles:detail' elm.slug %}" class="card-title">{{ elm.title }}</a>
+                        </p>
+                        <p class="tile-subtitle">
+                            by <a href="{% url 'nouvelles:archives' %}?author={{ elm.author.username }}">{{ elm.author|user_full_name }}</a> on <a
+                                href="{% url 'nouvelles:archives' %}?date={{ elm.effective_date|date:"o-m-d" }}">{{ elm.effective_date|date }}</a>
+                        </p>
+                        <div class="card-body">{{ elm.description|markdown|striptags|truncatewords:35 }}</div>
+                    </div>
+                </div>
             </div>
         {% endif %}
     {% endwith %}

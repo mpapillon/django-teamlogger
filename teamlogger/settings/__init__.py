@@ -35,6 +35,7 @@ ALLOWED_HOSTS = ['*']
 INSTALLED_APPS = [
     'nouvelles.apps.NouvellesConfig',
     'ldapab.apps.LDAPAuthConfig',
+    'spectre.apps.SpectreConfig',
     'markdown_deux',
     'django.contrib.admin',
     'django.contrib.auth',

@@ -1,0 +1,93 @@
+{% extends "nouvelles/base.html" %}
+{% load nouvelles %}
+
+{% block title %}{% site_title title %}{% endblock %}
+
+{% block head_links %}
+    <link href="{% url 'nouvelles:headlines_feed' %}" rel="alternate" type="application/rss+xml" title="Headlines"/>
+{% endblock %}
+
+{% block content %}
+    <div class="columns">
+        <div class="column col-12">
+            <h2>{{ title }}</h2>
+        </div>
+    </div>
+    <div class="columns">
+        {# If we have filters, we have articles. Else we don't have articles #}
+        {% if author_filters|length %}
+            <div class="column col-md-8 col-sm-12">
+                {% if article_list %}
+                    <div class="columns">
+                        {% format_articles_list article_list True %}
+                    </div>
+                {% else %}
+                    <div class="empty">
+                        <h4 class="empty-title">No articles found</h4>
+                        <p class="empty-subtitle">Check or clear your filters.</p>
+                        <div class="empty-action">
+                            <a class="btn btn-primary" href="{% url "nouvelles:index" %}">Clear my filters</a>
+                        </div>
+                    </div>
+                {% endif %}
+            </div>
+            <div class="column col-3 col-md-4 col-sm-12">
+                <div class="panel">
+                    <div class="panel-header">
+                        <div class="panel-title">Filters</div>
+                    </div>
+                    <div class="panel-body">
+                        <div class="divider" data-content="CRITICALITY"></div>
+                        <ul class="nouvelles-filter">
+                            {% for c in criticality_filters %}
+                                {% if c %}
+                                    <li {% if request.GET.criticality == c.id %}class="active"{% endif %}>
+                                        <a href="{{ c.url }}"><i class="icon icon-arrow-right"></i> {{ c.name }}</a>
+                                    </li>
+                                {% endif %}
+                            {% endfor %}
+                        </ul>
+                        <div class="divider" data-content="AUTHOR"></div>
+                        <ul class="nouvelles-filter">
+                            {% for a in author_filters %}
+                                <li {% if request.GET.author == a.username %}class="active"{% endif %}>
+                                    <a href="{{ a.url }}"><i class="icon icon-arrow-right"></i> {{ a.full_name }}</a>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                        <div class="divider" data-content="TAG"></div>
+                        <ul class="nouvelles-filter">
+                            {% for t in tag_filters %}
+                                <li {% if request.GET.tag == t.slug %}class="active"{% endif %}>
+                                    <a href="{{ t.url }}"><i class="icon icon-arrow-right"></i> {{ t.name }}</a>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                    <div class="panel-footer">
+                        <a class="btn btn-block btn-link" href="{% url 'nouvelles:index' %}">
+                            Clear filters
+                        </a>
+                    </div>
+                </div>
+                <div class="pt-10">
+                    <a class="btn btn-info btn-block" href="{% url 'nouvelles:headlines_feed' %}">
+                        <i class="icon icon-link"></i> Subscribe to {{ title }}
+                    </a>
+                </div>
+            </div>
+        {% else %}
+            <div class="column col-12">
+                <div class="empty">
+                    <div class="empty-icon">
+                        <i class="icon icon-flag"></i>
+                    </div>
+                    <h4 class="empty-title">There is no article for today</h4>
+                    <div class="empty-action">
+                        <a class="btn btn-primary" href="{% url 'nouvelles:create' %}">Write an article</a>
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+    </div>
+{% endblock %}

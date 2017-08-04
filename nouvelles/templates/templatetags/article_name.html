@@ -1,8 +1,0 @@
-<a href="{% url 'nouvelles:detail' article.slug %}" class="
-{% if article.criticality == 'L' %}
-    i-information
-{% elif article.criticality == 'M' %}
-    i-error
-{% elif article.criticality == 'H' %}
-    i-exclamation
-{% endif %}">{{ article.title }}</a>

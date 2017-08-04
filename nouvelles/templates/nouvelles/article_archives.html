@@ -1,0 +1,72 @@
+{% extends "nouvelles/base.html" %}
+{% load nouvelles spectre %}
+
+{% block title %}{% site_title title %}{% endblock %}
+
+{% block content %}
+    <div class="columns">
+        <div class="column col-12">
+            <h2 class="title-plain">{{ title }}</h2>
+        </div>
+    </div>
+
+    <div class="columns">
+        <div class="column col-12 show-sm">
+            <form class="input-group" method="GET"
+                  action="{% url 'nouvelles:archives' %}">
+                <input class="form-input" name="q" placeholder="Search an article" value="{{ form.q.value|default:"" }}"/>
+                <button class="btn btn-primary input-group-btn"><i class="icon icon-search"></i></button>
+            </form>
+        </div>
+        <div class="column col-9 col-md-8 col-sm-12">
+            {% if article_list %}
+                <div class="columns">
+                    {% format_articles_list article_list True %}
+                </div>
+                {% if is_paginated %}
+                    <ul class="pagination">
+                        <li class="page-item">
+                            {% if page_obj.has_previous %}
+                                <a href="{% paginated_url 'nouvelles:archives' page=page_obj.previous_page_number %}">previous</a>
+                            {% else %}
+                                <a href="#" disabled="">previous</a>
+                            {% endif %}
+                        </li>
+                        <li class="page-item">
+                            <span>page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}</span>
+                        </li>
+                        <li class="page-item">
+                            {% if page_obj.has_next %}
+                                <a href="{% paginated_url 'nouvelles:archives' page=page_obj.next_page_number %}">next</a>
+                            {% else %}
+                                <a href="#" disabled="">next</a>
+                            {% endif %}
+                        </li>
+                    </ul>
+                {% endif %}
+            {% else %}
+                <div class="empty mt-10">
+                    <h4 class="empty-title">No articles found</h4>
+                    <p class="empty-subtitle">Check or clear your filters.</p>
+                    <div class="empty-action">
+                        <a class="btn btn-primary" href="{% url 'nouvelles:archives' %}">Clear my filters</a>
+                    </div>
+                </div>
+            {% endif %}
+        </div>
+        <div class="column col-3 col-md-4 col-sm-12">
+            <form class="panel" name="filter_form" method="GET" action="{% url 'nouvelles:archives' %}">
+                <div class="panel-header">
+                    <div class="panel-title">Filters</div>
+                </div>
+                <div class="panel-body">
+                    {{ form|as_spectre:'sm' }}
+                </div>
+                <section class="panel-footer">
+                    <input class="btn btn-block btn-primary" type="submit" value="Find articles">
+                    <a class="btn btn-block btn-link" href="{% url 'nouvelles:archives' %}">Clear filters</a>
+                </section>
+            </form>
+        </div>
+    </div>
+{% endblock %}

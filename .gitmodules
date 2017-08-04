@@ -4,6 +4,6 @@
 [submodule "nouvelles/static/nouvelles/vendor/jquery"]
 	path = nouvelles/static/nouvelles/vendor/jquery
 	url = https://github.com/jquery/jquery.git
-[submodule "nouvelles/static/nouvelles/vendor/milky-css"]
-	path = nouvelles/static/nouvelles/vendor/milky-css
-	url = https://github.com/mpapillon/milky-css.git
+[submodule "nouvelles/static/nouvelles/vendor/spectre"]
+	path = nouvelles/static/nouvelles/vendor/spectre
+	url = https://github.com/picturepan2/spectre.git

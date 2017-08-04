@@ -1,0 +1,11 @@
+.page-container {
+  background: #f8f9fa;
+}
+.section-header {
+  display: none;
+}
+.panel-login {
+  max-width: 33rem;
+  margin: 10rem auto;
+  background: #FFFFFF;
+}

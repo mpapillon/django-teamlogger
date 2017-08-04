@@ -1,58 +1,17 @@
-{% extends "base.html" %}
+{% extends "nouvelles/base.html" %}
 {% load static nouvelles markdown_deux_tags %}
 
 {% block title %}{% site_title article.title %}{% endblock %}
 
 {% block content %}
-    <div class="shadowed-box content-title">
-        <h2 class="title-plain">{{ article.title }}</h2>
-    </div>
-    <div class="content">
-        {% for a in article_lineage %}
-            {% article a %}
-        {% endfor %}
-    </div>
-
-    {% if perms.nouvlles.change_article or perms.nouvelles.add_article or perms.nouvlles.delete_article %}
-        <div class="shadowed-box content-sidebar">
-            {% if perms.nouvelles.add_article %}
-                <p>
-                    <a class="button large" href="{% url 'nouvelles:reply' article.slug %}">
-                        <span class="i-note-go"></span>Reply
-                    </a>
-                </p>
-            {% endif %}
-
-            {% if perms.nouvlles.change_article or perms.nouvlles.delete_article or article.author == user %}
-                <hr/>
-            {% endif %}
-
-            {% if perms.nouvlles.change_article or article.author == user %}
-                <p>
-                    <a class="button large" href="{% url 'nouvelles:edit' article.slug %}">
-                        <span class="i-note-edit"></span>Edit
-                    </a>
-                </p>
-            {% endif %}
-
-            {% if perms.nouvlles.delete_article %}
-                <p>
-                    <a class="button large danger" href="{% url 'nouvelles:delete' article.slug %}">
-                        <span class="i-note-delete"></span>Delete this thread
-                    </a>
-                </p>
-            {% endif %}
-        </div>
-    {% endif %}
+    {% for a in article_lineage %}
+        {% article a %}
+    {% endfor %}
 
     {% if article.article_set.count %}
-        <div class="shadowed-box content-title">
-            <h4 class="title-plain">Replies</h4>
-        </div>
-        <div class="content">
-            <div class="content-box">
-                {% format_articles_list article.article_set.all %}
-            </div>
+        <h4 class="title-plain">Replies</h4>
+        <div class="columns">
+            {% format_articles_list article.article_set.all %}
         </div>
     {% endif %}
 {% endblock %}

@@ -1,60 +1,86 @@
 {% load markdown_deux_tags %}
 {% load nouvelles %}
 
-<div class="shadowed-box content-box article">
-    <div class="article-header">
-        <div class="article-header-row">
-            <div class="article-header-title"><p>Title: </p></div>
-            <div class="article-header-content"><p>{% article_name article %}</p></div>
-        </div>
-        <div class="article-header-row">
-            <div class="article-header-title"><p>Date: </p></div>
-            <div class="article-header-content">
-                <p><a href="{% url 'nouvelles:archives' %}?date={{ article.effective_date|date:"o-m-d" }}" class="i-date">{{ article.creation_date|date }}</a></p>
-            </div>
-        </div>
-        <div class="article-header-row">
-            <div class="article-header-title"><p>Author: </p></div>
-            <div class="article-header-content">
-                <p>
-                    <a href="{% url 'nouvelles:archives' %}?author={{ article.author.username }}" class="i-user">
-                        {% if article.author.get_full_name %}
-                            {{ article.author.get_full_name }}
-                        {%  else %}
-                            {{ article.author }}
-                        {% endif %}
+<article class="panel panel-article mb-10">
+    <div class="panel-header">
+        <div class="tile">
+            <div class="tile-content">
+                {% if article.criticality != 'L' %}
+                    <span class="label label-{{ article.criticality|lower }} rel float-right">{{ article.get_criticality_display|lower }}</span>
+                {% endif %}
+                <h5 class="tile-title article-title">
+                    {{ article.title }}
+                    <a href="{% url 'nouvelles:detail' article.slug %}" target="_blank"
+                       class="article-link tooltip tooltip-right" aria-hidden="true"
+                       data-tooltip="Open article in new window">
+                        <i class="icon icon-link"></i>
                     </a>
-                </p>
-            </div>
-        </div>
-        {% if article.tags.count %}
-        <div class="article-header-row">
-            <div class="article-header-title"><p>Tags: </p></div>
-            <div class="article-header-content">
-                <p>
+                </h5>
+                <div class="tile-subtitle">
+                    by <a
+                        href="{% url 'nouvelles:archives' %}?author={{ article.author.username }}">{{ article.author|user_full_name }}</a>
+                    on <a
+                        href="{% url 'nouvelles:archives' %}?date={{ article.effective_date|date:"o-m-d" }}">{{ article.creation_date|date }}</a>
+                </div>
+                <div class="tile-subtitle">
                     {% for tag in article.tags.all %}
-                        <a class="i-tag-blue" href="{% url 'nouvelles:archives' %}?tag={{ tag.slug }}">{{ tag.name }}</a>
+                        <a class="i-tag-blue"
+                           href="{% url 'nouvelles:archives' %}?tag={{ tag.slug }}">{{ tag.name }}</a>
                         {% if forloop.last is not True %}, {% endif %}
                     {% endfor %}
-                </p>
-            </div>
-        </div>
-        {% endif %}
-        {% if article.attachments.count %}
-            <div class="article-header-row">
-                <div class="article-header-title">Attachments:</div>
-                <div class="article-header-content">
-                    <ul class="no-bullet">
-                        {% for attach in article.attachments.all %}
-                            <li><a href="{% url 'nouvelles:download_attachment' attach.id %}"
-                                   class="i-attach">{{ attach.file_name }}</a></li>
-                        {% endfor %}
-                    </ul>
                 </div>
             </div>
+            <div class="tile-icon">
+                <figure class="avatar avatar-xl" data-initial="{{ article.author|user_initials }}"></figure>
+            </div>
+        </div>
+        {% if perms.nouvlles.change_article or perms.nouvelles.add_article or perms.nouvlles.delete_article %}
+            <div class="divider"></div>
+            {% if perms.nouvelles.add_article %}
+                <a class="btn btn-primary" href="{% url 'nouvelles:reply' article.slug %}">
+                    Reply
+                </a>
+            {% endif %}
+
+            {% if perms.nouvlles.change_article or perms.nouvlles.delete_article or article.author == user %}
+            {% endif %}
+
+            {% if perms.nouvlles.change_article or article.author == user %}
+                <a class="btn btn-default" href="{% url 'nouvelles:edit' article.slug %}">
+                    Edit
+                </a>
+            {% endif %}
+
+            {% if perms.nouvlles.delete_article %}
+                <a class="btn btn-danger" href="{% url 'nouvelles:delete' article.slug %}">
+                    Delete
+                </a>
+            {% endif %}
         {% endif %}
     </div>
-    <div class="highlight">
+    <div class="panel-body mt-10 highlight">
         {{ article.description|markdown }}
     </div>
-</div>
+    {% if article.attachments.count %}
+        <div class="panel-footer">
+            <div class="columns">
+                {% for attach in article.attachments.all %}
+                    <div class="column col-4 col-xs-12">
+                        <div class="tile tile-centered">
+                            <div class="tile-icon">
+                                <a class="btn btn-action btn-primary btn-lg"
+                                   href="{% url 'nouvelles:download_attachment' attach.id %}">
+                                    <i class="icon icon-download centered"></i>
+                                </a>
+                            </div>
+                            <div class="tile-content">
+                                <div class="tile-title">{{ attach.file_name }}</div>
+                                <div class="tile-subtitle">{{ attach.upload_date|date }}</div>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    {% endif %}
+</article>

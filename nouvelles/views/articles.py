@@ -23,7 +23,7 @@ class ArticleNewsListView(ViewTitleMixin, FilterMixin, ListView):
 
     title = 'Headlines'
     context_object_name = 'article_list'
-    template_name = 'nouvelles/article_news_list.html'
+    template_name = 'nouvelles/article_headlines.html'
     queryset = Article.objects \
         .filter(effective_date__gte=query_date) \
         .order_by('-effective_date', '-creation_date')
@@ -109,7 +109,7 @@ class ArticleNewsListView(ViewTitleMixin, FilterMixin, ListView):
 class ArticleArchiveListView(ViewTitleMixin, FormFilterMixin, ListView):
     title = "Archives"
     context_object_name = 'article_list'
-    template_name = 'nouvelles/article_archives_list.html'
+    template_name = 'nouvelles/article_archives.html'
     form_class = ArchiveFiltersForm
     queryset = Article.objects \
         .order_by('-effective_date', '-creation_date')

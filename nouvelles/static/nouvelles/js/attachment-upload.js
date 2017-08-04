@@ -40,11 +40,34 @@ function formatBytes(bytes, decimals) {
 function addAttachment(fileId, fileName) {
     var file_url = download_url.replace('0000', fileId);
 
-    var $file_line = $('<li id="attach_' + fileId + '">' +
-        '      <p>' +
-        '          <a href="' + file_url + '" class="i-attach">' + fileName + '</a> - <small>[<a href="javascript:removeAttachment(' + fileId + ')">remove</a>]</small>' +
-        '      </p>' +
-        '  </li>');
+    var $file_line = $('<div class="column col-4 col-xs-12" id="attach_' + fileId + '">' +
+        '<div class="tile tile-centered">\n' +
+        '    <div class="tile-icon">\n' +
+        '        <a class="btn btn-action btn-primary btn-lg"\n' +
+        '           href="' + file_url + '">\n' +
+        '            <i class="icon icon-download centered"></i>\n' +
+        '        </a>\n' +
+        '    </div>\n' +
+        '    <div class="tile-content">\n' +
+        '        <div class="tile-title">' + fileName + '</div>\n' +
+        '        <div class="tile-subtitle">Uploaded</div>\n' +
+        '    </div>\n' +
+        '    <div class="tile-action">\n' +
+        '        <div class="dropdown dropdown-right">\n' +
+        '            <a href="#" class="btn btn-link dropdown-toggle" tabindex="0">\n' +
+        '                <i class="icon icon-more-vert"></i>\n' +
+        '            </a>\n' +
+        '            <ul class="menu">\n' +
+        '                <li class="menu-item">\n' +
+        '                    <a href="javascript:removeAttachment(' + fileId + ')">\n' +
+        '                        Delete from article\n' +
+        '                    </a>\n' +
+        '                </li>\n' +
+        '            </ul>\n' +
+        '        </div>\n' +
+        '    </div>\n' +
+        '</div>' +
+        '</div>');
 
     if (!$('#js-attachments').find('#attach_' + fileId).length) {
         $file_line.appendTo('#js-attachments');
@@ -76,14 +99,25 @@ $(function () {
 
             data.append('file', value);
 
-            $('#js-attachments-label').show();
-
-            var $file_upload_line = $('<li>' +
-                '      <p>' +
-                '          <span class="i-attach">' + value.name + ' </span>' +
-                '          <progress id="' + uuid + '" value="0" max="100" class="attachment"></progress>' +
-                '      </p>' +
-                '  </li>').appendTo('#js-attachments');
+            var $file_upload_line = $('<div class="column col-4 col-xs-12">' +
+                '<div class="tile tile-centered">\n' +
+                '<div class="tile-icon">\n' +
+                '    <a class="btn btn-action btn-lg" disabled=""\n' +
+                '        <i class="icon icon-download centered"></i>\n' +
+                '    </a>\n' +
+                '</div>\n' +
+                '<div class="tile-content">\n' +
+                '    <div class="tile-title">' + value.name + '</div>\n' +
+                '    <div class="tile-subtitle">\n' +
+                '        <progress id="' + uuid + '" value="0" max="100" class="progress mb-5"></progress>\n' +
+                '    </div>\n' +
+                '</div>\n' +
+                '<div class="tile-action">\n' +
+                '    <a href="#" class="btn btn-link dropdown-toggle" tabindex="0">\n' +
+                '        <i class="icon icon-cross"></i>\n' +
+                '    </a>\n' +
+                '</div>' +
+                '</div>').appendTo('#js-attachments');
 
             var progress = $(document.getElementById(uuid))[0];
 

@@ -19,15 +19,13 @@ class ArchiveFiltersForm(forms.Form):
 
     criticality_choices += list(Article.CRITICALITY_CHOICES)
 
-    q = forms.CharField(label='Search', required=False)
+    q = forms.CharField(label='Contains', required=False)
     author = UserModelChoiceField(
         label='Author',
         queryset=User.objects.all().order_by('username'),
         to_field_name='username',
         required=False,
         empty_label='-- All authors --')
-    date = forms.DateField(required=False,
-                           widget=forms.TextInput(attrs={'placeholder': 'YYYY-MM-DD'}))
     criticality = forms.ChoiceField(
         label='Criticality',
         required=False,
@@ -53,3 +51,7 @@ class UploadAttachmentForm(ModelForm):
         labels = {
             'file': 'Add attachment'
         }
+
+    def __init__(self, *args, **kwargs):
+        super(UploadAttachmentForm, self).__init__(*args, **kwargs)
+        self.fields['file'].required = False
