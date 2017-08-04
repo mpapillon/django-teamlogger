@@ -130,8 +130,8 @@ class ArticleArchiveListView(ViewTitleMixin, FormFilterMixin, ListView):
         if query:
             query_list = query.split()
             result = result.filter(
-                reduce(operator.or_, (Q(title__icontains=q) for q in query_list))
-                | reduce(operator.or_, (Q(description__icontains=q) for q in query_list))
+                reduce(operator.and_, (Q(title__icontains=q) for q in query_list))
+                | reduce(operator.and_, (Q(description__icontains=q) for q in query_list))
             )
         return result
 
