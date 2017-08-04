@@ -40,27 +40,28 @@ class LDAPAuthBackend(ModelBackend):
                 user.first_name = user_details['first_name']
                 user.last_name = user_details['last_name']
 
-                # Updates user groups
-                groups = []
-                for group_name in user_details['groups']:
-                    if group_name == directory['ADMIN_GROUP']:
-                        user.is_staff = True
-                        user.is_superuser = True
-                    else:
-                        try:
-                            group = Group.objects.get(name=group_name)
-                        except Group.DoesNotExist:
-                            group = Group(name=group_name)
-                            group.save()
-                        groups.append(group)
+                if directory['GROUP_BASE']:
+                    # Updates user groups
+                    groups = []
+                    for group_name in user_details['groups']:
+                        if group_name == directory['ADMIN_GROUP']:
+                            user.is_staff = True
+                            user.is_superuser = True
+                        else:
+                            try:
+                                group = Group.objects.get(name=group_name)
+                            except Group.DoesNotExist:
+                                group = Group(name=group_name)
+                                group.save()
+                            groups.append(group)
 
-                user.groups.clear()
-                user.groups.add(*groups)
+                    user.groups.clear()
+                    user.groups.add(*groups)
 
-                # Removes Admin flag if user is demote
-                if directory['ADMIN_GROUP'] not in user_details['groups']:
-                    user.is_staff = False
-                    user.is_superuser = False
+                    # Removes Admin flag if user is demote
+                    if directory['ADMIN_GROUP'] not in user_details['groups']:
+                        user.is_staff = False
+                        user.is_superuser = False
 
                 user.save()
 
