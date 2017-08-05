@@ -36,7 +36,8 @@ class AttachmentUploadAjaxView(PermissionRequiredMixin, CreateView):
             'id': self.object.pk,
             'file_name': self.object.file_name,
             'file_md5': self.object.file_md5,
-            'file_size': self.object.file.size
+            'file_size': self.object.file.size,
+            'url': self.object.file.url,
         }
         return JsonResponse(data)
 

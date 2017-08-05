@@ -18,7 +18,7 @@ from nouvelles.settings import HEADLINES_DAYS
 from nouvelles.views.mixins import ViewTitleMixin, FilterMixin, FormFilterMixin, ArticleLineage
 
 
-class ArticleNewsListView(ViewTitleMixin, FilterMixin, ListView):
+class ArticleHeadlinesView(ViewTitleMixin, FilterMixin, ListView):
     query_date = (timezone.now() - timedelta(HEADLINES_DAYS)).date()
 
     title = 'Headlines'
@@ -97,7 +97,7 @@ class ArticleNewsListView(ViewTitleMixin, FilterMixin, ListView):
         return {'criticality_filters': criticalities, 'author_filters': authors, 'tag_filters': tags}
 
     def get_context_data(self, **kwargs):
-        context = super(ArticleNewsListView, self).get_context_data(**kwargs)
+        context = super(ArticleHeadlinesView, self).get_context_data(**kwargs)
         context['query_date'] = self.query_date
 
         new_context = context.copy()

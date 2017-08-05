@@ -82,7 +82,7 @@
                         <div class="tile tile-centered" id="attach_{{ attach.id }}">
                             <div class="tile-icon">
                                 <a class="btn btn-action btn-primary btn-lg"
-                                   href="{% url 'nouvelles:download_attachment' attach.id %}">
+                                   href="{{ attach.file.url }}">
                                     <i class="icon icon-download centered"></i>
                                 </a>
                             </div>
@@ -150,7 +150,6 @@
     <script>
             {% if perms.nouvelles.add_attachment %}var upload_url = "{% url 'nouvelles:upload_attachment' %}"
                 ;{% endif %}
-        var download_url = "{% url 'nouvelles:download_attachment' '0000' %}";
         var preview_url = "{% url 'nouvelles:preview' %}";
     </script>
 

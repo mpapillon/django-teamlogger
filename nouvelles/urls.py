@@ -3,14 +3,13 @@ from django.conf.urls import include, url
 from nouvelles import feeds
 from nouvelles.views.about import AboutView, LicenceView, ThirdPartiesView
 from nouvelles.views.ajax import PreviewMarkdownAjaxView, AttachmentUploadAjaxView
-from nouvelles.views.attachments import AttachmentDownloadView
-from nouvelles.views.articles import ArticleNewsListView, ArticleArchiveListView, ArticleCreateView, \
+from nouvelles.views.articles import ArticleHeadlinesView, ArticleArchiveListView, ArticleCreateView, \
     ArticleDetailView, ArticleEditView, ArticleDeleteView, ArticleReplyView
 
 app_name = 'nouvelles'
 urlpatterns = [
     # ex: /nouvelles/
-    url(r'^$', ArticleNewsListView.as_view(), name='index'),
+    url(r'^$', ArticleHeadlinesView.as_view(), name='index'),
     # ex: /nouvelles/archives
     url(r'^archives/$', ArticleArchiveListView.as_view(), name='archives'),
     # ex: /nouvelles/add
@@ -31,8 +30,6 @@ urlpatterns = [
 
     # ex: /nouvelles/attachment/upload
     url(r'^attachment/upload/$', AttachmentUploadAjaxView.as_view(), name='upload_attachment'),
-    # ex: /nouvelles/attachment/download/12
-    url(r'^attachment/download/(?P<pk>[0-9]+)/$', AttachmentDownloadView.as_view(), name='download_attachment'),
 
     url(r'^about/', include([
         # ex: /nouvelles/about

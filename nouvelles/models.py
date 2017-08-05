@@ -24,7 +24,7 @@ class Attachment(models.Model):
         return self.file_md5
 
     def get_absolute_url(self):
-        return reverse('nouvelles:download_attachment', kwargs={'pk': self.id})
+        return self.file.url
 
     def save(self, *args, **kwargs):
         # if the attachment was not yet in the database

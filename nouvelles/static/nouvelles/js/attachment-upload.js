@@ -37,14 +37,12 @@ function formatBytes(bytes, decimals) {
     return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + ' ' + sizes[i];
 }
 
-function addAttachment(fileId, fileName) {
-    var file_url = download_url.replace('0000', fileId);
-
+function addAttachment(fileId, fileName, fileUrl) {
     var $file_line = $('<div class="column col-4 col-xs-12" id="attach_' + fileId + '">' +
         '<div class="tile tile-centered">\n' +
         '    <div class="tile-icon">\n' +
         '        <a class="btn btn-action btn-primary btn-lg"\n' +
-        '           href="' + file_url + '">\n' +
+        '           href="' + fileUrl + '">\n' +
         '            <i class="icon icon-download centered"></i>\n' +
         '        </a>\n' +
         '    </div>\n' +
@@ -158,7 +156,7 @@ $(function () {
                         text: data.file_name,
                         selected: true
                     }));
-                    addAttachment(data.id, data.file_name);
+                    addAttachment(data.id, data.file_name, data.url);
                 },
                 error: function (jqXHR, textStatus, errorThrown) {
                     console.error(textStatus);
