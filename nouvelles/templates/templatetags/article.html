@@ -10,13 +10,16 @@
                 {% endif %}
                 <h5 class="tile-title article-title">
                     {{ article.title }}
-                    <a href="{% url 'nouvelles:detail' article.slug %}" target="_blank"
+                    <a href="{% url 'nouvelles:detail' article.pk %}" target="_blank"
                        class="article-link tooltip tooltip-right" aria-hidden="true"
                        data-tooltip="Open article in new window">
                         <i class="icon icon-link"></i>
                     </a>
                 </h5>
                 <div class="tile-subtitle">
+                    {% if not article.is_published %}
+                        <span class="label label-default">draft</span>
+                    {% endif %}
                     by <a
                         href="{% url 'nouvelles:archives' %}?author={{ article.author.username }}">{{ article.author|user_full_name }}</a>
                     on <a
@@ -36,30 +39,31 @@
         </div>
         {% if perms.nouvlles.change_article or perms.nouvelles.add_article or perms.nouvlles.delete_article %}
             <div class="divider"></div>
-            {% if perms.nouvelles.add_article %}
-                <a class="btn btn-primary" href="{% url 'nouvelles:reply' article.slug %}">
+            {% if perms.nouvelles.add_article and article.is_published %}
+                <a class="btn btn-primary" href="{% url 'nouvelles:reply' article.pk %}">
                     Reply
                 </a>
             {% endif %}
+
 
             {% if perms.nouvlles.change_article or perms.nouvlles.delete_article or article.author == user %}
             {% endif %}
 
             {% if perms.nouvlles.change_article or article.author == user %}
-                <a class="btn btn-default" href="{% url 'nouvelles:edit' article.slug %}">
+                <a class="btn btn-default" href="{% url 'nouvelles:edit' article.pk %}">
                     Edit
                 </a>
             {% endif %}
 
             {% if perms.nouvlles.delete_article %}
-                <a class="btn btn-danger" href="{% url 'nouvelles:delete' article.slug %}">
+                <a class="btn btn-danger" href="{% url 'nouvelles:delete' article.pk %}">
                     Delete
                 </a>
             {% endif %}
         {% endif %}
     </div>
     <div class="panel-body mt-10 highlight">
-        {{ article.description|markdown }}
+        {{ article.content|markdown }}
     </div>
     {% if article.attachments.count %}
         <div class="panel-footer">

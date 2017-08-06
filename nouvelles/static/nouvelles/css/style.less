@@ -1,5 +1,8 @@
 @import "../vendor/spectre/src/variables";
 @import "../vendor/spectre/src/mixins";
+@import "header";
+@import "code-color";
+@import "select2";
 
 html, body {
   height: 100%;
@@ -16,42 +19,6 @@ html, body {
       position: absolute;
       bottom: 0;
       width: 100%;
-    }
-  }
-}
-
-.section-header {
-  padding: @layout-padding @layout-padding/2;
-  background-color: @dark-color;
-
-  .navbar-brand {
-    color: @gray-color;
-  }
-
-  .btn-link {
-    color: @gray-color-light;
-
-    &:hover, &:focus, &:active {
-      color: @gray-color;
-    }
-
-    &:focus {
-      .control-shadow(@gray-color-light);
-    }
-  }
-
-  .form-black {
-    border-color: lighten(@dark-color, 10%);
-    background: lighten(@dark-color, 15%);
-    color: @gray-color-light;
-
-    &::placeholder {
-      color: @gray-color-light;
-    }
-
-    &:focus {
-      background: @gray-color-dark;
-      .control-shadow(@gray-color-light);
     }
   }
 }
@@ -135,6 +102,10 @@ label.btn {
 }
 
 .label {
+  &.label-default {
+    .label-variant(@light-color, @dark-color);
+  }
+
   &.label-l {
     .label-variant(@light-color, @control-color-success);
   }
@@ -185,166 +156,6 @@ label.btn {
   border-radius: 3px;
 }
 
-// --SELECT2--
-@import "../vendor/spectre/src/autocomplete";
-
-.select2.select2-container--spectre {
-  position: relative;
-  align-content: flex-start;
-  display: flex;
-  flex-wrap: wrap;
-  height: auto;
-  min-height: 3.2rem;
-  padding: .1rem 0 0 .1rem;
-  background: @bg-color-light;
-  background-image: none;
-  border: @border-width solid @border-color-dark;
-  border-radius: @border-radius;
-  color: @body-font-color;
-  .control-transition();
-  font-size: @font-size;
-  line-height: 2rem;
-  max-width: 100%;
-  outline: none;
-  width: 100%;
-
-  &.select2-container--focus {
-    border-color: @primary-color;
-    .control-shadow();
-  }
-
-  .selection {
-    width: 100%;
-
-    .select2-selection {
-      cursor: default;
-    }
-
-    .select2-selection__rendered {
-      display: flex;
-      list-style: none;
-      margin: 0;
-      align-content: flex-start;
-      flex-wrap: wrap;
-      height: auto;
-      min-height: 3.2rem;
-      padding: .1rem 0 0 .1rem !important;
-      width: 100%;
-
-      .select2-selection__choice {
-        align-items: center;
-        background: @bg-color-dark;
-        border-radius: @border-radius;
-        color: @gray-color-dark;
-        display: inline-flex;
-        height: 2.8rem;
-        margin: 0 .1rem .1rem 0;
-        max-width: 100%;
-        padding: .1rem .8rem;
-        text-decoration: none;
-        vertical-align: middle;
-
-        .select2-selection__choice__remove {
-          appearance: none;
-          background: @bg-color-light;
-          border: @border-width solid @primary-color;
-          border-radius: @border-radius;
-          color: @link-color;
-          .control-transition();
-          cursor: pointer;
-          display: inline-block;
-          outline: none;
-          text-align: center;
-          text-decoration: none;
-          user-select: none;
-          vertical-align: middle;
-          white-space: nowrap;
-          background: transparent;
-          border: 0;
-          height: 1.6rem;
-          margin-left: -.2rem;
-          margin-right: .4rem;
-          opacity: .45;
-          padding: 0 .2rem;
-          width: 1.6rem;
-          font-size: 2.3rem;
-          line-height: 1rem;
-
-          &:hover {
-            opacity: .85;
-          }
-        }
-      }
-
-      .select2-search {
-        float: none;
-        margin: 0;
-        flex: 1 0 auto;
-        display: inline-flex;
-        cursor: text;
-
-        .select2-search__field {
-          margin: 0;
-          border-color: transparent;
-          box-shadow: none;
-          display: inline-block;
-          height: 2.8rem;
-          padding: .3rem .8rem;
-          width: auto;
-          appearance: none;
-          background: @bg-color-light;
-          background-image: none;
-          border-radius: @border-radius;
-          color: @body-font-color;
-          .control-transition();
-          font-size: @font-size;
-          line-height: 2rem;
-          max-width: 100%;
-          outline: none;
-          position: relative;
-        }
-      }
-    }
-  }
-}
-
-.select2-container--spectre.select2-container--open:not(.select2) {
-  .select2-dropdown {
-    border: none;
-  }
-
-  .select2-results__options {
-    background: @bg-color-light;
-    border-radius: @border-radius;
-    list-style: none;
-    margin: 0;
-    min-width: @control-min-width;
-    padding: 1rem;
-    .shadow-variant(.1rem);
-    transform: translateY(.5rem);
-    z-index: @zindex-1;
-    max-height: 26rem;
-    overflow: auto;
-
-    .select2-results__option {
-      margin-top: 0;
-      text-decoration: none;
-      user-select: none;
-      border-radius: @border-radius;
-      color: inherit;
-      display: block;
-      margin: 0 -.8rem;
-      padding: .6rem .8rem;
-
-      &.select2-results__option--highlighted {
-        color: @primary-color;
-        background: @secondary-color-light;
-        cursor: pointer;
-      }
-    }
-  }
-}
-
 .tab-content {
   display: none;
 
@@ -361,4 +172,82 @@ label.btn {
 
 #md_preview {
   overflow: auto;
+}
+
+.panel-article-content {
+  border: @border-width solid @border-color-dark;
+  border-radius: @border-radius;
+  .control-transition();
+
+  &.focused {
+    border-color: @primary-color;
+    .control-shadow();
+  }
+
+  .panel-nav {
+    .tab {
+      margin: 0;
+    }
+  }
+
+  .panel-body {
+    padding: 0;
+
+    .highlight {
+      padding: 0 .8rem;
+    }
+
+    textarea {
+      width: 100%;
+      border: none;
+      padding: .6rem .8rem;
+      resize: vertical;
+    }
+
+    .help-text {
+      margin: 0;
+      padding: .5rem .8rem;
+      background-color: @bg-color;
+    }
+  }
+}
+
+pre {
+  code {
+    background-color: @bg-color;
+    color: inherit;
+    display: block;
+    line-height: inherit;
+    overflow-x: auto;
+    padding: 2rem;
+    width: 100%;
+  }
+}
+
+.highlight {
+  img {
+    width: 100%;
+  }
+}
+
+.toast {
+  .btn-link {
+    background: transparent;
+    border: 0;
+    color: currentColor;
+    height: 1.6rem;
+    margin-left: .4rem;
+    margin-right: -.2rem;
+    opacity: .45;
+    padding: 0 .2rem;
+    text-decoration: none;
+
+    &:focus,
+    &:hover,
+    &:active,
+    &.active {
+      color: inherit;
+      opacity: .85;
+    }
+  }
 }

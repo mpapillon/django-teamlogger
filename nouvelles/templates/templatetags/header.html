@@ -19,7 +19,8 @@
                 </div>
                 <a href="{% url 'nouvelles:index' %}" class="navbar-brand mr-10">{{ site_name }}</a>
                 <form class="input-inline mr-10 hide-sm" method="GET" action="{% url 'nouvelles:archives' %}">
-                    <input class="form-input form-black" name="q" placeholder="Search an article" value="{{ search_query }}"/>
+                    <input class="form-input form-black" name="q" placeholder="Search an article"
+                           value="{{ search_query }}"/>
                     <input class="hide" type="submit">
                 </form>
                 <a href="{% url 'nouvelles:index' %}" class="btn btn-link hide-sm">Headlines</a>
@@ -49,15 +50,21 @@
                                     </div>
                                 </div>
                             </li>
-                            <li class="divider"></li>
-                            {% if not user.directory_info.source %}
+                            {% if perms.nouvelles.add_article %}
+                                <li class="divider"></li>
                                 <li class="menu-item">
-                                    <a href="{% url 'password_change' %}">Change my password</a>
+                                    <a href="{% url 'nouvelles:drafts' %}">My drafts</a>
                                 </li>
                             {% endif %}
+                            <li class="divider"></li>
                             {% if user.is_staff %}
                                 <li class="menu-item">
                                     <a href="{% url 'admin:index' %}">Administration</a>
+                                </li>
+                            {% endif %}
+                            {% if not user.directory_info.source %}
+                                <li class="menu-item">
+                                    <a href="{% url 'password_change' %}">Change my password</a>
                                 </li>
                             {% endif %}
                             <li class="menu-item">

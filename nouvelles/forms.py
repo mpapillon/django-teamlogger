@@ -1,8 +1,6 @@
 from django import forms
-
-from django.forms import ModelForm
-
 from django.contrib.auth.models import User
+from django.forms import ModelForm
 
 from nouvelles.models import Attachment, Article, Tag
 
@@ -41,7 +39,7 @@ class ArchiveFiltersForm(forms.Form):
 class ArticleForm(ModelForm):
     class Meta:
         model = Article
-        fields = ['title', 'criticality', 'effective_date', 'tags', 'description', 'attachments']
+        fields = ['title', 'criticality', 'effective_date', 'tags', "content", 'attachments']
 
 
 class UploadAttachmentForm(ModelForm):

@@ -2,20 +2,36 @@ import operator
 from datetime import timedelta
 from functools import reduce
 
-from django.contrib.auth.decorators import login_required
+from django.contrib import messages
 from django.contrib.auth.mixins import PermissionRequiredMixin, UserPassesTestMixin
 from django.contrib.messages.views import SuccessMessageMixin
+from django.core.exceptions import SuspiciousOperation
 from django.db.models import Q
 from django.shortcuts import get_object_or_404
 from django.urls import reverse_lazy, reverse
 from django.utils import timezone
-from django.utils.decorators import method_decorator
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 
 from nouvelles.forms import ArticleForm, UploadAttachmentForm, ArchiveFiltersForm
 from nouvelles.models import Article
 from nouvelles.settings import HEADLINES_DAYS
 from nouvelles.views.mixins import ViewTitleMixin, FilterMixin, FormFilterMixin, ArticleLineage
+
+
+class DraftArticleMixin(object):
+    draft_saved_message = 'The article "{title}" was saved in your drafts.'
+
+    def form_valid(self, form):
+        if self.request.POST.get('_publish'):
+            form.instance.publication_date = timezone.now()
+        elif self.request.POST.get('_draft'):
+            success_msg = self.get_draft_saved_message(form.cleaned_data)
+            messages.success(self.request, success_msg)
+
+        return super(DraftArticleMixin, self).form_valid(form)
+
+    def get_draft_saved_message(self, cleaned_data):
+        return self.draft_saved_message.format(**cleaned_data)
 
 
 class ArticleHeadlinesView(ViewTitleMixin, FilterMixin, ListView):
@@ -26,6 +42,7 @@ class ArticleHeadlinesView(ViewTitleMixin, FilterMixin, ListView):
     template_name = 'nouvelles/article_headlines.html'
     queryset = Article.objects \
         .filter(effective_date__gte=query_date) \
+        .exclude(publication_date__isnull=True) \
         .order_by('-effective_date', '-creation_date')
     allowed_filters = {
         'criticality': 'criticality',
@@ -112,6 +129,7 @@ class ArticleArchiveListView(ViewTitleMixin, FormFilterMixin, ListView):
     template_name = 'nouvelles/article_archives.html'
     form_class = ArchiveFiltersForm
     queryset = Article.objects \
+        .exclude(publication_date__isnull=True) \
         .order_by('-effective_date', '-creation_date')
     paginate_by = 10
     allowed_filters = {
@@ -131,7 +149,7 @@ class ArticleArchiveListView(ViewTitleMixin, FormFilterMixin, ListView):
             query_list = query.split()
             result = result.filter(
                 reduce(operator.and_, (Q(title__icontains=q) for q in query_list))
-                | reduce(operator.and_, (Q(description__icontains=q) for q in query_list))
+                | reduce(operator.and_, (Q(content__icontains=q) for q in query_list))
             )
         return result
 
@@ -141,12 +159,18 @@ class ArticleArchiveListView(ViewTitleMixin, FormFilterMixin, ListView):
         return dict((k, v) for (k, v) in filters.items() if v)
 
 
-class ArticleDetailView(DetailView, ArticleLineage):
+class ArticleDetailView(UserPassesTestMixin, DetailView, ArticleLineage):
     model = Article
 
+    def test_func(self):
+        user = self.request.user
+        article = self.get_object()
 
-@method_decorator(login_required, name="dispatch")
-class ArticleCreateView(PermissionRequiredMixin, ViewTitleMixin, CreateView):
+        # If the article is not published, the connected user need to be the author.
+        return article.is_published() or not (article.author != user)
+
+
+class ArticleCreateView(PermissionRequiredMixin, ViewTitleMixin, DraftArticleMixin, CreateView):
     title = "New article"
     model = Article
     form_class = ArticleForm
@@ -164,8 +188,7 @@ class ArticleCreateView(PermissionRequiredMixin, ViewTitleMixin, CreateView):
         return context
 
 
-@method_decorator(login_required, name="dispatch")
-class ArticleReplyView(PermissionRequiredMixin, ViewTitleMixin, CreateView, ArticleLineage):
+class ArticleReplyView(PermissionRequiredMixin, ViewTitleMixin, DraftArticleMixin, CreateView, ArticleLineage):
     title = 'New reply'
     model = Article
     form_class = ArticleForm
@@ -173,7 +196,11 @@ class ArticleReplyView(PermissionRequiredMixin, ViewTitleMixin, CreateView, Arti
     parent_article = None
 
     def dispatch(self, request, *args, **kwargs):
-        self.parent_article = get_object_or_404(Article, slug=kwargs['slug'])
+        self.parent_article = get_object_or_404(Article, id=kwargs['pk'])
+
+        if not self.parent_article.is_published():
+            raise SuspiciousOperation("You can't reply to an unpublished article.")
+
         return super(ArticleReplyView, self).dispatch(request, *args, **kwargs)
 
     def get_initial(self):
@@ -201,8 +228,7 @@ class ArticleReplyView(PermissionRequiredMixin, ViewTitleMixin, CreateView, Arti
         return super(ArticleReplyView, self).form_valid(form)
 
 
-@method_decorator(login_required, name="dispatch")
-class ArticleEditView(UserPassesTestMixin, ViewTitleMixin, UpdateView, ArticleLineage):
+class ArticleEditView(UserPassesTestMixin, ViewTitleMixin, DraftArticleMixin, UpdateView, ArticleLineage):
     title = "Edit article"
     model = Article
     form_class = ArticleForm
@@ -224,7 +250,6 @@ class ArticleEditView(UserPassesTestMixin, ViewTitleMixin, UpdateView, ArticleLi
         return context
 
 
-@method_decorator(login_required, name="dispatch")
 class ArticleDeleteView(PermissionRequiredMixin, ViewTitleMixin, SuccessMessageMixin, DeleteView, ArticleLineage):
     model = Article
     success_url = reverse_lazy('nouvelles:index')
@@ -244,3 +269,18 @@ class ArticleDeleteView(PermissionRequiredMixin, ViewTitleMixin, SuccessMessageM
     def get_success_message(self, instance):
         from django.forms.models import model_to_dict
         return super(ArticleDeleteView, self).get_success_message(model_to_dict(instance))
+
+
+class ArticleDraftsView(PermissionRequiredMixin, ViewTitleMixin, ListView):
+    title = "My drafts"
+    template_name = 'nouvelles/article_drafts.html'
+
+    permission_required = 'nouvelles.add_article'
+
+    model = Article
+    ordering = ('-effective_date', '-creation_date')
+
+    def get_queryset(self):
+        queryset = super(ArticleDraftsView, self).get_queryset()
+        # Fetch only not published user's articles
+        return queryset.filter(author=self.request.user).filter(publication_date__isnull=True)

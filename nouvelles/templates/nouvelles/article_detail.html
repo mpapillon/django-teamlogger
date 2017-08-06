@@ -8,10 +8,10 @@
         {% article a %}
     {% endfor %}
 
-    {% if article.article_set.count %}
+    {% if article.get_responses.count %}
         <h4 class="title-plain">Replies</h4>
         <div class="columns">
-            {% format_articles_list article.article_set.all %}
+            {% format_articles_list article.get_responses %}
         </div>
     {% endif %}
 {% endblock %}

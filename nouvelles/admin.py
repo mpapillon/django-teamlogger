@@ -1,8 +1,7 @@
 from django.contrib import admin
 
-from nouvelles.settings import SITE_NAME
 from nouvelles.models import Article, Tag, Attachment
-
+from nouvelles.settings import SITE_NAME
 
 admin.site.site_header = "%s / Administration" % SITE_NAME
 admin.site.site_title = "%s site admin" % SITE_NAME
@@ -10,13 +9,13 @@ admin.site.site_title = "%s site admin" % SITE_NAME
 
 @admin.register(Article)
 class ArticleAdmin(admin.ModelAdmin):
-    list_display = ('title', 'criticality', 'effective_date', 'author', 'creation_date')
+    list_display = ('title', 'criticality', 'effective_date', 'author', 'is_published')
     list_filter = ('criticality', 'effective_date', 'author')
-    search_fields = ['title', 'description']
+    search_fields = ['title', 'content']
     fieldsets = [
         (None,                {'fields': ['title']}),
-        ('Article content',   {'fields': ['criticality', 'effective_date', 'author', 'description']}),
-        ('Article additions', {'fields': ['parent_article', 'tags', 'attachments']}),
+        ('Article content',   {'fields': ['criticality', 'effective_date', 'author', 'content']}),
+        ('Article additions', {'fields': ['publication_date', 'parent_article', 'tags', 'attachments']}),
         ('Article edition',   {'fields': ['editor', 'edition_date']})
     ]
 

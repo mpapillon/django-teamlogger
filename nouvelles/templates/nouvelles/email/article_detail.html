@@ -45,7 +45,7 @@
                     <tr>
                         <td width="87">Title: </td>
                         <td>
-                            <a href="{{ domain }}{% url 'nouvelles:detail' article.slug %}">{{ article.title }}</a>
+                            <a href="{{ domain }}{% url 'nouvelles:detail' article.pk %}">{{ article.title }}</a>
                         </td>
                     </tr>
                     <tr>
@@ -82,12 +82,12 @@
         </tr>
         <tr>
             <td>
-                {{ article.description|markdown }}
+                {{ article.content|markdown }}
             </td>
         </tr>
         <tr>
             <td>
-                <a href="{{ domain }}{% url 'nouvelles:detail' article.slug %}">View article online...</a>
+                <a href="{{ domain }}{% url 'nouvelles:detail' article.pk %}">View article online...</a>
             </td>
         </tr>
     </table>

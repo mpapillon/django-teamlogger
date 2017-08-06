@@ -71,7 +71,7 @@ class ArticleLineage(ContextMixin):
         article_to_check = self.object if self.object else self.parent_article
 
         while article_to_check:
-            if article_to_check.parent_article and article_to_check.slug == article_to_check.parent_article.slug:
+            if article_to_check.parent_article and article_to_check.pk == article_to_check.parent_article.pk:
                 article_to_check.parent_article = None
                 messages.warning(self.request, self.same_parent_message)
             else:

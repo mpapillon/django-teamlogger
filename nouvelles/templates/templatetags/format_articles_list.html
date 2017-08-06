@@ -19,13 +19,13 @@
                             <span class="label label-{{ elm.criticality|lower }} rel float-right">{{ elm.get_criticality_display|lower }}</span>
                         {% endif %}
                         <p class="tile-title">
-                            <a href="{% url 'nouvelles:detail' elm.slug %}" class="card-title">{{ elm.title }}</a>
+                            <a href="{% url 'nouvelles:detail' elm.pk %}" class="card-title">{{ elm.title }}</a>
                         </p>
                         <p class="tile-subtitle">
                             by <a href="{% url 'nouvelles:archives' %}?author={{ elm.author.username }}">{{ elm.author|user_full_name }}</a> on <a
                                 href="{% url 'nouvelles:archives' %}?date={{ elm.effective_date|date:"o-m-d" }}">{{ elm.effective_date|date }}</a>
                         </p>
-                        <div class="card-body">{{ elm.description|markdown|striptags|truncatewords:35 }}</div>
+                        <div class="card-body">{{ elm.content|markdown|striptags|truncatewords:35 }}</div>
                     </div>
                 </div>
             </div>

@@ -49,21 +49,28 @@
 
             <div class="columns">
                 <div class="column col-12">
-                    <div class="field-wrapper">
-                        {{ form.description.errors }}
-                        <div class="tabs-container" id="editor-tabs">
-                            <ul class="tab">
-                                <li class="tab-item active"><a data-target="editor" href="#editor">Editor</a></li>
-                                <li class="tab-item"><a data-target="preview" href="#preview">Preview</a></li>
-                            </ul>
-                        </div>
-                        <div id="editor" class="tab-editor tab-content active">
-                            {{ form.description|as_spectre }}
-                            <p class="help-text">You can use <a href="#md-sheet-cheat">Markdown syntax</a>.</p>
-                        </div>
-                        <div id="preview" class="tab-content">
-                            <div id="md_preview" class="form-input highlight">
-                                <div class="loading" style="height: 100%;"></div>
+                    <div class="form-group">
+                        <label class="form-label" for="id_content">
+                            Content
+                        </label>
+                        <div id="article_content_panel" class="field-wrapper panel panel-article-content">
+                            {{ form.content.errors }}
+                            <div class="tabs-container panel-nav" id="editor-tabs">
+                                <ul class="tab">
+                                    <li class="tab-item active"><a data-target="editor" href="#editor">Editor</a></li>
+                                    <li class="tab-item"><a data-target="preview" href="#preview">Preview</a></li>
+                                </ul>
+                            </div>
+                            <div class="panel-body">
+                                <div id="editor" class="tab-editor tab-content active">
+                                    {{ form.content }}
+                                    <p class="help-text">You can use <a href="#md-sheet-cheat">Markdown syntax</a>.</p>
+                                </div>
+                                <div id="preview" class="tab-content">
+                                    <div id="md_preview" class="highlight">
+                                        <div class="loading" style="height: 100%;"></div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -110,12 +117,15 @@
             </div>
 
             <div class="columns">
-                <div class="column col-12">
-                    <input class="btn btn-primary" type="submit" value="Publish">
+                <div class="column col-12 text-right">
                     <label class="btn btn-info" title="Upload and add attachment to this article"
                            for="{{ attachment_form.file.auto_id }}">
                         {{ attachment_form.file.label }}
                     </label>
+                    {% if not article.is_published %}
+                    <input class="btn btn-default" name="_draft" type="submit" value="Save as draft">
+                    {% endif %}
+                    <input class="btn btn-primary" name="_publish" type="submit" value="Save and publish">
                 </div>
             </div>
         </form>
@@ -159,19 +169,27 @@
     {% endif %}
 
     <script>
-        $('#id_tags').select2({width: '100%', theme: 'spectre'});
-    </script>
-
-    <script>
+        var $content_textarea = $('#id_content');
+        var $content_panel = $('#article_content_panel');
         var $editorTabs = $('#editor-tabs');
+
+        $('#id_tags').select2({width: '100%', theme: 'spectre'});
+
+        $content_textarea.focus(function (e) {
+            $content_panel.addClass('focused')
+        });
+
+        $content_textarea.blur(function (e) {
+            $content_panel.removeClass('focused')
+        });
 
         $editorTabs.tabs(function (tabName) {
             if (tabName === 'preview') {
-                $('#md_preview').height($('#id_description').height());
+                $('#md_preview').height($('#editor').height());
                 $.ajax({
                     url: preview_url,
                     type: 'post',
-                    data: {"text": $('#id_description').val()},
+                    data: {"text": $content_textarea.val()},
                     success: function (data) {
                         $('#md_preview').html(data);
                     }
@@ -180,6 +198,7 @@
 
             if (tabName === 'editor') {
                 $('#md_preview').html('<div class="loading" style="height: 100%;"></div>');
+                $content_textarea.focus();
             }
         });
     </script>

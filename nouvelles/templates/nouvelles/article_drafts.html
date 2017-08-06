@@ -1,0 +1,53 @@
+{% extends "nouvelles/base.html" %}
+{% load nouvelles %}
+
+{% block title %}{% site_title title %}{% endblock %}
+
+{% block content %}
+    <div class="columns">
+        <div class="column col-12">
+            <h2 class="title-plain">{{ title }}</h2>
+        </div>
+    </div>
+
+    <div class="columns">
+        <div class="column col-12">
+            {% if article_list %}
+                <div class="columns">
+                    {% format_articles_list article_list True %}
+                </div>
+                {% if is_paginated %}
+                    <ul class="pagination">
+                        <li class="page-item">
+                            {% if page_obj.has_previous %}
+                                <a href="{% paginated_url 'nouvelles:archives' page=page_obj.previous_page_number %}">previous</a>
+                            {% else %}
+                                <a href="#" disabled="">previous</a>
+                            {% endif %}
+                        </li>
+                        <li class="page-item">
+                            <span>page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}</span>
+                        </li>
+                        <li class="page-item">
+                            {% if page_obj.has_next %}
+                                <a href="{% paginated_url 'nouvelles:archives' page=page_obj.next_page_number %}">next</a>
+                            {% else %}
+                                <a href="#" disabled="">next</a>
+                            {% endif %}
+                        </li>
+                    </ul>
+                {% endif %}
+            {% else %}
+                <div class="empty mt-10">
+                    <div class="empty-icon">
+                        <i class="icon icon-check"></i>
+                    </div>
+                    <h4 class="empty-title">You do not have drafts</h4>
+                    <div class="empty-action">
+                        <a class="btn btn-primary" href="{% url 'nouvelles:create' %}">Write an article</a>
+                    </div>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}

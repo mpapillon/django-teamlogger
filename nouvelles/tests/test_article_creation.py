@@ -30,7 +30,7 @@ class ArticleCreationTestCase(TestCase):
             "title": "test_post_not_logger",
             "criticality": Article.CRITICALITY_LOW,
             "effective_date": "2017-05-30",
-            "description": ""
+            "content": ""
         })
         self.assertEquals(response.status_code, 302)
 
@@ -40,7 +40,7 @@ class ArticleCreationTestCase(TestCase):
             "title": "test_post_not_logger",
             "criticality": Article.CRITICALITY_LOW,
             "effective_date": "2017-05-30",
-            "description": ""
+            "content": ""
         })
         self.assertTrue(len(Article.objects.filter(title="test_post_not_logger")) == 0)
         self.assertEquals(response.status_code, 302)
@@ -51,7 +51,7 @@ class ArticleCreationTestCase(TestCase):
             "title": "test_post_not_logger",
             "criticality": Article.CRITICALITY_LOW,
             "effective_date": "2017-05-30",
-            "description": ""
+            "content": ""
         })
         self.assertTrue(len(Article.objects.filter(title="test_post_not_logger")) > 0)
         self.assertEquals(response.status_code, 302)

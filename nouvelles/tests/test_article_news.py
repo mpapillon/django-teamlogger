@@ -1,5 +1,3 @@
-from collections import OrderedDict
-
 from django.db.models import QuerySet
 from django.test import TestCase
 from django.urls import reverse
