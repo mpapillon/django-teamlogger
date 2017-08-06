@@ -73,7 +73,7 @@ class LDAPConnection(object):
                 else:
                     user[field] = None
             else:
-                if attr in entry:
+                if ldap_attr in entry:
                     user[field] = entry[ldap_attr] if entry[ldap_attr] else None
                 else:
                     user[field] = None
