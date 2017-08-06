@@ -74,7 +74,7 @@ class LDAPConnection(object):
                     user[field] = None
             else:
                 if ldap_attr in entry:
-                    user[field] = entry[ldap_attr] if entry[ldap_attr] else None
+                    user[field] = entry[ldap_attr].value if entry[ldap_attr] else None
                 else:
                     user[field] = None
 
@@ -88,7 +88,7 @@ class LDAPConnection(object):
         filters = "(&(member=%s))" % user_dn
 
         if self._connection.search(sb, filters, attributes=['cn']):
-            return [g['cn'] for g in self._connection.entries]
+            return [g['cn'].value for g in self._connection.entries]
         else:
             return []
 

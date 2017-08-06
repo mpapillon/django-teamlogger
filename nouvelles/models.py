@@ -102,3 +102,8 @@ class Article(models.Model):
 
     def __str__(self):
         return '[' + self.author.username + '] ' + self.title
+
+
+class Profile(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True, related_name="profile")
+    avatar = models.ImageField(upload_to='avatars/', null=True, blank=True)

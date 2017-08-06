@@ -34,7 +34,11 @@
                 </div>
             </div>
             <div class="tile-icon">
-                <figure class="avatar avatar-xl" data-initial="{{ article.author|user_initials }}"></figure>
+                <figure class="avatar avatar-xl" data-initial="{{ article.author|user_initials }}">
+                    {% if article.author.profile.avatar %}
+                        <img src="{{ article.author.profile.avatar.url }}">
+                    {% endif %}
+                </figure>
             </div>
         </div>
         {% if perms.nouvlles.change_article or perms.nouvelles.add_article or perms.nouvlles.delete_article %}

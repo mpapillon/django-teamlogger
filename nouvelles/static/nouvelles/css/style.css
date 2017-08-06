@@ -518,3 +518,6 @@ pre code {
   color: inherit;
   opacity: .85;
 }
+.avatar img {
+  z-index: 1;
+}

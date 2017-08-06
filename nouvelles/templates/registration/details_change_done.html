@@ -2,7 +2,7 @@
 {% load i18n static %}
 {% load nouvelles %}
 
-{% block title %}{% site_title 'Password change' %}{% endblock %}
+{% block title %}{% site_title 'Update my profile' %}{% endblock %}
 
 {% block head_links %}
     <link rel="stylesheet" type="text/css" href="{% static 'nouvelles/css/login.css' %}"/>
@@ -19,12 +19,12 @@
         </div>
         <nav class="panel-nav mb-10">
             <ul class="tab tab-block">
-                <li class="tab-item">
+                <li class="tab-item active">
                     <a href="{% url 'nouvelles:profile:change' %}">
                         Profile
                     </a>
                 </li>
-                <li class="tab-item active">
+                <li class="tab-item">
                     <a href="{% url 'nouvelles:profile:password_change' %}">
                         Password
                     </a>
@@ -32,7 +32,7 @@
             </ul>
         </nav>
         <div class="panel-body">
-            <p>{% trans 'Your password was changed.' %}</p>
+            <p>Your profile was changed.</p>
         </div>
 
         <div class="panel-footer">

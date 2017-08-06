@@ -43,10 +43,12 @@
                             <li class="menu-item">
                                 <div class="tile tile-centered">
                                     <div class="tile-icon">
-                                        <figure class="avatar" data-initial="{{ user|user_initials }}"></figure>
+                                        <figure class="avatar" data-initial="{{ user|user_initials }}">
+                                        {% if user.profile.avatar %}<img src="{{ user.profile.avatar.url }}">{% endif %}
+                                        </figure>
                                     </div>
                                     <div class="tile-content">
-                                        {{ user.get_full_name }}
+                                        {{ user|user_full_name }}
                                     </div>
                                 </div>
                             </li>
@@ -64,7 +66,7 @@
                             {% endif %}
                             {% if not user.directory_info.source %}
                                 <li class="menu-item">
-                                    <a href="{% url 'password_change' %}">Change my password</a>
+                                    <a href="{% url 'nouvelles:profile:change' %}">Update my profile</a>
                                 </li>
                             {% endif %}
                             <li class="menu-item">

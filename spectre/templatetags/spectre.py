@@ -1,6 +1,5 @@
+from django import forms
 from django import template
-from django.forms import BoundField, Select, Form, RadioSelect, CheckboxSelectMultiple, CheckboxInput, TextInput, \
-    Textarea, PasswordInput
 from django.template.loader import get_template
 
 register = template.Library()
@@ -24,17 +23,17 @@ def add_class(field, *classes):
 def input_type(field):
     widget = field.field.widget
 
-    if isinstance(widget, TextInput) or isinstance(widget, Textarea):
+    if isinstance(widget, forms.TextInput):
         return 'text'
-    if isinstance(widget, PasswordInput):
+    if isinstance(widget, forms.PasswordInput):
         return 'password'
-    if isinstance(widget, CheckboxInput):
+    if isinstance(widget, forms.CheckboxInput):
         return 'checkbox'
-    if isinstance(widget, CheckboxSelectMultiple):
+    if isinstance(widget, forms.CheckboxSelectMultiple):
         return 'multicheckbox'
-    if isinstance(widget, RadioSelect):
+    if isinstance(widget, forms.RadioSelect):
         return 'radioset'
-    if isinstance(widget, Select):
+    if isinstance(widget, forms.Select):
         return 'choice'
 
     return 'default'
@@ -44,18 +43,18 @@ def input_type(field):
 def to_spectre_field(field, size=None):
     field_type = input_type(field)
 
-    if field_type == 'text' or field_type == 'password':
-        if size:
-            size_class = 'input-%s' % size
-            field = add_class(field, 'form-input', size_class)
-        else:
-            field = add_class(field, 'form-input')
-    elif field_type == 'choice':
+    if field_type == 'choice':
         if size:
             size_class = 'select-%s' % size
             field = add_class(field, 'form-select', size_class)
         else:
             field = add_class(field, 'form-select')
+    else:
+        if size:
+            size_class = 'input-%s' % size
+            field = add_class(field, 'form-input', size_class)
+        else:
+            field = add_class(field, 'form-input')
 
     return field
 
@@ -69,12 +68,12 @@ def as_spectre(form_or_field, size=None, layout=None):
     :param layout:
     :return:
     """
-    if isinstance(form_or_field, BoundField):
+    if isinstance(form_or_field, forms.BoundField):
         return get_template("spectre/field.html").render({
             'field': form_or_field,
             'size': size,
         })
-    elif isinstance(form_or_field, Form):
+    elif isinstance(form_or_field, forms.Form):
         return get_template("spectre/form.html").render({
             'form': form_or_field,
             'size': size,

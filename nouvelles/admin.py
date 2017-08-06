@@ -1,10 +1,19 @@
 from django.contrib import admin
+from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
+from django.contrib.auth.models import User
 
-from nouvelles.models import Article, Tag, Attachment
+from nouvelles.models import Article, Tag, Attachment, Profile
 from nouvelles.settings import SITE_NAME
 
 admin.site.site_header = "%s / Administration" % SITE_NAME
 admin.site.site_title = "%s site admin" % SITE_NAME
+admin.site.unregister(User) # Re-register UserAdmin
+
+
+class ProfileInline(admin.StackedInline):
+    model = Profile
+    can_delete = False
+    verbose_name_plural = 'Profile'
 
 
 @admin.register(Article)
@@ -31,3 +40,9 @@ class AttachmentAdmin(admin.ModelAdmin):
 class TagAdmin(admin.ModelAdmin):
     list_display = ('name',)
     search_fields = ['name']
+
+
+@admin.register(User)
+class UserAdmin(BaseUserAdmin):
+    inlines = (ProfileInline, )
+

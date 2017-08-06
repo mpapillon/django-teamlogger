@@ -11,7 +11,11 @@
                 <div class="tile tile-article">
                     <div class="tile-icon">
                         <div class="example-tile-icon">
-                            <figure class="avatar" data-initial="{{ elm.author|user_initials }}"></figure>
+                            <figure class="avatar" data-initial="{{ elm.author|user_initials }}">
+                                {% if elm.author.profile.avatar %}
+                                    <img src="{{ elm.author.profile.avatar.url }}">
+                                {% endif %}
+                            </figure>
                         </div>
                     </div>
                     <div class="tile-content">
@@ -22,7 +26,9 @@
                             <a href="{% url 'nouvelles:detail' elm.pk %}" class="card-title">{{ elm.title }}</a>
                         </p>
                         <p class="tile-subtitle">
-                            by <a href="{% url 'nouvelles:archives' %}?author={{ elm.author.username }}">{{ elm.author|user_full_name }}</a> on <a
+                            by <a
+                                href="{% url 'nouvelles:archives' %}?author={{ elm.author.username }}">{{ elm.author|user_full_name }}</a>
+                            on <a
                                 href="{% url 'nouvelles:archives' %}?date={{ elm.effective_date|date:"o-m-d" }}">{{ elm.effective_date|date }}</a>
                         </p>
                         <div class="card-body">{{ elm.content|markdown|striptags|truncatewords:35 }}</div>
