@@ -64,8 +64,10 @@ def format_articles_list(articles: QuerySet, show_dates: bool = False):
 
 @register.inclusion_tag('templatetags/article.html', takes_context=True)
 def article(context, article):
+    request = context['request']
     return {'article': article,
-            'perms': context.get('perms', None), }
+            'perms': context.get('perms', None),
+            'user': request.user, }
 
 
 @register.simple_tag(takes_context=True)

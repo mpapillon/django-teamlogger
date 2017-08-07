@@ -49,17 +49,13 @@
                 </a>
             {% endif %}
 
-
-            {% if perms.nouvlles.change_article or perms.nouvlles.delete_article or article.author == user %}
-            {% endif %}
-
             {% if perms.nouvlles.change_article or article.author == user %}
                 <a class="btn btn-default" href="{% url 'nouvelles:edit' article.pk %}">
                     Edit
                 </a>
             {% endif %}
 
-            {% if perms.nouvlles.delete_article %}
+            {% if perms.nouvlles.delete_article or article.author == user and not article.is_published %}
                 <a class="btn btn-danger" href="{% url 'nouvelles:delete' article.pk %}">
                     Delete
                 </a>

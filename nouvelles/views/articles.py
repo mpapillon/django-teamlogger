@@ -250,13 +250,16 @@ class ArticleEditView(UserPassesTestMixin, ViewTitleMixin, DraftArticleMixin, Up
         return context
 
 
-class ArticleDeleteView(PermissionRequiredMixin, ViewTitleMixin, SuccessMessageMixin, DeleteView, ArticleLineage):
+class ArticleDeleteView(UserPassesTestMixin, ViewTitleMixin, SuccessMessageMixin, DeleteView, ArticleLineage):
     model = Article
     success_url = reverse_lazy('nouvelles:index')
     title = 'Delete confirmation'
     success_message = 'The article "%(title)s" has been deleted.'
 
-    permission_required = 'nouvelles.delete_article'
+    def test_func(self):
+        user = self.request.user
+        article = self.get_object()
+        return user.has_perm('nouvelles.delete_article') or (article.author == user and not article.is_published())
 
     def delete(self, request, *args, **kwargs):
         from django.contrib import messages
