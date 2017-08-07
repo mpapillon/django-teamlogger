@@ -1,18 +1,22 @@
 TeamLogger / Changelog
 =====================
 
-0.2.2
+0.3.0
 -----
 
 ### New features 
 
-* In the archives, the "date" field is no longer available as a filter.
-* A search field is available in the archives.
-* The LDAP connection has been reviewed, it supports groups.
+* New design.
+* A search field is available in all pages.
+* The LDAP connection has been reviewed, it supports groups and multiple directories.
+* Articles can be saved as draft before publishing.
+* Users can have avatars and they are shown on articles.
 
 ### Correctives
 
 * Some optimisations.
+* In the archives, the "date" filter is no longer available.
+* The tags contained in the archive filter are sorted alphabetically.
 
 0.2.1
 -----

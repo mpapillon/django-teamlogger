@@ -1,14 +1,19 @@
 from django import forms
 from django.contrib.auth.models import User
+from django.db.models.functions import Lower
 
 from nouvelles.models import Attachment, Article, Tag, Profile
+from nouvelles.templatetags.nouvelles import user_full_name
 
 
 class ArchiveFiltersForm(forms.Form):
+    """
+    A form used to filter articles.
+    """
+
     class UserModelChoiceField(forms.ModelChoiceField):
         def label_from_instance(self, obj):
-            full_name = obj.get_full_name()
-            return full_name if len(full_name) > 0 else obj.username
+            return user_full_name(obj)
 
     criticality_choices = [
         (None, "-- All criticalities --")
@@ -29,13 +34,17 @@ class ArchiveFiltersForm(forms.Form):
         choices=criticality_choices)
     tag = forms.ModelChoiceField(
         label='Tag',
-        queryset=Tag.objects.all().order_by('name'),
+        queryset=Tag.objects.all().order_by(Lower('name')),
         to_field_name='slug',
         required=False,
         empty_label='-- All tags --')
 
 
 class ArticleForm(forms.ModelForm):
+    """
+    A form that allows the publication of an article.
+    """
+
     class Meta:
         model = Article
         fields = ['title', 'criticality', 'effective_date', 'tags', "content", 'attachments']
@@ -55,6 +64,10 @@ class UploadAttachmentForm(forms.ModelForm):
 
 
 class DetailsChangeForm(forms.Form):
+    """
+    A form that lets a user to change their personal information.
+    """
+
     first_name = forms.CharField(max_length=30, required=False)
     last_name = forms.CharField(max_length=30, required=False)
     email = forms.EmailField(required=False)
