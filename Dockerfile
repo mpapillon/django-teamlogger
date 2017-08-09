@@ -16,7 +16,7 @@
 
 FROM python:3.6
 
-LABEL maintainer "maxence.papillon@outlook.com"
+LABEL maintainer=maxence.papillon@outlook.com
 
 # set static and media directories to use
 ENV APP_PATH=/usr/src/app
@@ -30,7 +30,7 @@ ENV DJANGO_SETTINGS_MODULE=teamlogger.settings.production
 WORKDIR /usr/src/app
 
 # get requirements
-COPY requirements_prod.txt ./
+COPY requirements_prod.txt requirements.txt ./
 RUN pip install --no-cache-dir -r requirements_prod.txt
 
 # copy all files into container

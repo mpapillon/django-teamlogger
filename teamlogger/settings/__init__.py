@@ -91,6 +91,18 @@ AUTHENTICATION_BACKENDS = [
     'django.contrib.auth.backends.ModelBackend',
 ]
 
+LDAP_SERVERS = {
+    'default': {
+        'ATTRIBUTES': {
+            'username': ['uid', 'userid'],
+            'email': ['mail', 'email'],
+            'first_name': 'gn',
+            'last_name':  'sn',
+            'avatar': ['jpegPhoto', 'thumbnailPhoto'],
+        }
+    }
+}
+
 
 # Password validation
 # https://docs.djangoproject.com/en/1.11/ref/settings/#auth-password-validators

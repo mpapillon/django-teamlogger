@@ -19,6 +19,13 @@ GREEN='\033[0;32m'
 RED='\033[0;31m'
 NC='\033[0m'
 
+catch_error() {
+    if [ $1 -gt 0 ]; then
+        echo "${RED}==>${NC} ${2}";
+        exit 1
+    fi
+}
+
 if [ -z ${APP_SECRET+x} ]; then
     echo "${RED}==>${NC} The variable APP_SECRET is required.";
     echo "    Please, set a secret key and restart the container."
@@ -28,10 +35,18 @@ fi
 # Database migration/creation
 echo "${GREEN}==>${NC} Database migration"
 python manage.py migrate
+RETURN_CODE=$?
+
+catch_error ${RETURN_CODE} "An error occurred during database migration.";
 
 # Moving static files
 echo "\n${GREEN}==>${NC} Collecting static files"
 python manage.py collectstatic --clear --no-input -i *.less -i *.scss -i node_modules
+RETURN_CODE=$?
+
+catch_error ${RETURN_CODE} "An error occurred during the collect static command.";
 
 echo "\n${GREEN}==>${NC} Stating the server"
 gunicorn teamlogger.wsgi -b :8000 --log-file -
+
+exit 0

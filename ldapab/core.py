@@ -118,8 +118,8 @@ class LDAPConnectionHandler(object):
             self._servers = getattr(settings, 'LDAP_SERVERS', {})
 
         # If no default settings, checking in environment variables
-        if DEFAULT_DIRECTORY_ALIAS not in self._servers and os.getenv('LDAP_URL'):
-            self._servers[DEFAULT_DIRECTORY_ALIAS] = parse_ldap_url(os.getenv('LDAP_URL'))
+        if os.getenv('LDAP_URL'):
+            self._servers[DEFAULT_DIRECTORY_ALIAS].update(parse_ldap_url(os.getenv('LDAP_URL')))
 
         return self._servers
 
