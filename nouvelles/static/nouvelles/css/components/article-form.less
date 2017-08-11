@@ -1,0 +1,75 @@
+@import "../../vendor/spectre/src/variables";
+@import "../../vendor/spectre/src/mixins";
+
+@import "select2";
+
+.panel-article-content {
+  border: @border-width solid @border-color-dark;
+  border-radius: @border-radius;
+  .control-transition();
+
+  &.focused {
+    border-color: @primary-color;
+    .control-shadow();
+  }
+
+  .panel-nav {
+    .tab {
+      margin: 0;
+    }
+  }
+
+  .panel-body {
+    padding: 0;
+
+    .highlight {
+      padding: 0 .8rem;
+    }
+
+    textarea {
+      width: 100%;
+      border: none;
+      padding: .6rem .8rem;
+      resize: vertical;
+
+      &:focus {
+        outline: none;
+      }
+    }
+
+    .help-text {
+      margin: 0;
+      padding: .5rem .8rem;
+      background-color: @bg-color;
+    }
+  }
+}
+
+label.btn {
+  input {
+    width: 0.1px;
+    height: 0.1px;
+    opacity: 0;
+    overflow: hidden;
+    position: absolute;
+    z-index: -1;
+  }
+}
+
+.tab-content {
+  display: none;
+
+  &.active {
+    display: block;
+  }
+}
+
+.tab-editor {
+  .form-label {
+    display: none
+  }
+}
+
+#md_preview {
+  overflow: auto;
+}

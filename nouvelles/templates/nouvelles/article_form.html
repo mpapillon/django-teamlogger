@@ -8,12 +8,15 @@
     <div class="container" style="max-width: 85rem;">
         <h2 class="title-plain">{{ title }}</h2>
         <div class="divider"></div>
-        <form name="form_article" method="post">
-            {% csrf_token %}
+        <form name="form_article" method="post">{% csrf_token %}
+            {% if form.non_field_errors %}
+                <div class="toast toast-primary toast-form-errors mb-5">
+                    {{ form.non_field_errors }}
+                </div>
+            {% endif %}
             <div class="columns">
                 <div class="column col-12">
                     <div class="form-group">
-                        {{ form.title.errors }}
                         {{ form.title|as_spectre }}
                     </div>
                 </div>
@@ -23,13 +26,11 @@
             <div class="columns">
                 <div class="column col-6">
                     <div class="form-group">
-                        {{ form.criticality.errors }}
                         {{ form.criticality|as_spectre }}
                     </div>
                 </div>
                 <div class="column col-6">
                     <div class="form-group">
-                        {{ form.effective_date.errors }}
                         {{ form.effective_date|as_spectre }}
                     </div>
                 </div>
@@ -38,7 +39,6 @@
             <div class="columns">
                 <div class="column col-12">
                     <div class="form-group">
-                        {{ form.tags.errors }}
                         <label class="form-label" for="{{ form.tags.auto_id }}">
                             {{ form.tags.label }}
                         </label>
@@ -54,7 +54,6 @@
                             Content
                         </label>
                         <div id="article_content_panel" class="field-wrapper panel panel-article-content">
-                            {{ form.content.errors }}
                             <div class="tabs-container panel-nav" id="editor-tabs">
                                 <ul class="tab">
                                     <li class="tab-item active"><a data-target="editor" href="#editor">Editor</a></li>
@@ -78,8 +77,6 @@
             </div>
 
             <div class="hide">
-                {{ form.attachments.errors }}
-                {{ form.attachments.label }}
                 {{ form.attachments }}
             </div>
 
@@ -123,7 +120,7 @@
                         {{ attachment_form.file.label }}
                     </label>
                     {% if not article.is_published %}
-                    <input class="btn btn-default" name="_draft" type="submit" value="Save as draft">
+                        <input class="btn btn-default" name="_draft" type="submit" value="Save as draft">
                     {% endif %}
                     <input class="btn btn-primary" name="_publish" type="submit" value="Save and publish">
                 </div>

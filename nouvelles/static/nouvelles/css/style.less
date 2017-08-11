@@ -1,10 +1,20 @@
 @import "../vendor/spectre/src/variables";
 @import "../vendor/spectre/src/mixins";
-@import "header";
-@import "code-color";
-@import "select2";
+
+@import "components/header";
+@import "components/footer";
+@import "components/code";
+@import "components/label";
+@import "components/toast";
+@import "components/avatar";
+@import "components/button";
+
+@import "components/article";
+@import "components/article-filter";
+@import "components/article-form";
 
 html, body {
+  // Used to freeze the footer
   height: 100%;
 
   .page-container {
@@ -23,237 +33,14 @@ html, body {
   }
 }
 
-.section-footer {
-  background-color: @bg-color;
-  padding: @layout-padding;
-
-  .grid-footer {
-    color: @gray-color;
-    margin-bottom: 1rem;
-    margin-top: 2rem;
-
-    a {
-      color: @gray-color-dark;
-    }
-  }
-}
-
-.empty .icon {
-  font-size: 4rem;
-}
-
-.nouvelles-filter {
-  padding: 0.5rem 0;
-  margin: 0;
-  list-style: none;
-
-  li {
-    margin-top: 0;
-    padding: 0 .8rem;
-    text-decoration: none;
-    user-select: none;
-
-    .icon {
-      vertical-align: -10%;
-    }
-
-    & > a {
-      border-radius: @border-radius;
-      color: inherit;
-      display: block;
-      margin: 0 -.8rem;
-      padding: .6rem .8rem;
-      text-decoration: none;
-      &:focus,
-      &:hover {
-        color: @primary-color;
-      }
-    }
-
-    &:active,
-    &.active {
-      background: @secondary-color-light;
-      color: @primary-color;
-    }
-  }
-}
-
-label.btn {
-  input {
-    width: 0.1px;
-    height: 0.1px;
-    opacity: 0;
-    overflow: hidden;
-    position: absolute;
-    z-index: -1;
-  }
-}
-
-.tile-article {
-  background: @bg-color;
-  border-radius: 3px;
-  padding: 1rem;
-
-  .tile-subtitle {
-    a {
-      color: inherit;
-    }
-  }
-}
-
-.label {
-  &.label-default {
-    .label-variant(@light-color, @dark-color);
-  }
-
-  &.label-l {
-    .label-variant(@light-color, @control-color-success);
-  }
-
-  &.label-m {
-    .label-variant(@light-color, @control-color-warning);
-  }
-
-  &.label-h {
-    .label-variant(@light-color, @control-color-error);
-  }
-}
-
-.btn {
-  &.btn-danger {
-    border-color: @control-color-error;
-    color: @control-color-error;
-
-    &:hover {
-      background-color: @control-color-error;
-      color: white;
-    }
-  }
-}
-
-.panel-article {
-  .panel-header {
-    background: @bg-color;
-  }
-
-  .article-title {
-    .article-link {
-      visibility: collapse;
-      font-size: 80%;
-      vertical-align: 10%;
-    }
-
-    &:hover {
-      .article-link {
-        visibility: visible;
-      }
-    }
-  }
-}
-
-.article-actions {
-  background: @bg-color;
-  border-radius: 3px;
-}
-
-.tab-content {
-  display: none;
-
-  &.active {
-    display: block;
-  }
-}
-
-.tab-editor {
-  .form-label {
-    display: none
-  }
-}
-
-#md_preview {
-  overflow: auto;
-}
-
-.panel-article-content {
-  border: @border-width solid @border-color-dark;
-  border-radius: @border-radius;
-  .control-transition();
-
-  &.focused {
-    border-color: @primary-color;
-    .control-shadow();
-  }
-
-  .panel-nav {
-    .tab {
-      margin: 0;
-    }
-  }
-
-  .panel-body {
-    padding: 0;
-
-    .highlight {
-      padding: 0 .8rem;
-    }
-
-    textarea {
-      width: 100%;
-      border: none;
-      padding: .6rem .8rem;
-      resize: vertical;
-    }
-
-    .help-text {
-      margin: 0;
-      padding: .5rem .8rem;
-      background-color: @bg-color;
-    }
-  }
-}
-
-pre {
-  code {
-    background-color: @bg-color;
-    color: inherit;
-    display: block;
-    line-height: inherit;
-    overflow-x: auto;
-    padding: 2rem;
-    width: 100%;
+.empty {
+  .icon {
+    font-size: 4rem;
   }
 }
 
 .highlight {
   img {
-    width: 100%;
-  }
-}
-
-.toast {
-  .btn-link {
-    background: transparent;
-    border: 0;
-    color: currentColor;
-    height: 1.6rem;
-    margin-left: .4rem;
-    margin-right: -.2rem;
-    opacity: .45;
-    padding: 0 .2rem;
-    text-decoration: none;
-
-    &:focus,
-    &:hover,
-    &:active,
-    &.active {
-      color: inherit;
-      opacity: .85;
-    }
-  }
-}
-
-.avatar {
-  img {
-    z-index: @zindex-0;
+    max-width: 100%;
   }
 }
