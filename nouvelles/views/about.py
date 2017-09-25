@@ -24,7 +24,7 @@ class ThirdPartiesView(TemplateView):
         context = super(ThirdPartiesView, self).get_context_data(**kwargs)
         context['licences'] = ""
 
-        with open(settings.ACKNOWLEDGMENTS_FILE, 'r') as f:
+        with open(settings.ACKNOWLEDGMENTS_FILE, 'r', encoding='UTF-8') as f:
             context['title'] = f.readline()
             f.readline()  # ignore the 2nd line
 

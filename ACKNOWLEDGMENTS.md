@@ -446,7 +446,7 @@ the terms above.
 spectre
 -------
 
-[https://picturepan2.github.io/spectre/](https://picturepan2.github.io/spectre/
+[https://picturepan2.github.io/spectre/](https://picturepan2.github.io/spectre/)
 
 ```
 The MIT License (MIT)

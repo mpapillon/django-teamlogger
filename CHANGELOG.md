@@ -14,6 +14,7 @@ TeamLogger / Changelog
 * The width of article's images was not good.
 * The visual focus on the "content" field when writing an article did not fit well with Chrome and Safari.
 * Deleted attachments are also deleted from the disk.
+* Fix an encoding problem on the "open source software" page.
 
 0.3.0
 -----
