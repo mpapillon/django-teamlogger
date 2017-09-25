@@ -1,9 +1,10 @@
-Django==1.11.3
+Django==1.11.5
 django-markdown-deux==1.0.5
 psycopg2==2.7
 pytz==2017.2
 Pygments==2.2.0
 freezegun==0.3.9
-django-environ==0.4.3
-ldap3==2.2.4
+django-environ==0.4.4
+ldap3==2.3
 Pillow==4.2.1
+whitenoise==3.3.1
