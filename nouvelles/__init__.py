@@ -15,7 +15,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
-__version_info__ = ('0', '3', '1', 'dev0')
+__version_info__ = ('0', '3', '1', 'dev2')
 __version__ = ".".join(__version_info__)
 
 __author__ = "Maxence PAPILLON"

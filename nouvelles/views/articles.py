@@ -7,30 +7,75 @@ from django.contrib.auth.mixins import PermissionRequiredMixin, UserPassesTestMi
 from django.contrib.messages.views import SuccessMessageMixin
 from django.core.exceptions import SuspiciousOperation
 from django.db.models import Q
+from django.forms import inlineformset_factory
+from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404
 from django.urls import reverse_lazy, reverse
 from django.utils import timezone
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 
-from nouvelles.forms import ArticleForm, UploadAttachmentForm, ArchiveFiltersForm
-from nouvelles.models import Article
+from nouvelles.forms import ArticleForm, ArchiveFiltersForm
+from nouvelles.models import Article, Attachment
 from nouvelles.settings import HEADLINES_DAYS
-from nouvelles.views.mixins import ViewTitleMixin, FilterMixin, FormFilterMixin, ArticleLineage
+from nouvelles.views.mixins import ViewTitleMixin, FilterMixin, FormFilterMixin, ArticleLineage, ModelFormSetMixin
+
+
+class AttachmentsFormSetMixin(ModelFormSetMixin):
+    """
+    A mixin that provides a support to manage Attachments formsets.
+    """
+
+    def get_formset_class(self, **kwargs):
+        """
+        Returns the form set class to use in this view
+        """
+        return inlineformset_factory(self.model, Attachment, fields=('file',), extra=0)
+
+    def form_valid(self, form):
+        """
+        If the form is valid, saves formset data.
+        """
+        # Apply the treatment on the parent form to avoid persistence problems
+        success_redirection = super(AttachmentsFormSetMixin, self).form_valid(form)
+        formset = self.get_formset()
+        if formset.is_valid():
+            # Set the user who uploaded the new files
+            for attach_form in formset.forms:
+                attach = attach_form.instance
+                if not hasattr(attach, 'upload_by'):
+                    attach.upload_by = self.request.user
+            formset.save()
+            return success_redirection
+        else:
+            # Something is wrong in the formset, returning to the main form
+            self.form_invalid(form)
 
 
 class DraftArticleMixin(object):
+    """
+    This mixin allows the user to save the article in his drafts.
+    """
+
     draft_saved_message = 'The article "{title}" was saved in your drafts.'
 
     def form_valid(self, form):
         if self.request.POST.get('_publish'):
+            # The user wants to publish the post
             form.instance.publication_date = timezone.now()
+            return super(DraftArticleMixin, self).form_valid(form)
         elif self.request.POST.get('_draft'):
+            # The user wants to save the post as draft
             success_msg = self.get_draft_saved_message(form.cleaned_data)
             messages.success(self.request, success_msg)
-
-        return super(DraftArticleMixin, self).form_valid(form)
+            # Calls validation & save
+            super(DraftArticleMixin, self).form_valid(form)
+            # Returning to the editor
+            return HttpResponseRedirect(reverse('nouvelles:edit', kwargs={'pk': self.object.pk}))
 
     def get_draft_saved_message(self, cleaned_data):
+        """
+        Returns the formatted success message.
+        """
         return self.draft_saved_message.format(**cleaned_data)
 
 
@@ -170,7 +215,8 @@ class ArticleDetailView(UserPassesTestMixin, DetailView, ArticleLineage):
         return article.is_published() or not (article.author != user)
 
 
-class ArticleCreateView(PermissionRequiredMixin, ViewTitleMixin, DraftArticleMixin, CreateView):
+class ArticleCreateView(PermissionRequiredMixin, ViewTitleMixin, DraftArticleMixin, AttachmentsFormSetMixin,
+                        CreateView):
     title = "New article"
     model = Article
     form_class = ArticleForm
@@ -182,13 +228,9 @@ class ArticleCreateView(PermissionRequiredMixin, ViewTitleMixin, DraftArticleMix
         form.instance.author = self.request.user
         return super(ArticleCreateView, self).form_valid(form)
 
-    def get_context_data(self, **kwargs):
-        context = super(ArticleCreateView, self).get_context_data(**kwargs)
-        context['attachment_form'] = UploadAttachmentForm()
-        return context
 
-
-class ArticleReplyView(PermissionRequiredMixin, ViewTitleMixin, DraftArticleMixin, CreateView, ArticleLineage):
+class ArticleReplyView(PermissionRequiredMixin, ViewTitleMixin, DraftArticleMixin, AttachmentsFormSetMixin, CreateView,
+                       ArticleLineage):
     title = 'New reply'
     model = Article
     form_class = ArticleForm
@@ -217,7 +259,6 @@ class ArticleReplyView(PermissionRequiredMixin, ViewTitleMixin, DraftArticleMixi
     def get_context_data(self, **kwargs):
         context = super(ArticleReplyView, self).get_context_data(**kwargs)
         context['parent_article'] = self.parent_article
-        context['attachment_form'] = UploadAttachmentForm()
         return context
 
     def form_valid(self, form):
@@ -228,7 +269,8 @@ class ArticleReplyView(PermissionRequiredMixin, ViewTitleMixin, DraftArticleMixi
         return super(ArticleReplyView, self).form_valid(form)
 
 
-class ArticleEditView(UserPassesTestMixin, ViewTitleMixin, DraftArticleMixin, UpdateView, ArticleLineage):
+class ArticleEditView(UserPassesTestMixin, ViewTitleMixin, DraftArticleMixin, AttachmentsFormSetMixin, UpdateView,
+                      ArticleLineage):
     title = "Edit article"
     model = Article
     form_class = ArticleForm
@@ -245,7 +287,6 @@ class ArticleEditView(UserPassesTestMixin, ViewTitleMixin, DraftArticleMixin, Up
 
     def get_context_data(self, **kwargs):
         context = super(ArticleEditView, self).get_context_data(**kwargs)
-        context['attachment_form'] = UploadAttachmentForm()
         del context['article_lineage'][0]  # Removes the current article from lineage
         return context
 

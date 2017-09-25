@@ -5,10 +5,10 @@
 {% load static %}
 
 {% block content %}
-    <div class="container" style="max-width: 85rem;">
+    <div class="container">
         <h2 class="title-plain">{{ title }}</h2>
         <div class="divider"></div>
-        <form name="form_article" method="post">{% csrf_token %}
+        <form name="form_article" method="post" enctype="multipart/form-data">{% csrf_token %}
             {% if form.non_field_errors %}
                 <div class="toast toast-primary toast-form-errors mb-5">
                     {{ form.non_field_errors }}
@@ -21,8 +21,6 @@
                     </div>
                 </div>
             </div>
-
-
             <div class="columns">
                 <div class="column col-6">
                     <div class="form-group">
@@ -35,7 +33,6 @@
                     </div>
                 </div>
             </div>
-
             <div class="columns">
                 <div class="column col-12">
                     <div class="form-group">
@@ -46,7 +43,6 @@
                     </div>
                 </div>
             </div>
-
             <div class="columns">
                 <div class="column col-12">
                     <div class="form-group">
@@ -75,50 +71,62 @@
                     </div>
                 </div>
             </div>
-
-            <div class="hide">
-                {{ form.attachments }}
-            </div>
-
             <div class="columns" id="js-attachments">
-                {% for attach in article.attachments.all %}
-                    <div class="column col-4 col-xs-12">
-                        <div class="tile tile-centered" id="attach_{{ attach.id }}">
-                            <div class="tile-icon">
-                                <a class="btn btn-action btn-primary btn-lg"
-                                   href="{{ attach.file.url }}">
-                                    <i class="icon icon-download centered"></i>
-                                </a>
-                            </div>
-                            <div class="tile-content">
-                                <div class="tile-title">{{ attach.file_name }}</div>
-                                <div class="tile-subtitle">{{ attach.upload_date|date }}</div>
-                            </div>
-                            <div class="tile-action">
-                                <div class="dropdown dropdown-right">
-                                    <a href="#" class="btn btn-link dropdown-toggle" tabindex="0">
-                                        <i class="icon icon-more-vert"></i>
-                                    </a>
-                                    <ul class="menu">
-                                        <li class="menu-item">
-                                            <a href="javascript:removeAttachment({{ attach.id }})">
-                                                Delete from article
-                                            </a>
-                                        </li>
-                                    </ul>
-                                </div>
+                <div class="column col-12">
+                    Attachments
+                    <button type="button" class="float-right btn btn-sm js-add-attachment-btn">Add attachments</button>
+                </div>
+                <div id="js-attachments-empty-form" class="hide">
+                    {{ formset.empty_form }}
+                </div>
+                <div id="js-attachments-management-form" class="hide">
+                    {{ formset.management_form }}
+                </div>
+                {% if not article.attachments.count %}
+                    <div id="js-attachments-empty" class="column col-12">
+                        <div class="empty">
+                            <h5 class="empty-title">This article does not have any attachments yet</h5>
+                            <div class="empty-action">
+                                <button type="button" class="btn btn-link js-add-attachment-btn">Add the first
+                                    attachment
+                                </button>
                             </div>
                         </div>
                     </div>
+                {% endif %}
+                {% for form in formset %}
+                    {% with form.instance as attach %}
+                        <div class="column col-4 col-xs-12" id="{{ form.prefix }}-tile">
+                            {{ form.id }}
+                            <div class="tile tile-centered tile-attachment">
+                                <div class="tile-icon">
+                                    <a class="btn btn-action btn-primary btn-lg"
+                                       href="{{ attach.file.url }}"
+                                       title="Download: {{ attach.name }}">
+                                        <i class="icon icon-download centered"></i>
+                                    </a>
+                                </div>
+                                <div class="tile-content">
+                                    <div class="tile-title">{{ attach.name }}</div>
+                                    <div class="tile-subtitle">{{ attach.size }} • {{ attach.upload_date|date }}</div>
+                                </div>
+                                <div class="tile-action">
+                                    <label class="btn btn-link js-delete-button"
+                                           title="Delete the attachment from the article">
+                                        {{ form.DELETE }}
+                                        <i class="icon icon-delete"></i>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    {% endwith %}
                 {% endfor %}
             </div>
 
+            <div class="divider"></div>
+
             <div class="columns">
                 <div class="column col-12 text-right">
-                    <label class="btn btn-info" title="Upload and add attachment to this article"
-                           for="{{ attachment_form.file.auto_id }}">
-                        {{ attachment_form.file.label }}
-                    </label>
                     {% if not article.is_published %}
                         <input class="btn btn-default" name="_draft" type="submit" value="Save as draft">
                     {% endif %}
@@ -126,12 +134,6 @@
                 </div>
             </div>
         </form>
-
-        {% if perms.nouvelles.add_attachment %}
-            <form name="attachment_form" enctype="multipart/form-data" class="hide">
-                {{ attachment_form.file }}
-            </form>
-        {% endif %}
 
         <div id="md-sheet-cheat" class="modal">
             <a class="modal-overlay" href="#"></a>
@@ -154,49 +156,7 @@
 {% endblock %}
 
 {% block scripts %}
-    <script>
-            {% if perms.nouvelles.add_attachment %}var upload_url = "{% url 'nouvelles:upload_attachment' %}"
-                ;{% endif %}
-        var preview_url = "{% url 'nouvelles:preview' %}";
-    </script>
-
+    <script>window.preview_url = "{% url 'nouvelles:preview' %}";</script>
     <script src="{% static 'nouvelles/js/tabs.js' %}"></script>
-    {% if perms.nouvelles.add_attachment %}
-        <script src="{% static 'nouvelles/js/attachment-upload.js' %}"></script>
-    {% endif %}
-
-    <script>
-        var $content_textarea = $('#id_content');
-        var $content_panel = $('#article_content_panel');
-        var $editorTabs = $('#editor-tabs');
-
-        $('#id_tags').select2({width: '100%', theme: 'spectre'});
-
-        $content_textarea.focus(function (e) {
-            $content_panel.addClass('focused')
-        });
-
-        $content_textarea.blur(function (e) {
-            $content_panel.removeClass('focused')
-        });
-
-        $editorTabs.tabs(function (tabName) {
-            if (tabName === 'preview') {
-                $('#md_preview').height($('#editor').height());
-                $.ajax({
-                    url: preview_url,
-                    type: 'post',
-                    data: {"text": $content_textarea.val()},
-                    success: function (data) {
-                        $('#md_preview').html(data);
-                    }
-                });
-            }
-
-            if (tabName === 'editor') {
-                $('#md_preview').html('<div class="loading" style="height: 100%;"></div>');
-                $content_textarea.focus();
-            }
-        });
-    </script>
+    <script src="{% static 'nouvelles/js/article_form.js' %}"></script>
 {% endblock %}

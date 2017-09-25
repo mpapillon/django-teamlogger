@@ -6,35 +6,11 @@ from django.urls import reverse
 from django.utils import timezone
 from django.utils.text import slugify
 
+from nouvelles.utils import sizeof_fmt
 
-class Attachment(models.Model):
-    file = models.FileField(upload_to='attachments/%Y/%m/%d/')
-    file_name = models.CharField(max_length=255, editable=False)
-    file_md5 = models.CharField(max_length=40, unique=True, editable=False)
-    content_type = models.CharField(max_length=100, editable=False)
-    upload_date = models.DateTimeField(auto_now_add=True)
-    upload_by = models.ForeignKey(User, on_delete=models.PROTECT, related_name='uploads')
 
-    def get_or_compute_file_md5(self):
-        if not self.file_md5:
-            from nouvelles.utils import compute_file_md5
-            self.file_md5 = compute_file_md5(self.file.file)
-
-        return self.file_md5
-
-    def get_absolute_url(self):
-        return self.file.url
-
-    def save(self, *args, **kwargs):
-        # if the attachment was not yet in the database
-        self.file_name = self.file.name
-        self.content_type = self.file.file.content_type
-        self.file_md5 = self.get_or_compute_file_md5()
-
-        super(Attachment, self).save(*args, **kwargs)
-
-    def __str__(self):
-        return self.file_name
+def attachment_upload_path(instance, filename):
+    return "attachments/{article_id}/{filename}".format(article_id=instance.article.id, filename=filename)
 
 
 class Tag(models.Model):
@@ -83,10 +59,10 @@ class Article(models.Model):
 
     # Foreign keys
     author = models.ForeignKey(User, on_delete=models.PROTECT, related_name='articles')
-    editor = models.ForeignKey(User, on_delete=models.PROTECT, default=None, blank=True, null=True, related_name='editions')
+    editor = models.ForeignKey(User, on_delete=models.PROTECT, default=None, blank=True, null=True,
+                               related_name='editions')
     parent_article = models.ForeignKey("self", on_delete=models.CASCADE, default=None, blank=True, null=True)
     tags = models.ManyToManyField(Tag, blank=True)
-    attachments = models.ManyToManyField(Attachment, blank=True)
 
     def get_absolute_url(self):
         return reverse('nouvelles:detail', kwargs={'pk': self.pk})
@@ -102,6 +78,26 @@ class Article(models.Model):
 
     def __str__(self):
         return '[' + self.author.username + '] ' + self.title
+
+
+class Attachment(models.Model):
+    file = models.FileField(upload_to=attachment_upload_path)
+    name = models.CharField(max_length=255, editable=False)
+    size = models.CharField(max_length=20, editable=False)
+    upload_date = models.DateTimeField(auto_now_add=True)
+    upload_by = models.ForeignKey(User, on_delete=models.PROTECT, related_name='uploads')
+    article = models.ForeignKey(Article, on_delete=models.CASCADE, related_name='attachments')
+
+    def get_absolute_url(self):
+        return self.file.url
+
+    def save(self, *args, **kwargs):
+        self.name = self.file.name
+        self.size = sizeof_fmt(self.file.size)
+        super(Attachment, self).save(*args, **kwargs)
+
+    def __str__(self):
+        return self.name
 
 
 class Profile(models.Model):

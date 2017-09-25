@@ -57,7 +57,12 @@ class ArticleEditionTestCase(TestCase):
             "title": "test",
             "criticality": Article.CRITICALITY_LOW,
             "effective_date": "2017-05-30",
-            "content": ""
+            "content": "",
+            "_publish": "_publish",
+            "attachments-TOTAL_FORMS": "0",
+            "attachments-INITIAL_FORMS": "0",
+            "attachments-MIN_NUM_FORMS": "0",
+            "attachments-MAX_NUM_FORMS": "1000"
         })
         self.assertTrue(Article.objects.get(pk=1).title == "test")
         self.assertEquals(response.status_code, 302)

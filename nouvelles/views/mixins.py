@@ -80,3 +80,48 @@ class ArticleLineage(ContextMixin):
 
         context['article_lineage'] = article_lineage
         return context
+
+
+class ModelFormSetMixin(ContextMixin):
+    """
+    Mixin that helps to build a model formset.
+    """
+
+    formset_class = None
+
+    def get_formset_class(self, **kwargs):
+        """
+        Returns the formset class to use in this view.
+        """
+        return self.formset_class
+
+    def get_formset(self, form_set_class=None):
+        """
+        Returns an instance of the formset to be used in this view.
+        """
+        if form_set_class is None:
+            form_set_class = self.get_formset_class()
+        return form_set_class(**self.get_formset_kwargs())
+
+    def get_formset_kwargs(self):
+        """
+        Returns the keyword arguments for instantiating the formset.
+        """
+        kwargs = {
+            'instance': self.object,
+        }
+
+        if self.request.method in ('POST', 'PUT'):
+            kwargs.update({
+                'data': self.request.POST,
+                'files': self.request.FILES,
+            })
+        return kwargs
+
+    def get_context_data(self, **kwargs):
+        """
+        Insert the form into the context dict.
+        """
+        if 'formset' not in kwargs:
+            kwargs['formset'] = self.get_formset()
+        return super(ModelFormSetMixin, self).get_context_data(**kwargs)

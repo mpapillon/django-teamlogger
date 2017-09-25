@@ -502,6 +502,11 @@ label.btn input {
 #md_preview {
   overflow: auto;
 }
+.tile.tile-attachment {
+  border: 1px solid #c4c9d3;
+  border-radius: 3px;
+  padding: 0.5rem;
+}
 html,
 body {
   height: 100%;

@@ -47,20 +47,7 @@ class ArticleForm(forms.ModelForm):
 
     class Meta:
         model = Article
-        fields = ['title', 'criticality', 'effective_date', 'tags', "content", 'attachments']
-
-
-class UploadAttachmentForm(forms.ModelForm):
-    class Meta:
-        model = Attachment
-        fields = ['file']
-        labels = {
-            'file': 'Add attachment'
-        }
-
-    def __init__(self, *args, **kwargs):
-        super(UploadAttachmentForm, self).__init__(*args, **kwargs)
-        self.fields['file'].required = False
+        fields = ['title', 'criticality', 'effective_date', 'tags', 'content']
 
 
 class DetailsChangeForm(forms.Form):

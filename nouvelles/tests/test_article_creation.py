@@ -51,7 +51,12 @@ class ArticleCreationTestCase(TestCase):
             "title": "test_post_not_logger",
             "criticality": Article.CRITICALITY_LOW,
             "effective_date": "2017-05-30",
-            "content": ""
+            "content": "",
+            "_publish": "_publish",
+            "attachments-TOTAL_FORMS": "0",
+            "attachments-INITIAL_FORMS": "0",
+            "attachments-MIN_NUM_FORMS": "0",
+            "attachments-MAX_NUM_FORMS": "1000"
         })
         self.assertTrue(len(Article.objects.filter(title="test_post_not_logger")) > 0)
         self.assertEquals(response.status_code, 302)

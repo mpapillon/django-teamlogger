@@ -44,9 +44,6 @@ urlpatterns = [
         url(r'^third_parties/$', about.ThirdPartiesView.as_view(), name='third_parties'),
     ], namespace='about')),
 
-    # ex: /nouvelles/attachment/upload
-    url(r'^attachment/upload/$', ajax.AttachmentUploadAjaxView.as_view(), name='upload_attachment'),
-
     # ex: /nouvelles/feeds/headlines
     url(r'^feeds/headlines/$', feeds.HeadlinesFeed(), name='headlines_feed'),
 

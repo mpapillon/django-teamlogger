@@ -1,6 +1,20 @@
 TeamLogger / Changelog
 =====================
 
+0.3.1
+-----
+
+### New features 
+
+* Improved management of attachments
+
+### Correctives
+
+* Fix issues during dev installation, `whitenoise` was missing.
+* The width of article's images was not good.
+* The visual focus on the "content" field when writing an article did not fit well with Chrome and Safari.
+* Deleted attachments are also deleted from the disk.
+
 0.3.0
 -----
 

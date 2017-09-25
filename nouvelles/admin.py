@@ -7,13 +7,18 @@ from nouvelles.settings import SITE_NAME
 
 admin.site.site_header = "%s / Administration" % SITE_NAME
 admin.site.site_title = "%s site admin" % SITE_NAME
-admin.site.unregister(User) # Re-register UserAdmin
+admin.site.unregister(User)  # Re-register UserAdmin
 
 
 class ProfileInline(admin.StackedInline):
     model = Profile
     can_delete = False
     verbose_name_plural = 'Profile'
+
+
+class AttachmentInline(admin.StackedInline):
+    model = Attachment
+    extra = 1
 
 
 @admin.register(Article)
@@ -24,16 +29,10 @@ class ArticleAdmin(admin.ModelAdmin):
     fieldsets = [
         (None,                {'fields': ['title']}),
         ('Article content',   {'fields': ['criticality', 'effective_date', 'author', 'content']}),
-        ('Article additions', {'fields': ['publication_date', 'parent_article', 'tags', 'attachments']}),
+        ('Article additions', {'fields': ['publication_date', 'parent_article', 'tags']}),
         ('Article edition',   {'fields': ['editor', 'edition_date']})
     ]
-
-
-@admin.register(Attachment)
-class AttachmentAdmin(admin.ModelAdmin):
-    list_display = ('file_name', 'content_type', 'upload_by', 'upload_date')
-    list_filter = ('upload_date', 'content_type')
-    search_fields = ['file_name']
+    inlines = [AttachmentInline]
 
 
 @admin.register(Tag)
@@ -44,5 +43,4 @@ class TagAdmin(admin.ModelAdmin):
 
 @admin.register(User)
 class UserAdmin(BaseUserAdmin):
-    inlines = (ProfileInline, )
-
+    inlines = (ProfileInline,)

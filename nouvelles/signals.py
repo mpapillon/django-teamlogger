@@ -5,7 +5,7 @@ from django.db.models import signals as models
 from django.dispatch import receiver
 
 from ldapab import signals as directory
-from nouvelles.models import Article, Profile
+from nouvelles.models import Article, Profile, Attachment
 from nouvelles.settings import EMAIL_HIGH_ARTICLES
 from nouvelles.utils import messages
 
@@ -70,3 +70,14 @@ def update_profile_from_directory(user, attributes, **kwargs):
             user.profile.avatar.save('%s.jpg' % user.username, tmp, True)
 
     user.profile.save()
+
+
+@receiver(models.post_delete, sender=Attachment, dispatch_uid="delete_attachment")
+def delete_attachment(sender, instance, **kwargs):
+    """
+    Deletes file from filesystem when
+    corresponding `Attachment` object is deleted.
+    """
+    if instance.file:
+        if default_storage.exists(instance.file):
+            default_storage.delete(instance.file)
