@@ -82,7 +82,7 @@
                 <div id="js-attachments-management-form" class="hide">
                     {{ formset.management_form }}
                 </div>
-                {% if not article.attachments.count %}
+                {% if not formset|length %}
                     <div id="js-attachments-empty" class="column col-12">
                         <div class="empty">
                             <h5 class="empty-title">This article does not have any attachments yet</h5>
@@ -108,7 +108,8 @@
                                 </div>
                                 <div class="tile-content">
                                     <div class="tile-title">{{ attach.name }}</div>
-                                    <div class="tile-subtitle">{{ attach.size }} • {{ attach.upload_date|date }}</div>
+                                    <div class="tile-subtitle">{{ attach.size }}
+                                        • {{ attach.upload_date|date }}</div>
                                 </div>
                                 <div class="tile-action">
                                     <label class="btn btn-link js-delete-button"

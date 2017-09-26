@@ -32,6 +32,16 @@ class AttachmentsFormSetMixin(ModelFormSetMixin):
         """
         return inlineformset_factory(self.model, Attachment, fields=('file',), extra=0)
 
+    def get_formset_kwargs(self):
+        kwargs = super(AttachmentsFormSetMixin, self).get_formset_kwargs()
+        form = self.get_form()
+        # If the form is not valid, files previously uploaded by the user are deleted
+        # to prevent the creation of empty  <input type="file">.
+        if not form.is_valid():
+            kwargs.pop('data', None)
+            kwargs.pop('files', None)
+        return kwargs
+
     def form_valid(self, form):
         """
         If the form is valid, saves formset data.

@@ -68,13 +68,11 @@ $(function () {
             '                            <div class="tile-subtitle">Ready to be uploaded</div>\n' +
             '                        </div>\n' +
             '                        <div class="tile-action">\n' +
-            '                            <div class="dropdown dropdown-right">\n' +
-            '                                <button id="id_attachments-__id__-delete-btn"\n' +
-            '                                        type="button" class="btn btn-link"\n' +
-            '                                        title="Cancel file upload">\n' +
-            '                                    <i class="icon icon-cross"></i>\n' +
-            '                                </button>\n' +
-            '                            </div>\n' +
+            '                            <button id="id_attachments-__id__-delete-btn"\n' +
+            '                                    type="button" class="btn btn-link"\n' +
+            '                                    title="Cancel file upload">\n' +
+            '                                <i class="icon icon-cross"></i>\n' +
+            '                            </button>\n' +
             '                        </div>\n' +
             '                    </div>\n' +
             '                </div>';
