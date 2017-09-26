@@ -303,7 +303,6 @@ class ArticleDeleteView(UserPassesTestMixin, ViewTitleMixin, SuccessMessageMixin
         return user.has_perm('nouvelles.delete_article') or (article.author == user and not article.is_published())
 
     def delete(self, request, *args, **kwargs):
-        from django.contrib import messages
         success_message = self.get_success_message(self.get_object())
         response = super(ArticleDeleteView, self).delete(request, *args, **kwargs)
         if success_message:
@@ -313,6 +312,18 @@ class ArticleDeleteView(UserPassesTestMixin, ViewTitleMixin, SuccessMessageMixin
     def get_success_message(self, instance):
         from django.forms.models import model_to_dict
         return super(ArticleDeleteView, self).get_success_message(model_to_dict(instance))
+
+    def get_context_data(self, **kwargs):
+        def get_replies(article: Article):
+            replies = []
+            for reply in article.article_set.all():
+                replies.append(reply)
+                replies += get_replies(reply)
+            return replies
+
+        context = super(ArticleDeleteView, self).get_context_data(**kwargs)
+        context['replies'] = get_replies(self.object)
+        return context
 
 
 class ArticleDraftsView(PermissionRequiredMixin, ViewTitleMixin, ListView):
