@@ -4,6 +4,7 @@ from functools import reduce
 
 from django.contrib import messages
 from django.contrib.auth.mixins import PermissionRequiredMixin, UserPassesTestMixin
+from django.contrib.auth.models import User
 from django.contrib.messages.views import SuccessMessageMixin
 from django.core.exceptions import SuspiciousOperation
 from django.db.models import Q
@@ -51,7 +52,7 @@ class AttachmentsFormSetMixin(ModelFormSetMixin):
             self.form_invalid(form)
 
 
-class DraftArticleMixin(object):
+class DraftSaveArticleMixin(object):
     """
     This mixin allows the user to save the article in his drafts.
     """
@@ -62,13 +63,13 @@ class DraftArticleMixin(object):
         if self.request.POST.get('_publish'):
             # The user wants to publish the post
             form.instance.publication_date = timezone.now()
-            return super(DraftArticleMixin, self).form_valid(form)
+            return super(DraftSaveArticleMixin, self).form_valid(form)
         elif self.request.POST.get('_draft'):
             # The user wants to save the post as draft
             success_msg = self.get_draft_saved_message(form.cleaned_data)
             messages.success(self.request, success_msg)
             # Calls validation & save
-            super(DraftArticleMixin, self).form_valid(form)
+            super(DraftSaveArticleMixin, self).form_valid(form)
             # Returning to the editor
             return HttpResponseRedirect(reverse('nouvelles:edit', kwargs={'pk': self.object.pk}))
 
@@ -123,26 +124,21 @@ class ArticleHeadlinesView(ViewTitleMixin, FilterMixin, ListView):
                 criticalities[0] = {
                     'id': criticality_id,
                     'name': criticality_choices[criticality_id],
-                    'icon': 'i-exclamation',
                     'url': self.url('criticality', criticality_id)}
 
             elif criticality_id == Article.CRITICALITY_MEDIUM:
                 criticalities[1] = {
                     'id': criticality_id,
                     'name': criticality_choices[criticality_id],
-                    'icon': 'i-error',
                     'url': self.url('criticality', criticality_id)}
 
             elif criticality_id == Article.CRITICALITY_LOW:
                 criticalities[2] = {
                     'id': criticality_id,
                     'name': criticality_choices[criticality_id],
-                    'icon': 'i-information',
                     'url': self.url('criticality', criticality_id)}
 
         # Gets articles authors
-        from django.contrib.auth.models import User
-
         for author in User.objects.filter(id__in=self.queryset.values('author')):
             if not any(d['username'] == author.username for d in authors):
                 full_name = author.get_full_name()
@@ -160,7 +156,6 @@ class ArticleHeadlinesView(ViewTitleMixin, FilterMixin, ListView):
 
     def get_context_data(self, **kwargs):
         context = super(ArticleHeadlinesView, self).get_context_data(**kwargs)
-        context['query_date'] = self.query_date
 
         new_context = context.copy()
         new_context.update(self.get_filters())
@@ -198,11 +193,6 @@ class ArticleArchiveListView(ViewTitleMixin, FormFilterMixin, ListView):
             )
         return result
 
-    def get_queryset_filters(self):
-        filters = super(ArticleArchiveListView, self).get_queryset_filters()
-        # Ignore empty filters
-        return dict((k, v) for (k, v) in filters.items() if v)
-
 
 class ArticleDetailView(UserPassesTestMixin, DetailView, ArticleLineage):
     model = Article
@@ -215,7 +205,7 @@ class ArticleDetailView(UserPassesTestMixin, DetailView, ArticleLineage):
         return article.is_published() or not (article.author != user)
 
 
-class ArticleCreateView(PermissionRequiredMixin, ViewTitleMixin, DraftArticleMixin, AttachmentsFormSetMixin,
+class ArticleCreateView(PermissionRequiredMixin, ViewTitleMixin, DraftSaveArticleMixin, AttachmentsFormSetMixin,
                         CreateView):
     title = "New article"
     model = Article
@@ -229,8 +219,8 @@ class ArticleCreateView(PermissionRequiredMixin, ViewTitleMixin, DraftArticleMix
         return super(ArticleCreateView, self).form_valid(form)
 
 
-class ArticleReplyView(PermissionRequiredMixin, ViewTitleMixin, DraftArticleMixin, AttachmentsFormSetMixin, CreateView,
-                       ArticleLineage):
+class ArticleReplyView(PermissionRequiredMixin, ViewTitleMixin, DraftSaveArticleMixin, AttachmentsFormSetMixin,
+                       CreateView, ArticleLineage):
     title = 'New reply'
     model = Article
     form_class = ArticleForm
@@ -269,7 +259,7 @@ class ArticleReplyView(PermissionRequiredMixin, ViewTitleMixin, DraftArticleMixi
         return super(ArticleReplyView, self).form_valid(form)
 
 
-class ArticleEditView(UserPassesTestMixin, ViewTitleMixin, DraftArticleMixin, AttachmentsFormSetMixin, UpdateView,
+class ArticleEditView(UserPassesTestMixin, ViewTitleMixin, DraftSaveArticleMixin, AttachmentsFormSetMixin, UpdateView,
                       ArticleLineage):
     title = "Edit article"
     model = Article

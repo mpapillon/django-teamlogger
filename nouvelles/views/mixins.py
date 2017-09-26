@@ -25,20 +25,34 @@ class ViewTitleMixin(ContextMixin):
 
 
 class FilterMixin(MultipleObjectMixin, View):
+    """
+    This mixin allows applying filters to the queryset from the GET parameters.
+    """
+
     allowed_filters = {}
 
     def get_queryset_filters(self):
+        """
+        Build a filter for a queryset.
+        """
         filters = {}
         for item in self.allowed_filters:
-            if item in self.request.GET:
+            if self.request.GET.get(item):
                 filters[self.allowed_filters[item]] = self.request.GET[item]
         return filters
 
     def get_queryset(self):
+        """
+        Return the list of filtered items for this view.
+        """
         return super(FilterMixin, self).get_queryset().filter(**self.get_queryset_filters())
 
 
 class FormFilterMixin(FormMixin, FilterMixin):
+    """
+    Allows the use of a form associated with a filter.
+    """
+
     def get_form_kwargs(self):
         kwargs = super(FormFilterMixin, self).get_form_kwargs()
 
@@ -62,6 +76,7 @@ class ArticleLineage(ContextMixin):
     Build a list named "article_lineage" containing current article with his parents
     and prevent from article loops.
     """
+
     same_parent_message = "There was a problem with this article or one of its related elements. " \
                           "Please contact an administrator."
 

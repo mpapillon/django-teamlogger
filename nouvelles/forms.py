@@ -2,7 +2,7 @@ from django import forms
 from django.contrib.auth.models import User
 from django.db.models.functions import Lower
 
-from nouvelles.models import Attachment, Article, Tag, Profile
+from nouvelles.models import Article, Tag, Profile
 from nouvelles.templatetags.nouvelles import user_full_name
 
 

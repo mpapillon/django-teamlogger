@@ -1,8 +1,8 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.contrib.auth.models import User
 from django.urls import reverse_lazy
-from django.views.generic import UpdateView, FormView
-from django.views.generic.base import ContextMixin, TemplateResponseMixin, View, TemplateView
+from django.views.generic import FormView
+from django.views.generic.base import TemplateView
+
 from nouvelles.forms import DetailsChangeForm
 
 
