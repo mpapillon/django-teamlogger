@@ -206,11 +206,12 @@ pre code {
   color: inherit;
   opacity: .85;
 }
-.toast.toast-form-errors ul {
-  margin: 0;
-  list-style: none;
+.toast.toast-form-errors ul,
+.toast.toast-form-errors ol {
+  margin: 1rem 0 1rem 1rem;
 }
-.toast.toast-form-errors ul li:first-child {
+.toast.toast-form-errors ul li,
+.toast.toast-form-errors ol li {
   margin: 0;
 }
 .avatar img {
@@ -223,6 +224,24 @@ pre code {
 .btn.btn-danger:hover {
   background-color: #e85600;
   color: white;
+}
+.form-input:not(:placeholder-shown):invalid {
+  border-color: #c4c9d3;
+}
+.form-input:not(:placeholder-shown):invalid:focus {
+  border-color: #5764c6;
+  box-shadow: 0 0 0 0.2rem rgba(87, 100, 198, 0.15);
+}
+.form-input-hint {
+  font-size: 1.2rem;
+}
+.form-input-hint ul,
+.form-input-hint ol {
+  margin: 0 0 0 .4rem;
+}
+.form-input-hint ul li,
+.form-input-hint ol li {
+  margin: 0;
 }
 .tile-article {
   background: #f8f9fa;
@@ -531,4 +550,21 @@ body .page-container .section-footer {
 }
 .highlight img {
   max-width: 100%;
+}
+hr {
+  display: block;
+  position: relative;
+  border: 0 solid #f0f1f4;
+  border-top-width: 0.1rem;
+  height: .1rem;
+  margin: 1rem 0;
+}
+hr[data-content]::after {
+  background: #fff;
+  color: #e7e9ed;
+  content: attr(data-content);
+  display: inline-block;
+  font-size: 1.2rem;
+  padding: 0 .8rem;
+  transform: translateY(-1.1rem);
 }

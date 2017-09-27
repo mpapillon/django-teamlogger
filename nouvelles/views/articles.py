@@ -46,20 +46,21 @@ class AttachmentsFormSetMixin(ModelFormSetMixin):
         """
         If the form is valid, saves formset data.
         """
-        # Apply the treatment on the parent form to avoid persistence problems
-        success_redirection = super(AttachmentsFormSetMixin, self).form_valid(form)
+        # Save without commit to build the Article
+        self.object = form.save(commit=False)
         formset = self.get_formset()
         if formset.is_valid():
+            redirection = super(AttachmentsFormSetMixin, self).form_valid(form)
             # Set the user who uploaded the new files
             for attach_form in formset.forms:
                 attach = attach_form.instance
                 if not hasattr(attach, 'upload_by'):
                     attach.upload_by = self.request.user
             formset.save()
-            return success_redirection
+            return redirection
         else:
             # Something is wrong in the formset, returning to the main form
-            self.form_invalid(form)
+            return self.form_invalid(form)
 
 
 class DraftSaveArticleMixin(object):
@@ -215,7 +216,7 @@ class ArticleDetailView(UserPassesTestMixin, DetailView, ArticleLineage):
         return article.is_published() or not (article.author != user)
 
 
-class ArticleCreateView(PermissionRequiredMixin, ViewTitleMixin, DraftSaveArticleMixin, AttachmentsFormSetMixin,
+class ArticleCreateView(PermissionRequiredMixin, ViewTitleMixin, AttachmentsFormSetMixin, DraftSaveArticleMixin,
                         CreateView):
     title = "New article"
     model = Article
@@ -229,7 +230,7 @@ class ArticleCreateView(PermissionRequiredMixin, ViewTitleMixin, DraftSaveArticl
         return super(ArticleCreateView, self).form_valid(form)
 
 
-class ArticleReplyView(PermissionRequiredMixin, ViewTitleMixin, DraftSaveArticleMixin, AttachmentsFormSetMixin,
+class ArticleReplyView(PermissionRequiredMixin, ViewTitleMixin, AttachmentsFormSetMixin, DraftSaveArticleMixin,
                        CreateView, ArticleLineage):
     title = 'New reply'
     model = Article
@@ -269,7 +270,7 @@ class ArticleReplyView(PermissionRequiredMixin, ViewTitleMixin, DraftSaveArticle
         return super(ArticleReplyView, self).form_valid(form)
 
 
-class ArticleEditView(UserPassesTestMixin, ViewTitleMixin, DraftSaveArticleMixin, AttachmentsFormSetMixin, UpdateView,
+class ArticleEditView(UserPassesTestMixin, ViewTitleMixin, AttachmentsFormSetMixin, DraftSaveArticleMixin, UpdateView,
                       ArticleLineage):
     title = "Edit article"
     model = Article

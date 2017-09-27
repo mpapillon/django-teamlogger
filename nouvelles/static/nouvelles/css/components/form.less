@@ -1,0 +1,18 @@
+.form-input:not(:placeholder-shown):invalid {
+  // Removes the red border on invalid inputs.
+  border-color: @border-color-dark;
+  &:focus {
+    border-color: @primary-color;
+    .control-shadow();
+  }
+}
+
+.form-input-hint {
+  font-size: 1.2rem;
+  ul, ol {
+    margin: 0 0 0 .4rem;
+    li {
+      margin: 0;
+    }
+  }
+}

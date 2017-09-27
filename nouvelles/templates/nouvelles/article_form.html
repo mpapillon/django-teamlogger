@@ -9,28 +9,33 @@
         <h2 class="title-plain">{{ title }}</h2>
         <div class="divider"></div>
         <form name="form_article" method="post" enctype="multipart/form-data">{% csrf_token %}
-            {% if form.non_field_errors %}
-                <div class="toast toast-primary toast-form-errors mb-5">
-                    {{ form.non_field_errors }}
+            {% if form.non_field_errors or formset.non_field_errors or formset.errors %}
+                <div class="toast toast-error toast-form-errors mb-5">
+                    The operation could not be performed because one or more error(s) occurred:
+                    <ul>
+                        {{ form.non_field_errors }}
+                        {{ formset.non_field_errors }}
+                        {% if formset.errors %}
+                            {% for dict in formset.errors %}
+                                {% for error in dict.values %}
+                                    <li>{{ error|striptags }}</li>
+                                {% endfor %}
+                            {% endfor %}
+                        {% endif %}
+                    </ul>
                 </div>
             {% endif %}
             <div class="columns">
                 <div class="column col-12">
-                    <div class="form-group">
-                        {{ form.title|as_spectre }}
-                    </div>
+                    {{ form.title|as_spectre }}
                 </div>
             </div>
             <div class="columns">
                 <div class="column col-6">
-                    <div class="form-group">
-                        {{ form.criticality|as_spectre }}
-                    </div>
+                    {{ form.criticality|as_spectre }}
                 </div>
                 <div class="column col-6">
-                    <div class="form-group">
-                        {{ form.effective_date|as_spectre }}
-                    </div>
+                    {{ form.effective_date|as_spectre }}
                 </div>
             </div>
             <div class="columns">
@@ -82,7 +87,7 @@
                 <div id="js-attachments-management-form" class="hide">
                     {{ formset.management_form }}
                 </div>
-                {% if not formset|length %}
+                {% if not formset|length or formset.errors %}
                     <div id="js-attachments-empty" class="column col-12">
                         <div class="empty">
                             <h5 class="empty-title">This article does not have any attachments yet</h5>
@@ -96,30 +101,32 @@
                 {% endif %}
                 {% for form in formset %}
                     {% with form.instance as attach %}
-                        <div class="column col-4 col-xs-12" id="{{ form.prefix }}-tile">
-                            {{ form.id }}
-                            <div class="tile tile-centered tile-attachment">
-                                <div class="tile-icon">
-                                    <a class="btn btn-action btn-primary btn-lg"
-                                       href="{{ attach.file.url }}"
-                                       title="Download: {{ attach.name }}">
-                                        <i class="icon icon-download centered"></i>
-                                    </a>
-                                </div>
-                                <div class="tile-content">
-                                    <div class="tile-title">{{ attach.name }}</div>
-                                    <div class="tile-subtitle">{{ attach.size }}
-                                        • {{ attach.upload_date|date }}</div>
-                                </div>
-                                <div class="tile-action">
-                                    <label class="btn btn-link js-delete-button"
-                                           title="Delete the attachment from the article">
-                                        {{ form.DELETE }}
-                                        <i class="icon icon-delete"></i>
-                                    </label>
+                        {% if attach.pk %}
+                            <div class="column col-4 col-xs-12" id="{{ form.prefix }}-tile">
+                                {{ form.id }}
+                                <div class="tile tile-centered tile-attachment">
+                                    <div class="tile-icon">
+                                        <a class="btn btn-action btn-primary btn-lg"
+                                           href="{{ attach.file.url }}"
+                                           title="Download: {{ attach.name }}">
+                                            <i class="icon icon-download centered"></i>
+                                        </a>
+                                    </div>
+                                    <div class="tile-content">
+                                        <div class="tile-title">{{ attach.name }}</div>
+                                        <div class="tile-subtitle">{{ attach.size }}
+                                            • {{ attach.upload_date|date }}</div>
+                                    </div>
+                                    <div class="tile-action">
+                                        <label class="btn btn-link js-delete-button"
+                                               title="Delete the attachment from the article">
+                                            {{ form.DELETE }}
+                                            <i class="icon icon-delete"></i>
+                                        </label>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
+                        {% endif %}
                     {% endwith %}
                 {% endfor %}
             </div>

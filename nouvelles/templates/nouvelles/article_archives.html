@@ -12,9 +12,9 @@
 
     <div class="columns">
         <div class="column col-12 show-sm">
-            <form class="input-group" method="GET"
-                  action="{% url 'nouvelles:archives' %}">
-                <input class="form-input" name="q" placeholder="Search an article" value="{{ form.q.value|default:"" }}"/>
+            <form class="input-group" method="GET" action="{% url 'nouvelles:archives' %}">
+                <input class="form-input" name="q" placeholder="Search an article"
+                       value="{{ form.q.value|default:"" }}"/>
                 <button class="btn btn-primary input-group-btn"><i class="icon icon-search"></i></button>
             </form>
         </div>

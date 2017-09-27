@@ -4,7 +4,7 @@
     {{ field }}
 {% else %}
     {% with field|input_type as input_type %}
-        <div class="form-group">
+        <div class="form-group{% if field.errors %} has-error{% endif %}">
             {% if input_type != "checkbox" %}
                 <label class="form-label{% if size %} label-{{ size }}{% endif %}"
                         {% if field.auto_id and input_type != "multicheckbox" and input_type != "radioset" %}
@@ -23,6 +23,9 @@
                 TODO: radioset
             {% else %}
                 {{ field|to_spectre_field:size }}
+            {% endif %}
+            {% if field.errors %}
+                <div class="form-input-hint">{{ field.errors }}</div>
             {% endif %}
         </div>
     {% endwith %}
