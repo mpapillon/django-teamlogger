@@ -7,6 +7,7 @@ TeamLogger / Changelog
 ### New features 
 
 * Improved management of attachments
+* Deletion drafts by batch.
 
 ### Correctives
 
@@ -15,6 +16,7 @@ TeamLogger / Changelog
 * The visual focus on the "content" field when writing an article did not fit well with Chrome and Safari.
 * Deleted attachments are also deleted from the disk.
 * Fix an encoding problem on the "open source software" page.
+* Several small patches.
 
 0.3.0
 -----
