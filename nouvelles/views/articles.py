@@ -334,9 +334,19 @@ class ArticleDraftsView(PermissionRequiredMixin, ViewTitleMixin, ListView):
     permission_required = 'nouvelles.add_article'
 
     model = Article
-    ordering = ('-effective_date', '-creation_date')
+    ordering = ('-edition_date',)
 
     def get_queryset(self):
         queryset = super(ArticleDraftsView, self).get_queryset()
         # Fetch only not published user's articles
         return queryset.filter(author=self.request.user).filter(publication_date__isnull=True)
+
+    def post(self, request, *args, **kwargs):
+        drafts_to_delete = request.POST.getlist('delete')
+        # Gets only drafts items written by the user
+        articles = self.model.objects.filter(pk__in=drafts_to_delete)\
+            .filter(author=request.user)\
+            .filter(publication_date__isnull=True)
+        articles.delete()
+        messages.success(self.request, "Drafts have been successfully deleted")
+        return self.get(request, *args, **kwargs)
