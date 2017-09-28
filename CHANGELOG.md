@@ -6,8 +6,9 @@ TeamLogger / Changelog
 
 ### New features 
 
-* Improved management of attachments
+* Improved management of attachments.
 * Deletion drafts by batch.
+* Users who are not logged in via a directory can delete their avatar.
 
 ### Correctives
 
