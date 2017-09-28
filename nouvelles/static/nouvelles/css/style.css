@@ -243,6 +243,19 @@ pre code {
 .form-input-hint ol li {
   margin: 0;
 }
+.form-input[type="file"] {
+  overflow: hidden;
+}
+.has-error .form-checkbox .form-icon,
+.has-error .form-radio .form-icon {
+  border-color: #e85600;
+}
+.has-error .form-checkbox input:focus + .form-icon,
+.has-error .form-radio input:focus + .form-icon,
+.has-error .form-switch input:focus + .form-icon {
+  border-color: #e85600;
+  box-shadow: 0 0 0 0.2rem rgba(232, 86, 0, 0.15);
+}
 .tile-article {
   background: #f8f9fa;
   border-radius: 3px;

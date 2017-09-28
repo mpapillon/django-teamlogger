@@ -1,3 +1,6 @@
+@import "../../vendor/spectre/src/variables";
+@import "../../vendor/spectre/src/mixins";
+
 .form-input:not(:placeholder-shown):invalid {
   // Removes the red border on invalid inputs.
   border-color: @border-color-dark;
@@ -14,5 +17,22 @@
     li {
       margin: 0;
     }
+  }
+}
+
+.form-input[type="file"] {
+  overflow: hidden;
+}
+
+.has-error {
+  .form-checkbox .form-icon,
+  .form-radio .form-icon {
+    border-color: @control-color-error;
+  }
+  .form-checkbox input:focus + .form-icon,
+  .form-radio input:focus + .form-icon,
+  .form-switch input:focus + .form-icon {
+    border-color: @control-color-error;
+    .control-shadow(@control-color-error);
   }
 }

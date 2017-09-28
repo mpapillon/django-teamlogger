@@ -1,5 +1,6 @@
 from tempfile import TemporaryFile
 
+from django.contrib.auth.models import User
 from django.core.files.storage import default_storage
 from django.db.models import signals as models
 from django.dispatch import receiver
@@ -20,6 +21,17 @@ def send_article_mail(sender, instance, created, **kwargs):
 
     if created and instance.criticality == Article.CRITICALITY_HIGH:
         messages.send_article_to_all_users(instance)
+
+
+@receiver(models.post_save, sender=User, dispatch_uid="create_profile")
+def create_profile(sender, instance, created, **kwargs):
+    """
+    Creates the user profile if it does not have one.
+    """
+    if not created:
+        return
+    profile = Profile(user=instance)
+    profile.save()
 
 
 @receiver(models.post_delete, sender=Profile, dispatch_uid="delete_avatar")

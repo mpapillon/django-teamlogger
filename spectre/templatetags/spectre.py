@@ -73,7 +73,7 @@ def as_spectre(form_or_field, size=None, layout=None):
             'field': form_or_field,
             'size': size,
         })
-    elif isinstance(form_or_field, forms.Form):
+    elif isinstance(form_or_field, forms.BaseForm):
         return get_template("spectre/form.html").render({
             'form': form_or_field,
             'size': size,

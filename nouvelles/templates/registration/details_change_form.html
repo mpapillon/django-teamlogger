@@ -33,6 +33,11 @@
         </nav>
         <div class="panel-body">{% csrf_token %}
             {{ form|as_spectre }}
+            {{ formset.management_form }}
+            {% for profile_form in formset %}
+                {{ profile_form.avatar|as_spectre }}
+                {{ profile_form.user }}
+            {% endfor %}
         </div>
 
         <div class="panel-footer">
