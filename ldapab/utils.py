@@ -16,6 +16,8 @@ def parse_ldap_url(ldap_url=None):
     queries = {}
 
     for q in url.query.split('&'):
+        if not q:
+            continue
         a = q.split('=', 1)
         queries[a[0].upper()] = a[1]
 
@@ -25,6 +27,6 @@ def parse_ldap_url(ldap_url=None):
         'USER': url.username,
         'PASSWORD': url.password,
         'BASE': path,
-        'GROUP_BASE': queries['GROUP_BASE'] if 'GROUP_BASE' in queries else None,
-        'ADMIN_GROUP': queries['ADMIN_GROUP'] if 'ADMIN_GROUP' in queries else None,
+        'GROUP_BASE': queries.get('GROUP_BASE', None),
+        'ADMIN_GROUP': queries.get('ADMIN_GROUP', None),
     }

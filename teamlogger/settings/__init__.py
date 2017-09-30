@@ -96,7 +96,7 @@ LDAP_SERVERS = {
         'ATTRIBUTES': {
             'username': ['uid', 'userid'],
             'email': ['mail', 'email'],
-            'first_name': 'gn',
+            'first_name': ['gn', 'cn'],
             'last_name':  'sn',
             'avatar': ['jpegPhoto', 'thumbnailPhoto'],
         }

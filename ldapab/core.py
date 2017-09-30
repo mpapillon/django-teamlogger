@@ -1,8 +1,8 @@
 import os
 
+import ldap3
 from django.conf import settings
 from django.utils.functional import cached_property
-from ldap3 import Server, Connection, ALL_ATTRIBUTES
 from ldap3.core.exceptions import LDAPException
 
 from ldapab.exceptions import LDAPConnectionException, LDAPConnectionDoesNotExist
@@ -19,7 +19,9 @@ class LDAPConnection(object):
 
         self._connection = None
         self._settings_dict = settings_dict
-        self._server = Server(self._settings_dict['HOST'], port=int(self._settings_dict['PORT']))
+        self._server = ldap3.Server(host=self._settings_dict['HOST'],
+                                    port=int(self._settings_dict['PORT']),
+                                    allowed_referral_hosts=[("*", True)])
 
     def open(self):
         """
@@ -27,8 +29,11 @@ class LDAPConnection(object):
         :return: True if the connection is opened.
         """
         try:
-            self._connection = Connection(self._server, self._settings_dict['USER'], self._settings_dict['PASSWORD'],
-                                          auto_bind=True)
+            print('Try connection:', self._server)
+            self._connection = ldap3.Connection(server=self._server,
+                                                user=self._settings_dict['USER'],
+                                                password=self._settings_dict['PASSWORD'],
+                                                auto_bind=ldap3.AUTO_BIND_NO_TLS)
         except LDAPException as e:
             raise LDAPConnectionException from e
 
@@ -50,7 +55,7 @@ class LDAPConnection(object):
         username_attrs = attrs['username']
         for attr in username_attrs if isinstance(username_attrs, list) else [username_attrs]:
             filters = "(&({attr}={username}))".format(attr=attr, username=username)
-            if not self._connection.search(sb, filters, attributes=ALL_ATTRIBUTES):
+            if not self._connection.search(sb, filters, attributes=ldap3.ALL_ATTRIBUTES):
                 continue
 
             if len(self._connection.entries) == 0:
@@ -71,12 +76,12 @@ class LDAPConnection(object):
                         user[field] = entry[attr]
                         break
                 else:
-                    user[field] = None
+                    user[field] = ''
             else:
                 if ldap_attr in entry:
-                    user[field] = entry[ldap_attr].value if entry[ldap_attr] else None
+                    user[field] = entry[ldap_attr].value if entry[ldap_attr] else ''
                 else:
-                    user[field] = None
+                    user[field] = ''
 
         user['groups'] = self.get_user_groups(entry.entry_dn)
 
@@ -85,6 +90,9 @@ class LDAPConnection(object):
     def get_user_groups(self, user_dn):
         """Returns a list of group names where the user is a member."""
         sb = self._settings_dict['GROUP_BASE']
+        if not sb:
+            return []
+
         filters = "(&(member=%s))" % user_dn
 
         if self._connection.search(sb, filters, attributes=['cn']):
@@ -139,7 +147,7 @@ class LDAPConnectionHandler(object):
             'username': ['uid', 'userid'],
             'email': ['mail', 'email'],
             'first_name': 'gn',
-            'last_name':  'sn',
+            'last_name': 'sn',
         })
 
         for setting in ['USER', 'PASSWORD', 'HOST', 'BASE', 'GROUP_BASE']:
