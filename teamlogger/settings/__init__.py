@@ -140,7 +140,7 @@ USE_TZ = True
 
 
 # Application context path
-APP_CONTEXT = os.getenv('APP_CONTEXT', '/')
+APP_CONTEXT = env.str('APP_CONTEXT', '/')
 APP_CONTEXT = APP_CONTEXT if len(APP_CONTEXT) > 0 and APP_CONTEXT[-1] == '/' else '%s/' % APP_CONTEXT
 
 # Static files (CSS, JavaScript, Images)
@@ -161,7 +161,6 @@ try:
     MEDIA_ROOT = env('APP_MEDIA_ROOT')
 except environ.ImproperlyConfigured:
     MEDIA_ROOT = public_root('mediafiles')
-
 MEDIA_URL = '%smedia/' % APP_CONTEXT
 
 
