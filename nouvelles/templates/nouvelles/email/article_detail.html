@@ -45,13 +45,13 @@
                     <tr>
                         <td width="87">Title: </td>
                         <td>
-                            <a href="{{ domain }}{% url 'detail' article.slug %}">{{ article.title }}</a>
+                            <a href="{{ domain }}{% url 'nouvelles:detail' article.pk %}">{{ article.title }}</a>
                         </td>
                     </tr>
                     <tr>
                         <td width="87">Date: </td>
                         <td>
-                            <a href="{{ domain }}{% url 'archives' %}?date={{ article.effective_date|date:"o-m-d" }}">
+                            <a href="{{ domain }}{% url 'nouvelles:archives' %}?date={{ article.effective_date|date:"o-m-d" }}">
                                 {{ article.creation_date|date }}
                             </a>
                         </td>
@@ -59,7 +59,7 @@
                     <tr>
                         <td width="87">Author: </td>
                         <td>
-                            <a href="{{ domain }}{% url 'archives' %}?author={{ article.author.username }}">
+                            <a href="{{ domain }}{% url 'nouvelles:archives' %}?author={{ article.author.username }}">
                                 {% if article.author.get_full_name %}
                                     {{ article.author.get_full_name }}
                                 {%  else %}
@@ -82,12 +82,12 @@
         </tr>
         <tr>
             <td>
-                {{ article.description|markdown }}
+                {{ article.content|markdown }}
             </td>
         </tr>
         <tr>
             <td>
-                <a href="{{ domain }}{% url 'detail' article.slug %}">View article online...</a>
+                <a href="{{ domain }}{% url 'nouvelles:detail' article.pk %}">View article online...</a>
             </td>
         </tr>
     </table>

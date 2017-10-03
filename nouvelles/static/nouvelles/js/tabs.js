@@ -1,7 +1,7 @@
 (function ($) {
     $.fn.tabs = function (onSwitch) {
         var $tabsContainer = $(this);
-        $tabsContainer.find('.tab > a').each(function () {
+        $tabsContainer.find('.tab > .tab-item').each(function () {
             var $tab = $(this);
             $(this).on('click', function (e) {
                 e.preventDefault();
@@ -11,8 +11,8 @@
                     onSwitch(targetName);
                 }
 
-                $tabsContainer.find('.tab.active').removeClass('active');
-                $tabsContainer.find('.tab-content.active').removeClass('active');
+                $tabsContainer.find('.tab-item.active').removeClass('active');
+                $tabsContainer.parent().find('.tab-content.active').removeClass('active');
 
                 $(e.target).parent().addClass('active');
                 $('#' + targetName).addClass('active');

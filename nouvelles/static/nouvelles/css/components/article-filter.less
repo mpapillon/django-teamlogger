@@ -1,0 +1,38 @@
+@import "../../vendor/spectre/src/variables";
+@import "../../vendor/spectre/src/mixins";
+
+.nouvelles-filter {
+  padding: 0.5rem 0;
+  margin: 0;
+  list-style: none;
+
+  li {
+    margin-top: 0;
+    padding: 0 .8rem;
+    text-decoration: none;
+    user-select: none;
+
+    .icon {
+      vertical-align: -10%;
+    }
+
+    & > a {
+      border-radius: @border-radius;
+      color: inherit;
+      display: block;
+      margin: 0 -.8rem;
+      padding: .6rem .8rem;
+      text-decoration: none;
+      &:focus,
+      &:hover {
+        color: @primary-color;
+      }
+    }
+
+    &:active,
+    &.active {
+      background: @secondary-color-light;
+      color: @primary-color;
+    }
+  }
+}

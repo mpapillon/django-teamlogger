@@ -1,186 +1,66 @@
-@import "../vendor/milky-css/src/colors";
-@import "code-color";
-@import "icons";
+@import "../vendor/spectre/src/variables";
+@import "../vendor/spectre/src/mixins";
 
-.article {
-  //width: 53rem;
-  margin-bottom: 1rem;
-}
+@import "components/header";
+@import "components/footer";
+@import "components/code";
+@import "components/label";
+@import "components/toast";
+@import "components/avatar";
+@import "components/button";
+@import "components/form";
 
-.article-header {
-  background: rgba(179, 179, 179, 0.1);
-  padding: 0.5rem;
-  list-style: none;
-  border-bottom: 2px solid rgba(10, 10, 10, 0.1);
-  font-size: 0.8rem;
+@import "components/article";
+@import "components/article-filter";
+@import "components/article-form";
 
-  .article-header-row {
-    display: flex;
-    margin-bottom: 0.3rem;
+html, body {
+  // Used to freeze the footer
+  height: 100%;
 
-    &:last-child {
-      margin-bottom: 0;
+  .page-container {
+    min-height: 100%;
+    position: relative;
+
+    .section-body {
+      padding-bottom: 12rem;
     }
 
-    .article-header-title {
-      width: 7rem;
-    }
-  }
-
-  ul {
-    margin: 0;
-    padding: 0;
-    list-style: none;
-  }
-}
-
-.markdown-body {
-  margin: 0.5rem 0;
-}
-
-ul.article-list {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-
-  & > * {
-    margin-bottom: 1rem;
-
-    .title {
-      background-color: @light-accent-color;
-      color: @default-white;
-      border-color: darken(@light-accent-color, 30%);
-      font-size: 1rem;
-      font-weight: 600;
-      margin-bottom: 0.5rem;
-
-      a {
-        padding: 0.2rem 0.5rem;
-        color: inherit;
-        display: block;
-      }
-    }
-
-    .description {
-      margin-top: 0;
-      text-overflow: ellipsis;
-      overflow: hidden;
+    .section-footer {
+      position: absolute;
+      bottom: 0;
+      width: 100%;
     }
   }
 }
 
-.filter-form {
-  margin: 0;
-  padding: 0;
-  list-style: none;
-  display: flex;
-  flex-wrap: wrap;
-
-  li {
-    flex: 0 1 auto;
-    display: flex;
-    flex-direction: column;
-    margin-right: 0.5rem;
-    margin-bottom: 1rem;
+.empty {
+  .icon {
+    font-size: 4rem;
   }
 }
 
-.filters-sidebar {
-
-  h6 {
-    border-bottom: 2px solid @secondary-color;
-    //color: @default-white;
-    padding: 0.3rem 0.5rem;
-  }
-
-  ul {
-    margin: 0.5rem 0;
-    padding: 0;
-    list-style: none;
-
-    li {
-      padding: 0.1rem 0.5rem;
-      &.active {
-        background-color: @accent-color;
-        color: @default-white;
-
-        a {
-          color: inherit;
-        }
-      }
-
-      a {
-        display: block;
-        text-overflow: ellipsis;
-        white-space: nowrap;
-        overflow: hidden;
-
-        &:hover {
-          text-decoration: none;
-        }
-      }
-    }
+.highlight {
+  img {
+    max-width: 100%;
   }
 }
 
-.info-watermark {
-  background: url(../img/info.png) no-repeat 50% 0;
-  margin: 3.5rem auto;
-  padding-top: 61px;
-  max-width: 256px;
-  background-size: 56px;
-  text-align: center;
-  color: rgba(0, 0, 0, 0.16);
-  font-size: 0.9rem;
-}
-
-#id_description {
-  box-sizing: border-box;
-  width: 100%;
-  min-height: 18rem;
-}
-
-ul.attachments-list {
-  margin: 0.5rem 0;
-  padding-left: 0.5rem;
-  list-style: none;
-}
-
-// Select 2
-
-.select2-container {
+hr {
   display: block;
-  min-width: 10.2rem;
+  position: relative;
+  border: 0 solid @border-color;
+  border-top-width: @border-width;
+  height: .1rem;
+  margin: 1rem 0;
 
-  &.select2-container--focus {
-    .select2-selection {
-      border: none;
-      box-shadow: inset 0 -2px 0 0 @darken-accent-color;
-    }
-  }
-
-  .select2-selection {
-    border: none;
-    height: auto;
-    font-size: 0.9rem;
-    min-height: 2rem;
-    border-radius: 0;
-    box-sizing: content-box;
-    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' version='1.1' width='32' height='24' viewBox='0 0 32 24'><polygon points='0,0 32,0 16,24' style='fill: rgb%28138, 138, 138%29'></polygon></svg>");
-    background-origin: content-box;
-    background-position: right -1rem center;
-    background-repeat: no-repeat;
-    background-size: 9px 6px;
-    padding-right: 1.55rem;
-    min-width: 10.2rem;
-  }
-
-  .select2-results__option--highlighted[aria-selected] {
-    background-color: @accent-color;
-    color: @default-white;
-  }
-
-  li {
-    margin: 0;
+  &[data-content]::after {
+    background: @bg-color-light;
+    color: @gray-color-light;
+    content: attr(data-content);
+    display: inline-block;
+    font-size: @font-size-sm;
+    padding: 0 .8rem;
+    transform: translateY(-1.1rem);
   }
 }

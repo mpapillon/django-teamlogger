@@ -1,0 +1,35 @@
+@import "../../vendor/spectre/src/variables";
+@import "../../vendor/spectre/src/mixins";
+
+.toast {
+  .btn-link {
+    background: transparent;
+    border: 0;
+    color: currentColor;
+    height: 1.6rem;
+    margin-left: .4rem;
+    margin-right: -.2rem;
+    opacity: .45;
+    padding: 0 .2rem;
+    text-decoration: none;
+
+    &:focus,
+    &:hover,
+    &:active,
+    &.active {
+      color: inherit;
+      opacity: .85;
+    }
+  }
+}
+
+.toast {
+  &.toast-form-errors {
+    ul, ol {
+      margin: 1rem 0 1rem 1rem;
+      li {
+        margin: 0;
+      }
+    }
+  }
+}

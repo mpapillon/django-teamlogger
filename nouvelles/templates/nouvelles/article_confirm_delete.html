@@ -1,4 +1,4 @@
-{% extends "base.html" %}
+{% extends "nouvelles/base.html" %}
 {% load nouvelles %}
 
 {% block title %}{% site_title title %}{% endblock %}
@@ -6,25 +6,42 @@
 {% load static %}
 
 {% block content %}
-    <div class="shadowed-box content-title">
-        <h2 class="title-plain danger">Articles deletion confirmation</h2>
-    </div>
-    <div class="content content-box">
-        <form class="shadowed-box collapsed-on-top" method="post">
-            {% csrf_token %}
-            <p>Are you sure you want to delete the article "<i>{{ article.title }}</i>" and all its replies?</p>
-            <div class="button-group">
-                <input type="submit" class="button danger" value="Delete the article and its replies"/>
-                <a class="button" href="{% url 'detail' article.slug %}">Cancel</a>
-            </div>
-        </form>
-        <div class="callout">
-            {% article article %}
+    <div class="columns">
+        <div class="column col-12">
+            <h2>Confirm deletion of the article</h2>
         </div>
-        {% for child in article.article_set.all %}
-            <div class="callout">
-                {% article article=child %}
-            </div>
-        {% endfor %}
     </div>
+    <form class="columns" method="post">
+        {% csrf_token %}
+        <div class="column col-12">
+            <p>
+                You are about to delete article "<i>{{ article.title }}</i>" by {{ article.author.get_full_name }} and
+                all its replies.<br>
+                This action is <b>irreversible</b>!
+            </p>
+            <div class="divider"></div>
+        </div>
+        <div class="column col-12">
+            <h4>The following articles will be deleted:</h4>
+            <ul>
+                <li>
+                    <a href="{% url 'nouvelles:detail' article.pk %}">{{ article.title }}</a>
+                    by {{ article.author.get_full_name }}
+                </li>
+                {% for reply in replies %}
+                    <li>
+                        <a href="{% url 'nouvelles:detail' reply.pk %}">{{ reply.title }}</a>
+                        by {{ reply.author.get_full_name }}
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+        <div class="column col-12">
+            <div class="divider"></div>
+            <div class="float-right">
+                <input type="submit" class="btn btn-danger" value="Delete the article and its replies"/>
+                <a class="btn btn-default" href="{% url 'nouvelles:detail' article.pk %}">Cancel</a>
+            </div>
+        </div>
+    </form>
 {% endblock %}

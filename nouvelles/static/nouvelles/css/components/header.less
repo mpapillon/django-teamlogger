@@ -1,0 +1,38 @@
+@import "../../vendor/spectre/src/variables";
+@import "../../vendor/spectre/src/mixins";
+
+.section-header {
+  padding: @layout-padding @layout-padding/2;
+  background-color: @dark-color;
+
+  .navbar-brand {
+    color: @gray-color;
+  }
+
+  .btn-link {
+    color: @gray-color-light;
+
+    &:hover, &:focus, &:active {
+      color: @gray-color;
+    }
+
+    &:focus {
+      .control-shadow(@gray-color-light);
+    }
+  }
+
+  .form-black {
+    border-color: lighten(@dark-color, 10%);
+    background: lighten(@dark-color, 15%);
+    color: @gray-color-light;
+
+    &::placeholder {
+      color: @gray-color-light;
+    }
+
+    &:focus {
+      background: @gray-color-dark;
+      .control-shadow(@gray-color-light);
+    }
+  }
+}

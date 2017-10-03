@@ -195,3 +195,4 @@ $RECYCLE.BIN/
 
 **/css/components/*.css
 public/**/*
+/teamlogger/settings/private.py

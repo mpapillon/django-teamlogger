@@ -1,8 +1,8 @@
 from django.conf import settings
 from django.contrib.auth.models import User
-from django.template.loader import render_to_string
-from django.core.mail.message import EmailMultiAlternatives
 from django.core.mail import get_connection
+from django.core.mail.message import EmailMultiAlternatives
+from django.template.loader import render_to_string
 
 from nouvelles.models import Article
 from nouvelles.settings import SITE_NAME
@@ -28,7 +28,7 @@ def send_article_to_all_users(article: Article):
         buff.write(_get_header_for('Date', formats.date_format(article.effective_date)))
         buff.write(_get_header_for('Author', article.author.get_full_name()))
         buff.write("-----\n\n")
-        buff.write(art.description)
+        buff.write(art.content)
 
         msg = buff.getvalue()
         buff.close()

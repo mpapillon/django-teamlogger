@@ -18,9 +18,10 @@ No configuration needed, just run the following commands :
 
 ```sh
 # get requirements with pip
-pip install -r requirements.txt
+pip install -r requirements_dev.txt
 
-# set the secret key
+# set required env variables
+export DJANGO_SETTINGS_MODULE=teamlogger.settings.development
 export APP_SECRET=MySecretKey
 
 # run the server
@@ -38,8 +39,6 @@ TeamLogger can be launched with Docker, see the [wiki page](https://github.com/m
 You can change the configuration by setting environment variables. All parameters are optional.
 
 ### Application settings
-
-
 
 _More informations in the [wiki page](https://github.com/mpapillon/django-teamlogger/wiki/Application-settings)._
 
@@ -67,12 +66,13 @@ _More informations in the [wiki page](https://github.com/mpapillon/django-teamlo
 
 ### LDAP Authentication Connection
 
-LDAP authentication can be used by setting the `LDAP_URL`. If you enable LDAP auth. you will always able to use database stored users.
+LDAP authentication can be used by setting the `LDAP_URL`.
+If you enable LDAP auth. you will always able to use database stored users.
 
 Example of `LDAP_URL`:
 
 ```
-ldap://admin:passw@localhost:10389/ou=users,dc=srv-name,dc=local
+ldap://uid=admin,ou=system:passw@ldap.example.com:389/ou=users,dc=example,dc=local
 ```
 
 _More informations in the [wiki page](https://github.com/mpapillon/django-teamlogger/wiki/LDAP-settings)._

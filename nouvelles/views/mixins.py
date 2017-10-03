@@ -25,20 +25,34 @@ class ViewTitleMixin(ContextMixin):
 
 
 class FilterMixin(MultipleObjectMixin, View):
+    """
+    This mixin allows applying filters to the queryset from the GET parameters.
+    """
+
     allowed_filters = {}
 
     def get_queryset_filters(self):
+        """
+        Build a filter for a queryset.
+        """
         filters = {}
         for item in self.allowed_filters:
-            if item in self.request.GET:
+            if self.request.GET.get(item):
                 filters[self.allowed_filters[item]] = self.request.GET[item]
         return filters
 
     def get_queryset(self):
+        """
+        Return the list of filtered items for this view.
+        """
         return super(FilterMixin, self).get_queryset().filter(**self.get_queryset_filters())
 
 
 class FormFilterMixin(FormMixin, FilterMixin):
+    """
+    Allows the use of a form associated with a filter.
+    """
+
     def get_form_kwargs(self):
         kwargs = super(FormFilterMixin, self).get_form_kwargs()
 
@@ -62,6 +76,7 @@ class ArticleLineage(ContextMixin):
     Build a list named "article_lineage" containing current article with his parents
     and prevent from article loops.
     """
+
     same_parent_message = "There was a problem with this article or one of its related elements. " \
                           "Please contact an administrator."
 
@@ -71,7 +86,7 @@ class ArticleLineage(ContextMixin):
         article_to_check = self.object if self.object else self.parent_article
 
         while article_to_check:
-            if article_to_check.parent_article and article_to_check.slug == article_to_check.parent_article.slug:
+            if article_to_check.parent_article and article_to_check.pk == article_to_check.parent_article.pk:
                 article_to_check.parent_article = None
                 messages.warning(self.request, self.same_parent_message)
             else:
@@ -80,3 +95,48 @@ class ArticleLineage(ContextMixin):
 
         context['article_lineage'] = article_lineage
         return context
+
+
+class ModelFormSetMixin(ContextMixin):
+    """
+    Mixin that helps to build a model formset.
+    """
+
+    formset_class = None
+
+    def get_formset_class(self, **kwargs):
+        """
+        Returns the formset class to use in this view.
+        """
+        return self.formset_class
+
+    def get_formset(self, form_set_class=None):
+        """
+        Returns an instance of the formset to be used in this view.
+        """
+        if form_set_class is None:
+            form_set_class = self.get_formset_class()
+        return form_set_class(**self.get_formset_kwargs())
+
+    def get_formset_kwargs(self):
+        """
+        Returns the keyword arguments for instantiating the formset.
+        """
+        kwargs = {
+            'instance': self.object,
+        }
+
+        if self.request.method in ('POST', 'PUT'):
+            kwargs.update({
+                'data': self.request.POST,
+                'files': self.request.FILES,
+            })
+        return kwargs
+
+    def get_context_data(self, **kwargs):
+        """
+        Insert the form into the context dict.
+        """
+        if 'formset' not in kwargs:
+            kwargs['formset'] = self.get_formset()
+        return super(ModelFormSetMixin, self).get_context_data(**kwargs)

@@ -1,0 +1,42 @@
+{% extends "nouvelles/base.html" %}
+{% load i18n static %}
+{% load nouvelles %}
+
+{% block title %}{% site_title 'Update my profile' %}{% endblock %}
+
+{% block head_links %}
+    <link rel="stylesheet" type="text/css" href="{% static 'nouvelles/css/login.css' %}"/>
+{% endblock %}
+
+{% block content %}
+    <div class="panel panel-login">
+        <div class="panel-header text-center">
+            <figure class="avatar avatar-xl" data-initial="{{ user|user_initials }}">
+                {% if user.profile.avatar %}<img src="{{ user.profile.avatar.url }}">{% endif %}
+            </figure>
+            <div class="panel-title mt-10">{{ user|user_full_name }}</div>
+            <div class="panel-subtitle">Change your profile</div>
+        </div>
+        <nav class="panel-nav mb-10">
+            <ul class="tab tab-block">
+                <li class="tab-item active">
+                    <a href="{% url 'nouvelles:profile:change' %}">
+                        Profile
+                    </a>
+                </li>
+                <li class="tab-item">
+                    <a href="{% url 'nouvelles:profile:password_change' %}">
+                        Password
+                    </a>
+                </li>
+            </ul>
+        </nav>
+        <div class="panel-body">
+            <p>Your profile was changed.</p>
+        </div>
+
+        <div class="panel-footer">
+            <a class="btn btn-primary btn-block" href="{% url 'nouvelles:index' %}">Return home</a>
+        </div>
+    </div>
+{% endblock %}

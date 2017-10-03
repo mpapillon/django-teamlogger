@@ -1,17 +1,12 @@
-import hashlib
-
-
-def compute_file_md5(file):
-    hash_md5 = hashlib.md5()
-    for chunk in file.chunks():
-        hash_md5.update(chunk)
-    return hash_md5.hexdigest()
-
-
-def get_parents(article, parents_list):
+def sizeof_fmt(size, suffix='B'):
     """
-    Return all parents from article
+    Convert the byte size into binary human readable size.
+    :param size: The size
+    :param suffix: Suffix of size, default is Bytes (B)
+    :return: the converted size.
     """
-    if article.parent_article:
-        parents_list.insert(len(parents_list), article.parent_article)
-        get_parents(article.parent_article, parents_list)
+    for unit in ['', 'Ki', 'Mi', 'Gi', 'Ti', 'Pi', 'Ei', 'Zi']:
+        if abs(size) < 1024.0:
+            return "%3.1f%s%s" % (size, unit, suffix)
+        size /= 1024.0
+    return "%.1f%s%s" % (size, 'Yi', suffix)

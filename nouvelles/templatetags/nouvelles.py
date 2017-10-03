@@ -1,4 +1,5 @@
 from django import template
+from django.contrib.auth.models import AbstractUser
 from django.core.urlresolvers import resolve
 from django.db.models import QuerySet
 
@@ -8,7 +9,7 @@ from nouvelles.models import Article
 register = template.Library()
 
 
-@register.inclusion_tag('templatetags/nouvelles_header.html', takes_context=True)
+@register.inclusion_tag('templatetags/header.html', takes_context=True)
 def nouvelles_header(context):
     """Build a navigation bar"""
     request = context['request']
@@ -23,16 +24,16 @@ def nouvelles_header(context):
         'redirect_path': redirect_path,
         'user': request.user,
         'perms': context.get('perms', None),
-        'site_name': settings.SITE_NAME
+        'site_name': settings.SITE_NAME,
+        'search_query': request.GET.get('q', '')
     }
 
 
-@register.inclusion_tag('templatetags/nouvelles_footer.html')
+@register.inclusion_tag('templatetags/footer.html')
 def nouvelles_footer():
     """Build the footer"""
     return {
         'site_name': settings.SITE_NAME,
-        'site_footer': settings.SITE_FOOTER,
         'app_version': __version__,
     }
 
@@ -48,25 +49,25 @@ def format_articles_list(articles: QuerySet, show_dates: bool = False):
     ordered_articles = []
 
     if show_dates:
-        paginated_articles = Article.objects.filter(id__in=articles.values_list('id'))\
-            .filter(effective_date__in=articles.values_list('effective_date'))
+        paginated_articles = Article.objects.filter(id__in=articles.values_list('id', flat=True)) \
+            .filter(effective_date__in=articles.values_list('effective_date', flat=True)) \
+            .select_related('author') \
+            .prefetch_related('tags')
         for date in paginated_articles.dates('effective_date', 'day', order='DESC'):
             ordered_articles.append(date)
             ordered_articles.extend(paginated_articles.filter(effective_date=date).order_by('-creation_date'))
     else:
-        ordered_articles = articles
+        ordered_articles = articles.select_related('author').prefetch_related('tags')
 
     return {'articles': ordered_articles}
 
 
-@register.inclusion_tag('templatetags/article.html')
-def article(article):
-    return {'article': article}
-
-
-@register.inclusion_tag('templatetags/article_name.html')
-def article_name(article):
-    return {'article': article}
+@register.inclusion_tag('templatetags/article.html', takes_context=True)
+def article(context, article):
+    request = context['request']
+    return {'article': article,
+            'perms': context.get('perms', None),
+            'user': request.user, }
 
 
 @register.simple_tag(takes_context=True)
@@ -86,3 +87,19 @@ def paginated_url(context, view_name, page, page_arg_name='page'):
 @register.filter
 def class_name(obj):
     return obj.__class__.__name__
+
+
+@register.filter
+def user_full_name(user):
+    if not isinstance(user, AbstractUser):
+        return
+
+    return user.get_full_name() if user.get_full_name() else user.username
+
+
+@register.filter
+def user_initials(user):
+    if not isinstance(user, AbstractUser):
+        return
+
+    return "".join(item[0].upper() for item in user_full_name(user).split(' ', 1))

@@ -1,6 +1,41 @@
 TeamLogger / Changelog
 =====================
 
+0.3.1
+-----
+
+### New features 
+
+* Improved management of attachments.
+* Deletion drafts by batch.
+* Users who are not logged in via a directory can delete their avatar.
+
+### Correctives
+
+* Fix issues during dev installation, `whitenoise` was missing.
+* The width of article's images was not good.
+* The visual focus on the "content" field when writing an article did not fit well with Chrome and Safari.
+* Deleted attachments are also deleted from the disk.
+* Fix an encoding problem on the "open source software" page.
+* Several small patches.
+
+0.3.0
+-----
+
+### New features 
+
+* New design.
+* A search field is available in all pages.
+* The LDAP connection has been reviewed, it supports groups and multiple directories.
+* Articles can be saved as draft before publishing.
+* Users can have avatars and they are shown on articles.
+
+### Correctives
+
+* Some optimisations.
+* In the archives, the "date" filter is no longer available.
+* The tags contained in the archive filter are sorted alphabetically.
+
 0.2.1
 -----
 

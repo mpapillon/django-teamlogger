@@ -1,11 +1,11 @@
-Django==1.11.2
+Django==1.11.5
 django-markdown-deux==1.0.5
 psycopg2==2.7
 pytz==2017.2
 Pygments==2.2.0
 freezegun==0.3.9
-django-environ==0.4.3
-gunicorn==19.7.1
-whitenoise==3.3.0
-
--e git+http://github.com/mpapillon/django-python3-ldap.git#egg=django-python3-ldap
+django-environ==0.4.4
+pyasn1==0.2.3
+ldap3==2.2.3
+Pillow==4.2.1
+whitenoise==3.3.1

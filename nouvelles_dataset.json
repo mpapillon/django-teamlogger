@@ -169,18 +169,17 @@
       "title": "Lorem ipsum dolor sit amet",
       "creation_date": "2017-06-01T07:45:52.197Z",
       "effective_date": "2017-06-01",
-      "description": "Ut id eros mollis, accumsan velit vitae, venenatis ipsum. \r\n\r\n# Phasellus id consequat mi\r\n\r\nMaecenas eget varius metus. Proin interdum elementum lacinia. Nam finibus varius aliquet. Vestibulum sed enim sit amet nunc sodales tristique. Nunc eu neque quis nibh congue ullamcorper. Ut nec congue lectus.",
-      "slug": "lorem-ipsum-dolor-sit-amet",
+      "content": "Ut id eros mollis, accumsan velit vitae, venenatis ipsum. \r\n\r\n# Phasellus id consequat mi\r\n\r\nMaecenas eget varius metus. Proin interdum elementum lacinia. Nam finibus varius aliquet. Vestibulum sed enim sit amet nunc sodales tristique. Nunc eu neque quis nibh congue ullamcorper. Ut nec congue lectus.",
       "criticality": "L",
       "edition_date": "2017-06-01T07:44:59Z",
+      "publication_date": "2017-06-01T07:45:52.197Z",
       "author": 2,
       "editor": null,
       "parent_article": null,
       "tags": [
         1,
         3
-      ],
-      "attachments": []
+      ]
     }
   },
   {
@@ -190,17 +189,16 @@
       "title": "Fusce vestibulum nulla nec eleifend ornare",
       "creation_date": "2017-06-01T07:48:04.331Z",
       "effective_date": "2017-05-31",
-      "description": "#Nam suscipit diam quam\r\n\r\n> Sed commodo tortor hendrerit eu. \r\n\r\nPhasellus eleifend hendrerit massa. Etiam nec maximus ex. Mauris placerat felis sem, vitae facilisis enim condimentum quis. Nam elementum sed turpis quis blandit. Nulla blandit tortor tempus metus feugiat, et tempor quam scelerisque. Mauris aliquam pulvinar odio quis egestas. \r\n\r\n* Cras est risus, cursus vel quam vel, mattis consectetur felis. \r\n* Mauris imperdiet elit non tortor tincidunt, ultrices vulputate quam tristique. \r\n* Nunc eu convallis leo, in imperdiet mi. \r\n\r\nPellentesque eleifend pulvinar orci ut pellentesque. Proin facilisis dui eget est pellentesque, commodo varius sapien laoreet. Nunc aliquet sapien at mi malesuada, nec dapibus libero cursus. Mauris sit amet velit vulputate, aliquet urna ut, varius mi.",
-      "slug": "fusce-vestibulum-nulla-nec-eleifend-ornare",
+      "content": "#Nam suscipit diam quam\r\n\r\n> Sed commodo tortor hendrerit eu. \r\n\r\nPhasellus eleifend hendrerit massa. Etiam nec maximus ex. Mauris placerat felis sem, vitae facilisis enim condimentum quis. Nam elementum sed turpis quis blandit. Nulla blandit tortor tempus metus feugiat, et tempor quam scelerisque. Mauris aliquam pulvinar odio quis egestas. \r\n\r\n* Cras est risus, cursus vel quam vel, mattis consectetur felis. \r\n* Mauris imperdiet elit non tortor tincidunt, ultrices vulputate quam tristique. \r\n* Nunc eu convallis leo, in imperdiet mi. \r\n\r\nPellentesque eleifend pulvinar orci ut pellentesque. Proin facilisis dui eget est pellentesque, commodo varius sapien laoreet. Nunc aliquet sapien at mi malesuada, nec dapibus libero cursus. Mauris sit amet velit vulputate, aliquet urna ut, varius mi.",
       "criticality": "M",
       "edition_date": "2017-06-01T07:46:09Z",
+      "publication_date": "2017-06-01T07:48:04.331Z",
       "author": 3,
       "editor": null,
       "parent_article": null,
       "tags": [
         2
-      ],
-      "attachments": []
+      ]
     }
   }
 ]

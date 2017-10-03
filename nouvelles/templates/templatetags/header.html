@@ -1,0 +1,85 @@
+{% load nouvelles %}
+
+<header class="section-header">
+    <section class="container grid-960">
+        <nav class="navbar">
+            <section class="navbar-section">
+                <div class="dropdown show-md">
+                    <a href="#" class="btn btn-link show-md mr-10 dropdown-toggle">
+                        <i class="icon icon-menu"></i>
+                    </a>
+                    <ul class="menu">
+                        <li class="menu-item">
+                            <a href="{% url 'nouvelles:index' %}">Headlines</a>
+                        </li>
+                        <li class="menu-item">
+                            <a href="{% url 'nouvelles:archives' %}">Archives</a>
+                        </li>
+                    </ul>
+                </div>
+                <a href="{% url 'nouvelles:index' %}" class="navbar-brand mr-10">{{ site_name }}</a>
+                <form class="input-inline mr-10 hide-sm" method="GET" action="{% url 'nouvelles:archives' %}">
+                    <input class="form-input form-black" name="q" placeholder="Search an article"
+                           value="{{ search_query }}"/>
+                    <input class="hide" type="submit">
+                </form>
+                <a href="{% url 'nouvelles:index' %}" class="btn btn-link hide-sm">Headlines</a>
+                <a href="{% url 'nouvelles:archives' %}" class="btn btn-link hide-sm">Archives</a>
+            </section>
+            <section class="navbar-section">
+                {% if perms.nouvelles.add_article %}
+                    <a href="{% url 'nouvelles:create' %}"
+                       class="btn btn-link tooltip tooltip-bottom" data-tooltip="Write new article">
+                        <i class="icon icon-plus"></i>
+                    </a>
+                {% endif %}
+                {% if user.is_authenticated %}
+                    <div class="dropdown dropdown-right">
+                        <a class="btn btn-link dropdown-toggle" tabindex="0">
+                            <i class="icon icon-people"></i>
+                            <i class="icon icon-caret"></i>
+                        </a>
+                        <ul class="menu">
+                            <li class="menu-item">
+                                <div class="tile tile-centered">
+                                    <div class="tile-icon">
+                                        <figure class="avatar" data-initial="{{ user|user_initials }}">
+                                        {% if user.profile.avatar %}<img src="{{ user.profile.avatar.url }}">{% endif %}
+                                        </figure>
+                                    </div>
+                                    <div class="tile-content">
+                                        {{ user|user_full_name }}
+                                    </div>
+                                </div>
+                            </li>
+                            {% if perms.nouvelles.add_article %}
+                                <li class="divider"></li>
+                                <li class="menu-item">
+                                    <a href="{% url 'nouvelles:drafts' %}">My drafts</a>
+                                </li>
+                            {% endif %}
+                            <li class="divider"></li>
+                            {% if user.is_staff %}
+                                <li class="menu-item">
+                                    <a href="{% url 'admin:index' %}">Administration</a>
+                                </li>
+                            {% endif %}
+                            {% if not user.directory_info.source %}
+                                <li class="menu-item">
+                                    <a href="{% url 'nouvelles:profile:change' %}">Update my profile</a>
+                                </li>
+                            {% endif %}
+                            <li class="menu-item">
+                                <a href="{% url 'logout' %}">
+                                    Logout
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                {% else %}
+                    <a href="{% url 'login' %}" class="btn btn-primary">Login</a>
+                {% endif %}
+            </section>
+        </nav>
+    </section>
+</header>
