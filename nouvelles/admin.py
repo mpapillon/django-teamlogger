@@ -1,13 +1,11 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
-from django.contrib.auth.models import User
+from django.contrib.auth.models import Group, User
+from django.contrib.auth.admin import GroupAdmin
 
 from nouvelles.models import Article, Tag, Attachment, Profile
 from nouvelles.settings import SITE_NAME
-
-admin.site.site_header = "%s / Administration" % SITE_NAME
-admin.site.site_title = "%s site admin" % SITE_NAME
-admin.site.unregister(User)  # Re-register UserAdmin
+from teamlogger.settings import APP_CONTEXT
 
 
 class ProfileInline(admin.StackedInline):
@@ -21,7 +19,19 @@ class AttachmentInline(admin.StackedInline):
     extra = 1
 
 
-@admin.register(Article)
+class AdminPage(admin.sites.AdminSite):
+    site_url = APP_CONTEXT
+    site_header = "%s / Administration" % SITE_NAME
+    site_title = "%s site admin" % SITE_NAME
+
+    def __init__(self, *args, **kwargs):
+        super(AdminPage, self).__init__(*args, **kwargs)
+
+admin_page = AdminPage(name='adminpage')
+admin_page.register(Group, GroupAdmin)
+
+
+@admin.register(Article, site=admin_page)
 class ArticleAdmin(admin.ModelAdmin):
     list_display = ('title', 'criticality', 'effective_date', 'author', 'is_published')
     list_filter = ('criticality', 'effective_date', 'author')
@@ -35,12 +45,14 @@ class ArticleAdmin(admin.ModelAdmin):
     inlines = [AttachmentInline]
 
 
-@admin.register(Tag)
+@admin.register(Tag, site=admin_page)
 class TagAdmin(admin.ModelAdmin):
     list_display = ('name',)
     search_fields = ['name']
 
 
-@admin.register(User)
+@admin.register(User, site=admin_page)
 class UserAdmin(BaseUserAdmin):
     inlines = (ProfileInline,)
+
+

@@ -22,6 +22,7 @@ public_root = root.path('public/')
 # See https://docs.djangoproject.com/en/1.11/howto/deployment/checklist/
 
 
+
 SECRET_KEY = env('APP_SECRET')
 
 # SECURITY WARNING: don't run with debug turned on in production!
@@ -137,6 +138,11 @@ USE_L10N = True
 USE_TZ = True
 
 
+
+# Application context path
+APP_CONTEXT = env.str('APP_CONTEXT', '/')
+APP_CONTEXT = APP_CONTEXT if len(APP_CONTEXT) > 0 and APP_CONTEXT[-1] == '/' else '%s/' % APP_CONTEXT
+
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
 
@@ -145,7 +151,7 @@ try:
 except environ.ImproperlyConfigured:
     STATIC_ROOT = public_root('staticfiles')
 
-STATIC_URL = '/static/'
+STATIC_URL = '%sstatic/' % APP_CONTEXT
 
 
 # Media files
@@ -155,8 +161,7 @@ try:
     MEDIA_ROOT = env('APP_MEDIA_ROOT')
 except environ.ImproperlyConfigured:
     MEDIA_ROOT = public_root('mediafiles')
-
-MEDIA_URL = '/media/'
+MEDIA_URL = '%smedia/' % APP_CONTEXT
 
 
 # Auth urls
@@ -164,11 +169,11 @@ MEDIA_URL = '/media/'
 # https://docs.djangoproject.com/en/1.11/ref/settings/#login-redirect-url
 # https://docs.djangoproject.com/en/1.11/ref/settings/#logout-redirect-url
 
-LOGIN_URL = '/login/'
+LOGIN_URL = '%slogin/' % APP_CONTEXT
 
-LOGIN_REDIRECT_URL = '/'
+LOGIN_REDIRECT_URL = APP_CONTEXT
 
-LOGOUT_REDIRECT_URL = '/'
+LOGOUT_REDIRECT_URL = APP_CONTEXT
 
 
 # Emails settings

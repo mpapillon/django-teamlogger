@@ -1,0 +1,10 @@
+.git
+.gitignore
+.gitmodules
+.dockerignore
+.travis.yml
+ACKNOWLEDGMENTS.md
+CHANGELOG.md
+Dockerfile
+LICENCE
+README.md

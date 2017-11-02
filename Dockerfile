@@ -23,27 +23,31 @@ ENV APP_PATH=/usr/src/app
 ENV LOGS_PATH=/var/log
 ENV APP_STATIC_ROOT=/srv/app/static
 ENV APP_MEDIA_ROOT=/srv/app/media
+ENV MOD_WSGI_VERSION="4.5.19"
 
 # set application in production mode
 ENV DJANGO_SETTINGS_MODULE=teamlogger.settings.production
 
-WORKDIR /usr/src/app
+WORKDIR ${APP_PATH}
+
+EXPOSE 8000
+VOLUME ["${LOGS_PATH}", "${APP_PATH}", "${APP_STATIC_ROOT}", "${APP_MEDIA_ROOT}"]
+
+STOPSIGNAL SIGTERM
 
 # get requirements
-COPY requirements_prod.txt requirements.txt ./
+COPY ./requirements_prod.txt ./requirements.txt ${APP_PATH}/
 RUN pip install --no-cache-dir -r requirements_prod.txt
 
 # copy all files into container
-COPY . .
+COPY ./ ${APP_PATH}/
 
 # create static and media directories
-RUN mkdir -p ${APP_STATIC_ROOT}
-RUN mkdir -p ${APP_MEDIA_ROOT}
+RUN mkdir -p ${APP_STATIC_ROOT} ${APP_MEDIA_ROOT}
 
 # make starting script runable
-RUN chmod +rx docker-start-server.sh
-
-EXPOSE 8000
-VOLUME ["${LOGS_PATH}", "${APP_PATH}", "${APP_STATIC_ROOT}", "{$APP_MEDIA_ROOT}"]
+RUN chmod +x docker-start-server.sh \
+  && chmod +x ./httpd/install-apache.sh && ./httpd/install-apache.sh
 
 CMD ["./docker-start-server.sh"]
+

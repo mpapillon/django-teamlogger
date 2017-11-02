@@ -6,7 +6,7 @@ level of transparency.
 
 ## Run the app
 
-First, clone the repo with dependencies :
+First, clone the repo with dependencies (recursive for jquery, milky-css and select2 submodules):
 
 ```sh
 git clone --recursive https://github.com/mpapillon/django-teamlogger.git

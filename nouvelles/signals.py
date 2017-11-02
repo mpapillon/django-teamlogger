@@ -78,7 +78,7 @@ def update_profile_from_directory(user, attributes, **kwargs):
 
     if attributes.get('avatar'):
         with TemporaryFile() as tmp:
-            tmp.write(attributes['avatar'])
+            tmp.write(attributes['avatar'].value)
             user.profile.avatar.save('%s.jpg' % user.username, tmp, True)
 
     user.profile.save()
