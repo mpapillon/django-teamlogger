@@ -23,12 +23,25 @@ ENV APP_PATH=/usr/src/app
 ENV LOGS_PATH=/var/log
 ENV APP_STATIC_ROOT=/srv/app/static
 ENV APP_MEDIA_ROOT=/srv/app/media
-ENV MOD_WSGI_VERSION="4.5.19"
 
 # set application in production mode
 ENV DJANGO_SETTINGS_MODULE=teamlogger.settings.production
 
+# Install required packages and remove the apt packages cache when done
+RUN apt-get update && \
+    apt-get upgrade -y && \
+    apt-get install -y \
+	git \
+	nginx \
+	supervisor
+RUN rm -rf /var/lib/apt/lists/*
+
 WORKDIR ${APP_PATH}
+
+# setup all the configfiles
+RUN echo "daemon off;" >> /etc/nginx/nginx.conf
+COPY docker/conf/nginx.conf /etc/nginx/sites-available/default
+COPY docker/conf/supervisord.conf /etc/supervisor/conf.d/
 
 EXPOSE 8000
 VOLUME ["${LOGS_PATH}", "${APP_PATH}", "${APP_STATIC_ROOT}", "${APP_MEDIA_ROOT}"]
@@ -36,18 +49,17 @@ VOLUME ["${LOGS_PATH}", "${APP_PATH}", "${APP_STATIC_ROOT}", "${APP_MEDIA_ROOT}"
 STOPSIGNAL SIGTERM
 
 # get requirements
-COPY ./requirements_prod.txt ./requirements.txt ${APP_PATH}/
+COPY src/requirements_prod.txt src/requirements.txt ${APP_PATH}/
 RUN pip install --no-cache-dir -r requirements_prod.txt
 
-# copy all files into container
-COPY ./ ${APP_PATH}/
+# copy app files into container
+COPY src/ ${APP_PATH}/
 
 # create static and media directories
 RUN mkdir -p ${APP_STATIC_ROOT} ${APP_MEDIA_ROOT}
 
 # make starting script runable
-RUN chmod +x docker-start-server.sh \
-  && chmod +x ./httpd/install-apache.sh && ./httpd/install-apache.sh
+COPY docker/docker-start-server.sh ${APP_PATH}/
+RUN chmod +x docker-start-server.sh
 
 CMD ["./docker-start-server.sh"]
-

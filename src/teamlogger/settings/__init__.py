@@ -16,7 +16,7 @@ env = environ.Env(APP_DEBUG=(bool, False), APP_SITE_NAME=(str, 'TeamLogger'), AP
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 root = environ.Path(__file__) - 3
-public_root = root.path('public/')
+public_root = root.path('_public/')
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.11/howto/deployment/checklist/
@@ -141,7 +141,7 @@ USE_TZ = True
 
 # Application context path
 APP_CONTEXT = env.str('APP_CONTEXT', '/')
-APP_CONTEXT = APP_CONTEXT if len(APP_CONTEXT) > 0 and APP_CONTEXT[-1] == '/' else '%s/' % APP_CONTEXT
+APP_CONTEXT = APP_CONTEXT if len(APP_CONTEXT) > 0 and APP_CONTEXT[-1] == '/' else '/%s/' % APP_CONTEXT
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.11/howto/static-files/

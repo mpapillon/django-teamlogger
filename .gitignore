@@ -194,5 +194,10 @@ $RECYCLE.BIN/
 **/*.db
 
 **/css/components/*.css
-public/**/*
-/teamlogger/settings/private.py
+**/_public/**/*
+
+!.gitkeep
+
+**/settings/private.py
+
+.vscode
