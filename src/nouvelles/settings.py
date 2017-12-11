@@ -10,8 +10,6 @@ def get(key, default):
     return getattr(settings, key, default)
 
 
-ACKNOWLEDGMENTS_FILE = path.join(path.dirname(path.dirname(path.abspath(__file__))), 'ACKNOWLEDGMENTS.md')
-
 # Number of days in headlines page
 HEADLINES_DAYS = get('HEADLINES_DAYS', 7)
 

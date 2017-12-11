@@ -34,11 +34,5 @@ class ThirdPartiesView(TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super(ThirdPartiesView, self).get_context_data(**kwargs)
-        context['licences'] = ""
-        # Getting Third Party Software Licenses.
-        with open(settings.ACKNOWLEDGMENTS_FILE, 'r', encoding='UTF-8') as f:
-            context['title'] = f.readline()
-            f.readline()  # ignore the 2nd line
-            for line in f:
-                context['licences'] += line
+        context['title'] = "Third party licenses"
         return context

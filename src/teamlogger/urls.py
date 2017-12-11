@@ -19,21 +19,20 @@ The `urlpatterns` list routes URLs to views. For more information please see:
     https://docs.djangoproject.com/en/1.11/topics/http/urls/
 """
 import re
-from django.urls import reverse
-from django.http import HttpResponseRedirect
 
 from django.conf import settings
 from django.conf.urls import include, url
 from django.conf.urls.static import static
-from django.contrib import admin
-from nouvelles.admin import admin_page
-
 from django.contrib.auth import views as auth
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 
-context_path = re.sub(r'^/', '',  getattr(settings, 'APP_CONTEXT'))
+from nouvelles.admin import admin_page
 
-urlpatterns = [url(r'^'+context_path, include([
+
+# Build the root like "^/" or with a context like "^context/"
+site_root = r'^' + re.sub(r'^/', '', getattr(settings, 'APP_CONTEXT'))
+
+urlpatterns = [url(site_root, include([
     url('^', include('django.contrib.auth.urls')),
     url('^', include('nouvelles.urls')),
     url(r'^login/$', auth.LoginView.as_view(), name='login'),

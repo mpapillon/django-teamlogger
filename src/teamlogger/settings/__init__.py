@@ -22,7 +22,6 @@ public_root = root.path('_public/')
 # See https://docs.djangoproject.com/en/1.11/howto/deployment/checklist/
 
 
-
 SECRET_KEY = env('APP_SECRET')
 
 # SECURITY WARNING: don't run with debug turned on in production!
@@ -138,10 +137,19 @@ USE_L10N = True
 USE_TZ = True
 
 
-
 # Application context path
 APP_CONTEXT = env.str('APP_CONTEXT', '/')
 APP_CONTEXT = APP_CONTEXT if len(APP_CONTEXT) > 0 and APP_CONTEXT[-1] == '/' else '/%s/' % APP_CONTEXT
+
+
+# Cookies paths
+# https://docs.djangoproject.com/en/1.11/ref/settings/#csrf-cookie-path
+# https://docs.djangoproject.com/en/1.11/ref/settings/#session-cookie-path
+# https://docs.djangoproject.com/en/1.11/ref/settings/#language-cookie-path
+
+CSRF_COOKIE_PATH = APP_CONTEXT
+SESSION_COOKIE_PATH = APP_CONTEXT
+LANGUAGE_COOKIE_PATH = APP_CONTEXT
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.11/howto/static-files/

@@ -3,6 +3,9 @@
 .gitmodules
 .dockerignore
 .travis.yml
+
+_public
+
 ACKNOWLEDGMENTS.md
 CHANGELOG.md
 Dockerfile

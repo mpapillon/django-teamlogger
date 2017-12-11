@@ -4,12 +4,14 @@
 {% block title %}{% site_title "About" %}{% endblock %}
 
 {% block content %}
-    <div class="shadowed-box content-title">
-        <h2 class="title-plain">About TeamLogger</h2>
+    <div class="columns">
+        <div class="column col-12">
+            <h1 class="title-plain">About TeamLogger</h1>
+        </div>
     </div>
-    <div class="content">
-        <div class="shadowed-box">
-            <h3>What is TeamLogger</h3>
+    <div class="columns">
+        <div class="column col-12">
+            <h2>What is TeamLogger</h2>
             <p>
                 TeamLogger enhance the spread of valuable work or infos about a projet. It focus on teamspirit
                 and stress the importance of sharing between team members in order to keep a high level of
@@ -23,7 +25,7 @@
                 If you are a developer your help is welcome !
             </p>
 
-            <h3>Credits</h3>
+            <h2>Credits</h2>
             <p>
                 The application would not exist today without these people:
             </p>
@@ -33,7 +35,7 @@
                 {% endfor %}
             </ul>
 
-            <h3>Licences</h3>
+            <h2>Licences</h2>
             <p>
                 TeamLogger is under <a href="{% url "nouvelles:about:licence" %}">GPLv3</a> licence and uses
                 <a href="{% url "nouvelles:about:third_parties" %}">open source software</a>.

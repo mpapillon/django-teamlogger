@@ -10,9 +10,9 @@ matrix:
   allow_failures:
      - python: "3.4"
 
-env:
-  - APP_SECRET=NotASecret
-
+before_install: "cd src"
 install: "pip install -r requirements.txt"
-before_script: "./manage.py collectstatic"
+before_script:
+  - "cd src"
+  - "./manage.py collectstatic"
 script: "./manage.py test nouvelles"
