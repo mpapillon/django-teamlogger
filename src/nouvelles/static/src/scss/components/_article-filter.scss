@@ -1,0 +1,26 @@
+@import "node_modules/spectre.css/src/variables";
+
+.nouvelles-filter {
+    margin: 0;
+    list-style: none;
+    li {
+        text-decoration: none;
+        user-select: none;
+        border-radius: $border-radius;
+        &>a {
+            color: inherit;
+            display: block;
+            padding: $unit-1 $unit-2;
+            text-decoration: none;
+            &:focus,
+            &:hover {
+                color: $primary-color;
+            }
+        }
+        &:active,
+        &.active {
+            background: $secondary-color;
+            color: $primary-color;
+        }
+    }
+}

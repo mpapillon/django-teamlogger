@@ -17,6 +17,10 @@ git clone --recursive https://github.com/mpapillon/django-teamlogger.git
 No configuration needed, just run the following commands :
 
 ```sh
+# get requirements with node
+npm i
+npm build
+
 # get requirements with pip
 pip install -r requirements_dev.txt
 
@@ -79,5 +83,5 @@ _More informations in the [wiki page](https://github.com/mpapillon/django-teamlo
 
 ## Licence
 
-Copyright (C) 2017  Maxence PAPILLON  
+Copyright (C) 2018  Maxence PAPILLON  
 TeamLogger is under GPLv3. See the LICENCE file to know more.

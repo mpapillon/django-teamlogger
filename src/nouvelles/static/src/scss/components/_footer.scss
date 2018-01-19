@@ -1,0 +1,16 @@
+@import "node_modules/spectre.css/src/variables";
+
+.section-footer {
+  background-color: $bg-color;
+  padding: $layout-spacing-lg;
+
+  .grid-footer {
+    color: $gray-color;
+    margin-bottom: $control-padding-y-lg;
+    margin-top: $control-padding-y-lg;
+
+    a {
+      color: $gray-color-dark;
+    }
+  }
+}

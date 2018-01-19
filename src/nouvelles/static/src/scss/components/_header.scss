@@ -1,0 +1,33 @@
+@import "node_modules/spectre.css/src/variables";
+@import "node_modules/spectre.css/src/mixins/shadow";
+
+.section-header {
+    padding: $control-padding-x $control-padding-y;
+    background-color: $dark-color;
+    .navbar-brand {
+        color: $gray-color;
+    }
+    .btn-link {
+        color: $gray-color-light;
+        &:hover,
+        &:focus,
+        &:active {
+            color: $gray-color;
+        }
+        &:focus {
+            @include control-shadow($gray-color-light);
+        }
+    }
+    .form-black {
+        border-color: lighten($dark-color, 10%);
+        background: lighten($dark-color, 15%);
+        color: $gray-color-light;
+        &::placeholder {
+            color: darken($gray-color-light, 8%);
+        }
+        &:focus {
+            background: $gray-color-dark;
+            @include control-shadow($gray-color-light);
+        }
+    }
+}

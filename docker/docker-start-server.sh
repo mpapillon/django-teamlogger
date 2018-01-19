@@ -26,8 +26,8 @@ catch_error() {
     fi
 }
 
-_term() { 
-  echo "\n${GREEN}==>${NC} Stopping server..." 
+_term() {
+  echo "\n${GREEN}==>${NC} Stopping server..."
   kill -TERM ${pid}
 }
 
@@ -38,7 +38,7 @@ if [ ! -f ${CONFIG_FLAG} ] ; then
 	echo -e "\n${GREEN}==>${NC} First time configuration..."
 
 	nginx_conf_file=/etc/nginx/sites-available/default
-	
+
 	# Apply context settings on nginx.conf
 	if [ ! -z "$APP_CONTEXT" ] ; then
 		sed -i "s#&context#/${APP_CONTEXT}#g" $nginx_conf_file
@@ -47,10 +47,10 @@ if [ ! -f ${CONFIG_FLAG} ] ; then
 		sed -i "s#&context##g" $nginx_conf_file
 		ret_code=$?
 	fi
-	
+
 	sed -i "s#&static_root#${APP_STATIC_ROOT}#g" $nginx_conf_file
 	ret_code=$[ret_code+$?]
-	
+
 	sed -i "s#&media_root#${APP_MEDIA_ROOT}#g" $nginx_conf_file
 	ret_code=$[ret_code+$?]
 

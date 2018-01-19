@@ -1,0 +1,34 @@
+@import "node_modules/spectre.css/src/variables";
+
+.tile-article {
+    background: $bg-color;
+    border-radius: $border-radius;
+    padding: $layout-spacing-lg;
+    margin: $layout-spacing 0;
+    .tile-subtitle {
+        font-size: $font-size-sm;
+        color: $gray-color;
+        margin-top: -$line-height;
+        a {
+            color: inherit;
+        }
+    }
+}
+
+.panel-article {
+    .panel-header {
+        background: $bg-color;
+    }
+    .article-title {
+        .article-link {
+            visibility: collapse;
+            font-size: 80%;
+            vertical-align: 10%;
+        }
+        &:hover {
+            .article-link {
+                visibility: visible;
+            }
+        }
+    }
+}

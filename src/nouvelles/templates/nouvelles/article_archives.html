@@ -6,7 +6,7 @@
 {% block content %}
     <div class="columns">
         <div class="column col-12">
-            <h2 class="title-plain">{{ title }}</h2>
+            <h2 class="pt-2">{{ title }}</h2>
         </div>
     </div>
 
@@ -20,7 +20,7 @@
         </div>
         <div class="column col-9 col-md-8 col-sm-12">
             {% if article_list %}
-                <div class="columns">
+                <div class="article-list columns">
                     {% format_articles_list article_list True %}
                 </div>
                 {% if is_paginated %}
@@ -45,8 +45,8 @@
                     </ul>
                 {% endif %}
             {% else %}
-                <div class="empty mt-10">
-                    <h4 class="empty-title">No articles found</h4>
+                <div class="empty">
+                    <p class="empty-title h5">No articles found</p>
                     <p class="empty-subtitle">Check or clear your filters.</p>
                     <div class="empty-action">
                         <a class="btn btn-primary" href="{% url 'nouvelles:archives' %}">Clear my filters</a>
@@ -57,14 +57,14 @@
         <div class="column col-3 col-md-4 col-sm-12">
             <form class="panel" name="filter_form" method="GET" action="{% url 'nouvelles:archives' %}">
                 <div class="panel-header">
-                    <div class="panel-title">Filters</div>
+                    <div class="panel-title h5">Filters</div>
                 </div>
                 <div class="panel-body">
                     {{ form|as_spectre:'sm' }}
                 </div>
                 <section class="panel-footer">
-                    <input class="btn btn-block btn-primary" type="submit" value="Find articles">
-                    <a class="btn btn-block btn-link" href="{% url 'nouvelles:archives' %}">Clear filters</a>
+                    <input class="btn btn-sm btn-block btn-primary mb-1" type="submit" value="Find articles">
+                    <a class="btn btn-sm btn-block btn-link" href="{% url 'nouvelles:archives' %}">Clear filters</a>
                 </section>
             </form>
         </div>

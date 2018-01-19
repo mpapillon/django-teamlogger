@@ -6,35 +6,35 @@
 {% block content %}
     <div class="columns">
         <div class="column col-12">
-            <h2>{{ title }}</h2>
+            <h2 class="pt-2">{{ title }}</h2>
         </div>
     </div>
 
     {% if article_list %}
         <form class="columns" method="POST">{% csrf_token %}
             <div class="column col-12">
-                <button type="button" class="btn btn-default btn-action btn-select js-btn-select-all"
+                <button type="button" class="btn btn-sm btn-default btn-action btn-select js-btn-select-all"
                         title="Select/Un-select all drafts">
                     <i class="icon icon-check"></i>
                 </button>
-                <input type="submit" class="btn btn-danger js-btn-delete" value="Delete selected drafts" disabled>
+                <input type="submit" class="btn btn-sm btn-error js-btn-delete" value="Delete selected drafts" disabled>
                 <div class="divider"></div>
             </div>
             {% for article in article_list %}
                 <div class="column col-12">
-                    <div class="tile">
+                    <div class="tile tile-article">
                         <div class="tile-icon">
                             <input type="checkbox" name="delete" id="delete_{{ article.pk }}" value="{{ article.pk }}">
                         </div>
                         <div class="tile-content">
                             <p class="tile-title"><a
                                     href="{% url 'nouvelles:edit' article.pk %}">{{ article.title }}</a></p>
-                            <p class="tile-subtitle text-gray">Last edition on {{ article.edition_date }}</p>
+                            <div class="tile-subtitle text-gray">Last edition on {{ article.edition_date }}</div>
                         </div>
                         <div class="tile-action">
                             <div class="dropdown dropdown-right">
                                 <a href="#" class="btn btn-link dropdown-toggle" tabindex="0">
-                                    <i class="icon icon-more-vert"></i>
+                                    <i class="icon icon-more-horiz"></i>
                                 </a>
                                 <ul class="menu">
                                     <li class="menu-item">
@@ -61,21 +61,21 @@
             {% endfor %}
             <div class="column col-12">
                 <div class="divider"></div>
-                <button type="button" class="btn btn-default btn-action btn-select js-btn-select-all"
+                <button type="button" class="btn btn-sm btn-default btn-action btn-select js-btn-select-all"
                         title="Select/Un-select all drafts">
                     <i class="icon icon-check"></i>
                 </button>
-                <input type="submit" class="btn btn-danger js-btn-delete" value="Delete selected items" disabled>
+                <input type="submit" class="btn btn-sm btn-error js-btn-delete" value="Delete selected items" disabled>
             </div>
         </form>
     {% else %}
         <div class="columns">
         <div class="column col-12">
-            <div class="empty mt-10">
+            <div class="empty">
                 <div class="empty-icon">
-                    <i class="icon icon-check"></i>
+                    <i class="icon icon-3x icon-check"></i>
                 </div>
-                <h4 class="empty-title">You do not have drafts</h4>
+                <p class="empty-title h5">You do not have drafts</p>
                 <div class="empty-action">
                     <a class="btn btn-primary" href="{% url 'nouvelles:create' %}">Write an article</a>
                 </div>
@@ -85,5 +85,5 @@
 {% endblock %}
 
 {% block scripts %}
-    <script src="{% static 'nouvelles/js/article_draft.js' %}"></script>
+    <script src="{% static 'js/article_draft.js' %}"></script>
 {% endblock %}

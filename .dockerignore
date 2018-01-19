@@ -4,6 +4,7 @@
 .dockerignore
 .travis.yml
 
+node_modules
 _public
 
 ACKNOWLEDGMENTS.md

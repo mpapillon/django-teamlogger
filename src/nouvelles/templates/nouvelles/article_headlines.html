@@ -10,7 +10,7 @@
 {% block content %}
     <div class="columns">
         <div class="column col-12">
-            <h2>{{ title }}</h2>
+            <h2 class="pt-2">{{ title }}</h2>
         </div>
     </div>
     <div class="columns">
@@ -23,7 +23,7 @@
                     </div>
                 {% else %}
                     <div class="empty">
-                        <h4 class="empty-title">No articles found</h4>
+                        <p class="empty-title h5">No articles found</p>
                         <p class="empty-subtitle">Check or clear your filters.</p>
                         <div class="empty-action">
                             <a class="btn btn-primary" href="{% url "nouvelles:index" %}">Clear my filters</a>
@@ -34,7 +34,7 @@
             <div class="column col-3 col-md-4 col-sm-12">
                 <div class="panel">
                     <div class="panel-header">
-                        <div class="panel-title">Filters</div>
+                        <div class="panel-title h5">Filters</div>
                     </div>
                     <div class="panel-body">
                         <div class="divider" data-content="CRITICALITY"></div>
@@ -42,7 +42,7 @@
                             {% for c in criticality_filters %}
                                 {% if c %}
                                     <li {% if request.GET.criticality == c.id %}class="active"{% endif %}>
-                                        <a href="{{ c.url }}"><i class="icon icon-arrow-right"></i> {{ c.name }}</a>
+                                        <a href="{{ c.url }}">{{ c.name }}</a>
                                     </li>
                                 {% endif %}
                             {% endfor %}
@@ -51,18 +51,20 @@
                         <ul class="nouvelles-filter">
                             {% for a in author_filters %}
                                 <li {% if request.GET.author == a.username %}class="active"{% endif %}>
-                                    <a href="{{ a.url }}"><i class="icon icon-arrow-right"></i> {{ a.full_name }}</a>
+                                    <a href="{{ a.url }}">{{ a.full_name }}</a>
                                 </li>
                             {% endfor %}
                         </ul>
+                        {% if tag_filters|length > 0 %}
                         <div class="divider" data-content="TAG"></div>
                         <ul class="nouvelles-filter">
                             {% for t in tag_filters %}
                                 <li {% if request.GET.tag == t.slug %}class="active"{% endif %}>
-                                    <a href="{{ t.url }}"><i class="icon icon-arrow-right"></i> {{ t.name }}</a>
+                                    <a href="{{ t.url }}">{{ t.name }}</a>
                                 </li>
                             {% endfor %}
                         </ul>
+                        {% endif %}
                     </div>
                     <div class="panel-footer">
                         <a class="btn btn-block btn-link" href="{% url 'nouvelles:index' %}">
@@ -70,7 +72,7 @@
                         </a>
                     </div>
                 </div>
-                <div class="pt-10">
+                <div class="pt-2">
                     <a class="btn btn-info btn-block" href="{% url 'nouvelles:headlines_feed' %}">
                         <i class="icon icon-link"></i> Subscribe to {{ title }}
                     </a>
@@ -80,9 +82,9 @@
             <div class="column col-12">
                 <div class="empty">
                     <div class="empty-icon">
-                        <i class="icon icon-flag"></i>
+                        <i class="icon icon-3x icon-flag"></i>
                     </div>
-                    <h4 class="empty-title">There is no article for today</h4>
+                    <p class="empty-title h5">There is no article for today</p>
                     <div class="empty-action">
                         <a class="btn btn-primary" href="{% url 'nouvelles:create' %}">Write an article</a>
                     </div>

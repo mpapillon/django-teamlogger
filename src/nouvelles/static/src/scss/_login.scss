@@ -1,0 +1,16 @@
+@import "node_modules/spectre.css/src/variables";
+
+.page-container.page-secondary {
+  background: $bg-color;
+
+  .section-header {
+    display: none;
+  }
+
+  .panel-login {
+    max-width: $unit-10 * 10;
+    margin: $unit-10 auto;
+    background: $bg-color-light;
+  }
+}
+

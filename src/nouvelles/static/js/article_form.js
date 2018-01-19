@@ -52,8 +52,8 @@ $(function () {
      * Enable attachments events like Add and Delete.
      */
     function attachmentsEvents() {
-        var attachment_pending = '<div id="id_attachments-__id__-tile" class="column col-4 col-xs-12 hide">\n' +
-            '                    <div class="hide">\n' +
+        var attachment_pending = '<div id="id_attachments-__id__-tile" class="column col-4 col-xs-12 d-hide">\n' +
+            '                    <div class="d-hide">\n' +
             '                        __formset__\n' +
             '                    </div>\n' +
             '                    <div class="tile tile-centered tile-attachment"\n' +
@@ -102,15 +102,15 @@ $(function () {
                 if (files.length > 0) {
                     var name = files[0].name;
                     $('#id_attachments-' + totalForms + '-name').text(name);
-                    $('#js-attachments-empty').addClass('hide');
-                    $('#id_attachments-' + totalForms + '-tile').removeClass('hide');
+                    $('#js-attachments-empty').addClass('d-hide');
+                    $('#id_attachments-' + totalForms + '-tile').removeClass('d-hide');
                 }
             });
 
             $deleteButton.click(function (e) {
                 // Removes the file from the list and cancel pending upload.
                 var $target = $(e.target);
-                var $tile = $target.parents().eq(3);
+                var $tile = $target.parents().eq(2);
 
                 $tile.remove()
             });
@@ -122,8 +122,8 @@ $(function () {
         $('.js-delete-button').find('input[type="checkbox"]').change(function (e) {
             // Hides the visual attachment if the user wants to delete it.
             var $target = $(e.target);
-            var $tile = $target.parents().eq(3);
-            $tile.addClass('hide');
+            var $tile = $target.parents().eq(2);
+            $tile.addClass('d-hide');
         });
     }
 });

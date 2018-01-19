@@ -1,15 +1,16 @@
-@import "../../vendor/spectre/src/variables";
-@import "../../vendor/spectre/src/mixins";
-@import "select2";
+@import "node_modules/spectre.css/src/variables";
+@import "node_modules/spectre.css/src/mixins/shadow";
+@import "node_modules/spectre.css/src/mixins/transition";
 
 .panel-article-content {
-  border: @border-width solid @border-color-dark;
-  border-radius: @border-radius;
-  .control-transition();
+  border: $border-width solid $border-color-dark;
+  border-radius: $border-radius;
+  margin-bottom: $layout-spacing;
+  @include control-transition();
 
   &.focused {
-    border-color: @primary-color;
-    .control-shadow();
+    border-color: $primary-color;
+    @include control-shadow();
   }
 
   .panel-nav {
@@ -22,13 +23,15 @@
     padding: 0;
 
     .highlight {
-      padding: 0 .8rem;
+      padding: $control-padding-x-lg $control-padding-y-lg;
     }
 
     textarea {
+      font-family: $mono-font-family;
+      font-size: $font-size-sm;
       width: 100%;
       border: none;
-      padding: .6rem .8rem;
+      padding: 0 $control-padding-y-lg;
       resize: vertical;
 
       &:focus {
@@ -37,9 +40,10 @@
     }
 
     .help-text {
+      font-size: $font-size-sm;
       margin: 0;
-      padding: .5rem .8rem;
-      background-color: @bg-color;
+      padding: $control-padding-x $control-padding-y;
+      background-color: $bg-color;
     }
   }
 }

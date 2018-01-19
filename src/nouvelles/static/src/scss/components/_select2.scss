@@ -1,6 +1,7 @@
-@import "../../vendor/spectre/src/variables";
-@import "../../vendor/spectre/src/mixins";
-@import "../../vendor/spectre/src/autocomplete";
+@import "node_modules/spectre.css/src/variables";
+@import "node_modules/spectre.css/src/mixins/shadow";
+@import "node_modules/spectre.css/src/mixins/transition";
+@import "node_modules/spectre.css/src/autocomplete";
 
 .select2.select2-container--spectre {
   position: relative;
@@ -8,23 +9,19 @@
   display: flex;
   flex-wrap: wrap;
   height: auto;
-  min-height: 3.2rem;
-  padding: .1rem 0 0 .1rem;
-  background: @bg-color-light;
+  background: $bg-color-light;
   background-image: none;
-  border: @border-width solid @border-color-dark;
-  border-radius: @border-radius;
-  color: @body-font-color;
-  .control-transition();
-  font-size: @font-size;
-  line-height: 2rem;
+  border: $border-width solid $border-color-dark;
+  border-radius: $border-radius;
+  color: $body-font-color;
+  @include control-transition();
   max-width: 100%;
   outline: none;
   width: 100%;
 
   &.select2-container--focus {
-    border-color: @primary-color;
-    .control-shadow();
+    border-color: $primary-color;
+    @include control-shadow();
   }
 
   .selection {
@@ -41,30 +38,31 @@
       align-content: flex-start;
       flex-wrap: wrap;
       height: auto;
-      min-height: 3.2rem;
       padding: .1rem 0 0 .1rem !important;
       width: 100%;
 
       .select2-selection__choice {
         align-items: center;
-        background: @bg-color-dark;
-        border-radius: @border-radius;
-        color: @gray-color-dark;
+        background: $bg-color-dark;
+        border-radius: 5rem;
+        color: $gray-color-dark;
         display: inline-flex;
-        height: 2.8rem;
-        margin: 0 .1rem .1rem 0;
+        font-size: 90%;
+        height: $unit-6;
+        line-height: $unit-4;
+        margin: $unit-h;
         max-width: 100%;
-        padding: .1rem .8rem;
+        padding: $unit-1 $unit-2;
         text-decoration: none;
         vertical-align: middle;
 
         .select2-selection__choice__remove {
           appearance: none;
-          background: @bg-color-light;
-          border: @border-width solid @primary-color;
-          border-radius: @border-radius;
-          color: @link-color;
-          .control-transition();
+          background: $bg-color-light;
+          border: $border-width solid $primary-color;
+          border-radius: $border-radius;
+          color: $link-color;
+          @include control-transition();
           cursor: pointer;
           display: inline-block;
           outline: none;
@@ -75,14 +73,14 @@
           white-space: nowrap;
           background: transparent;
           border: 0;
-          height: 1.6rem;
+          height: $line-height;
           margin-left: -.2rem;
           margin-right: .4rem;
           opacity: .45;
           padding: 0 .2rem;
-          width: 1.6rem;
-          font-size: 2.3rem;
-          line-height: 1rem;
+          width: $line-height;
+          font-size: 90%;
+          line-height: $line-height;
 
           &:hover {
             opacity: .85;
@@ -98,21 +96,24 @@
         cursor: text;
 
         .select2-search__field {
-          margin: 0;
           border-color: transparent;
           box-shadow: none;
           display: inline-block;
-          height: 2.8rem;
-          padding: .3rem .8rem;
+          flex: 1 0 auto;
+          height: $unit-6;
+          line-height: $unit-4;
+          margin: $unit-h;
           width: auto;
+
+          box-shadow: none;
+          padding: 0 $unit-2;
           appearance: none;
-          background: @bg-color-light;
+          background: $bg-color-light;
           background-image: none;
-          border-radius: @border-radius;
-          color: @body-font-color;
-          .control-transition();
-          font-size: @font-size;
-          line-height: 2rem;
+          border-radius: $border-radius;
+          color: $body-font-color;
+          @include control-transition();
+          font-size: $font-size;
           max-width: 100%;
           outline: none;
           position: relative;
@@ -129,31 +130,33 @@
   }
 
   .select2-results__options {
-    background: @bg-color-light;
-    border-radius: @border-radius;
+    @include shadow-variant(.05rem);
+    background: $bg-color-light;
+    border-radius: $border-radius;
     list-style: none;
     margin: 0;
-    min-width: @control-min-width;
-    padding: 1rem;
-    .shadow-variant(.1rem);
-    transform: translateY(.5rem);
-    z-index: @zindex-1;
-    max-height: 26rem;
+    min-width: $control-width-xs;
+    padding: $unit-2;
+    transform: translateY($layout-spacing-sm);
+    z-index: $zindex-1;
+    max-height: 10rem;
     overflow: auto;
 
     .select2-results__option {
       margin-top: 0;
+      padding: 0 $unit-2;
       text-decoration: none;
       user-select: none;
-      border-radius: @border-radius;
+      border-radius: $border-radius;
       color: inherit;
       display: block;
-      margin: 0 -.8rem;
-      padding: .6rem .8rem;
+      margin: 0;
+      padding: $unit-1 $unit-2;
+      text-decoration: none;
 
       &.select2-results__option--highlighted {
-        color: @primary-color;
-        background: @secondary-color-light;
+        background: $secondary-color;
+        color: $primary-color;
         cursor: pointer;
       }
     }

@@ -1,27 +1,14 @@
 {% load nouvelles %}
 
 <header class="section-header">
-    <section class="container grid-960">
+    <section class="container grid-lg">
         <nav class="navbar">
             <section class="navbar-section">
-                <div class="dropdown show-md">
-                    <a href="#" class="btn btn-link show-md mr-10 dropdown-toggle">
-                        <i class="icon icon-menu"></i>
-                    </a>
-                    <ul class="menu">
-                        <li class="menu-item">
-                            <a href="{% url 'nouvelles:index' %}">Headlines</a>
-                        </li>
-                        <li class="menu-item">
-                            <a href="{% url 'nouvelles:archives' %}">Archives</a>
-                        </li>
-                    </ul>
-                </div>
-                <a href="{% url 'nouvelles:index' %}" class="navbar-brand mr-10">{{ site_name }}</a>
-                <form class="input-inline mr-10 hide-sm" method="GET" action="{% url 'nouvelles:archives' %}">
+                <a href="{% url 'nouvelles:index' %}" class="navbar-brand mr-2">{{ site_name }}</a>
+                <form class="input-inline mx-1 hide-sm" method="GET" action="{% url 'nouvelles:archives' %}">
                     <input class="form-input form-black" name="q" placeholder="Search an article"
                            value="{{ search_query }}"/>
-                    <input class="hide" type="submit">
+                    <input class="d-hide" type="submit">
                 </form>
                 <a href="{% url 'nouvelles:index' %}" class="btn btn-link hide-sm">Headlines</a>
                 <a href="{% url 'nouvelles:archives' %}" class="btn btn-link hide-sm">Archives</a>

@@ -6,7 +6,7 @@
 
 {% block content %}
     <div class="container">
-        <h2 class="title-plain">{{ title }}</h2>
+        <h2 class="pt-2">{{ title }}</h2>
         <div class="divider"></div>
         <form name="form_article" method="post" enctype="multipart/form-data">{% csrf_token %}
             {% if form.non_field_errors or formset.non_field_errors or formset.errors %}
@@ -57,7 +57,7 @@
                         <div id="article_content_panel" class="field-wrapper panel panel-article-content">
                             <div class="tabs-container panel-nav" id="editor-tabs">
                                 <ul class="tab">
-                                    <li class="tab-item active"><a data-target="editor" href="#editor">Editor</a></li>
+                                    <li class="tab-item ml-2 active"><a data-target="editor" href="#editor">Editor</a></li>
                                     <li class="tab-item"><a data-target="preview" href="#preview">Preview</a></li>
                                 </ul>
                             </div>
@@ -77,20 +77,20 @@
                 </div>
             </div>
             <div class="columns" id="js-attachments">
-                <div class="column col-12">
+                <div class="column mb-2 col-12">
                     Attachments
                     <button type="button" class="float-right btn btn-sm js-add-attachment-btn">Add attachments</button>
                 </div>
-                <div id="js-attachments-empty-form" class="hide">
+                <div id="js-attachments-empty-form" class="d-hide">
                     {{ formset.empty_form }}
                 </div>
-                <div id="js-attachments-management-form" class="hide">
+                <div id="js-attachments-management-form" class="d-hide">
                     {{ formset.management_form }}
                 </div>
                 {% if not formset|length or formset.errors %}
                     <div id="js-attachments-empty" class="column col-12">
                         <div class="empty">
-                            <h5 class="empty-title">This article does not have any attachments yet</h5>
+                            <p class="empty-title h5">This article does not have any attachments yet</p>
                             <div class="empty-action">
                                 <button type="button" class="btn btn-link js-add-attachment-btn">Add the first
                                     attachment
@@ -165,6 +165,6 @@
 
 {% block scripts %}
     <script>window.preview_url = "{% url 'nouvelles:preview' %}";</script>
-    <script src="{% static 'nouvelles/js/tabs.js' %}"></script>
-    <script src="{% static 'nouvelles/js/article_form.js' %}"></script>
+    <script src="{% static 'js/tabs.js' %}"></script>
+    <script src="{% static 'js/article_form.js' %}"></script>
 {% endblock %}

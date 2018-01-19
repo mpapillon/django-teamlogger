@@ -8,7 +8,7 @@
 {% block content %}
     <div class="columns">
         <div class="column col-12">
-            <h2>Confirm deletion of the article</h2>
+            <h2 class="pt-2">Confirm deletion of the article</h2>
         </div>
     </div>
     <form class="columns" method="post">
@@ -39,7 +39,7 @@
         <div class="column col-12">
             <div class="divider"></div>
             <div class="float-right">
-                <input type="submit" class="btn btn-danger" value="Delete the article and its replies"/>
+                <input type="submit" class="btn btn-error" value="Delete the article and its replies"/>
                 <a class="btn btn-default" href="{% url 'nouvelles:detail' article.pk %}">Cancel</a>
             </div>
         </div>

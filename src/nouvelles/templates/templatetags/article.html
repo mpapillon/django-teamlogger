@@ -1,20 +1,15 @@
 {% load markdown_deux_tags %}
 {% load nouvelles %}
 
-<article class="panel panel-article mb-10">
+<article class="panel panel-article mb-2">
     <div class="panel-header">
-        <div class="tile">
+        <div class="tile pb-1">
             <div class="tile-content">
                 {% if article.criticality != 'L' %}
                     <span class="label label-{{ article.criticality|lower }} rel float-right">{{ article.get_criticality_display|lower }}</span>
                 {% endif %}
                 <h5 class="tile-title article-title">
                     {{ article.title }}
-                    <a href="{% url 'nouvelles:detail' article.pk %}" target="_blank"
-                       class="article-link tooltip tooltip-right" aria-hidden="true"
-                       data-tooltip="Open article in new window">
-                        <i class="icon icon-link"></i>
-                    </a>
                 </h5>
                 <div class="tile-subtitle">
                     {% if not article.is_published %}
@@ -43,26 +38,28 @@
         </div>
         {% if perms.nouvlles.change_article or perms.nouvelles.add_article or perms.nouvlles.delete_article %}
             <div class="divider"></div>
+            <div class="pt-1">
             {% if perms.nouvelles.add_article and article.is_published %}
-                <a class="btn btn-primary" href="{% url 'nouvelles:reply' article.pk %}">
+                <a class="btn btn-sm btn-primary" href="{% url 'nouvelles:reply' article.pk %}">
                     Reply
                 </a>
             {% endif %}
 
             {% if perms.nouvlles.change_article or article.author == user %}
-                <a class="btn btn-default" href="{% url 'nouvelles:edit' article.pk %}">
+                <a class="btn btn-sm btn-default" href="{% url 'nouvelles:edit' article.pk %}">
                     Edit
                 </a>
             {% endif %}
 
             {% if perms.nouvlles.delete_article or article.author == user and not article.is_published %}
-                <a class="btn btn-danger" href="{% url 'nouvelles:delete' article.pk %}">
-                    Delete
+                <a class="btn btn-sm btn-error float-right" href="{% url 'nouvelles:delete' article.pk %}">
+                  <i class="icon icon-delete"></i> Delete
                 </a>
             {% endif %}
+            </div>
         {% endif %}
     </div>
-    <div class="panel-body mt-10 highlight">
+    <div class="panel-body mt-2 highlight">
         {{ article.content|markdown }}
     </div>
     {% if article.attachments.count %}

@@ -68,12 +68,15 @@ class DraftSaveArticleMixin(object):
     This mixin allows the user to save the article in his drafts.
     """
 
+    saved_message = 'The article "{title}" as been published.'
     draft_saved_message = 'The article "{title}" was saved in your drafts.'
 
     def form_valid(self, form):
         if self.request.POST.get('_publish'):
+            success_msg = self.get_saved_message(form.cleaned_data)
             # The user wants to publish the post
             form.instance.publication_date = timezone.now()
+            messages.success(self.request, success_msg)
             return super(DraftSaveArticleMixin, self).form_valid(form)
         elif self.request.POST.get('_draft'):
             # The user wants to save the post as draft
@@ -89,6 +92,12 @@ class DraftSaveArticleMixin(object):
         Returns the formatted success message.
         """
         return self.draft_saved_message.format(**cleaned_data)
+
+    def get_saved_message(self, cleaned_data):
+        """
+        Returns the formatted success message.
+        """
+        return self.saved_message.format(**cleaned_data)
 
 
 class ArticleHeadlinesView(ViewTitleMixin, FilterMixin, ListView):

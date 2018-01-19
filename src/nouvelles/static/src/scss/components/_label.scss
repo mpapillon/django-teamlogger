@@ -1,0 +1,20 @@
+@import "node_modules/spectre.css/src/variables";
+@import "node_modules/spectre.css/src/mixins/label";
+
+.label {
+  &.label-default {
+    @include label-variant($light-color, $dark-color);
+  }
+
+  &.label-l {
+    @include label-variant($light-color, $success-color);
+  }
+
+  &.label-m {
+    @include label-variant($light-color, $warning-color);
+  }
+
+  &.label-h {
+    @include label-variant($light-color, $error-color);
+  }
+}

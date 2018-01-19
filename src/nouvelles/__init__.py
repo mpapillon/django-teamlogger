@@ -1,5 +1,5 @@
 # TeamLogger
-# Copyright (C) 2017  Maxence PAPILLON
+# Copyright (C) 2018  Maxence PAPILLON
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -15,11 +15,11 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
-__version_info__ = ('0', '3', '2')
+__version_info__ = ('0', '3', '3', 'dev')
 __version__ = ".".join(__version_info__)
 
 __author__ = "Maxence PAPILLON"
-__copyright__ = "Copyright (C) 2017  Maxence PAPILLON"
+__copyright__ = "Copyright (C) 2018  Maxence PAPILLON"
 __credits__ = ["Maxence PAPILLON", "Dan GEFFROY", "Brian GOHIER",
                "Solène MARTIN", "Maxime BELLIER", "Alexandre PRENZA",
                "Nicolas SABOUREAU", "Delphine DESPORT", "Aurélien PINIER",
